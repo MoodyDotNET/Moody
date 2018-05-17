@@ -6,6 +6,7 @@ git clone https://github.com/MoodyDotNET/MoodyDotNET.github.io
 ```
 ## Cài đặt dependency
 ```
+cd MoodyDotNET.github.io
 npm install
 ```
 ## Chạy chuơng trình
