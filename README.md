@@ -14,3 +14,13 @@ npm install
 dotnet run
 ```
 Mở localhost:5000 trên trình duyệt để xem kết quả
+## Up phần của mình lên
+```
+git add .
+git commit -m “nội dung đã làm”
+git push
+```
+## Lấy phần của mọi nguời về
+```
+git pull
+```
