@@ -1,15 +1,25 @@
 {
-    "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/moody.csproj"
-            ],
-            "problemMatcher": "$msCompile"
+            "label": "Run in development mode (Linux)",
+            "type": "shell",
+            "command": "export ASPNETCORE_ENVIRONMENT=Development; dotnet run",
+            "group": "build"
+        },
+        {
+            "label": "Run in development mode (Windows)",
+            "type": "shell",
+            "command": "set ASPNETCORE_ENVIRONMENT=Development & dotnet run",
+            "group": "build"
+        },
+        {
+            "label": "Run in production mode",
+            "type": "shell",
+            "command": "dotnet run",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
         }
     ]
 }
