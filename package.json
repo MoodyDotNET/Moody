@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@types/material-ui": "^0.20.8",
+    "bootstrap-4-grid": "^2.4.0",
     "material-ui": "^0.20.1"
   }
 }

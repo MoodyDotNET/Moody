@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { Table, TableHeader, TableRow, TableHeaderColumn, TableBody, TableRowColumn, Paper } from 'material-ui';
 
 interface FetchDataExampleState {
     forecasts: WeatherForecast[];
@@ -24,34 +25,38 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDat
             ? <p><em>Loading...</em></p>
             : FetchData.renderForecastsTable(this.state.forecasts);
 
-        return <div>
-            <h1>Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            { contents }
-        </div>;
+        return (
+            <Paper style={{padding: "50px"}}>
+                <h1>Weather forecast</h1>
+                <p>This component demonstrates fetching data from the server.</p>
+                { contents }
+            </Paper>
+        );
     }
 
     private static renderForecastsTable(forecasts: WeatherForecast[]) {
-        return <table className='table'>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-            {forecasts.map(forecast =>
-                <tr key={ forecast.dateFormatted }>
-                    <td>{ forecast.dateFormatted }</td>
-                    <td>{ forecast.temperatureC }</td>
-                    <td>{ forecast.temperatureF }</td>
-                    <td>{ forecast.summary }</td>
-                </tr>
-            )}
-            </tbody>
-        </table>;
+        return (
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderColumn>Date</TableHeaderColumn>
+                        <TableHeaderColumn>Temp. (C)</TableHeaderColumn>
+                        <TableHeaderColumn>Temp. (F)</TableHeaderColumn>
+                        <TableHeaderColumn>Summary</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                {forecasts.map(forecast =>
+                    <TableRow key={ forecast.dateFormatted }>
+                        <TableRowColumn>{ forecast.dateFormatted }</TableRowColumn>
+                        <TableRowColumn>{ forecast.temperatureC }</TableRowColumn>
+                        <TableRowColumn>{ forecast.temperatureF }</TableRowColumn>
+                        <TableRowColumn>{ forecast.summary }</TableRowColumn>
+                    </TableRow>
+                )}
+                </TableBody>
+            </Table>
+        );
     }
 }
 
