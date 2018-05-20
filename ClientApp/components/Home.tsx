@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { RaisedButton } from "material-ui";
+import { black, darkBlack, green100 } from 'material-ui/styles/colors';
+import { colors } from 'material-ui/styles';
 
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
-        return <div>
+        return (<div>
             <h1>Welcome to Moody</h1>
             <h2>A project created by Duong, Nhat and Phat!</h2>
             <p>Welcome to your new single-page application, built with:</p>
@@ -25,6 +28,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
                 For larger applications, or for server-side prerendering (i.e., for <em>isomorphic</em> or <em>universal</em> applications), you should consider using a Flux/Redux-like architecture.
                 You can generate an ASP.NET Core application with React and Redux using <code>dotnet new reactredux</code> instead of using this template.
             </p>
-        </div>;
+            <RaisedButton>Raised Button</RaisedButton>
+        </div>);
     }
 }
