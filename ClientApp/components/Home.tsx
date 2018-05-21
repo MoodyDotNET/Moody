@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions, FlatButton } from "material-ui";
+import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions, FlatButton, List, ListItem } from "material-ui";
 import { Link } from 'react-router-dom';
 
 
@@ -8,6 +8,11 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
         return (
             <Card>
+                <List>
+                <ListItem primaryText="Hello"></ListItem>
+                <ListItem primaryText="List item 2"></ListItem>
+                <ListItem primaryText="item 3"></ListItem>
+                </List>
                 <CardHeader
                     title="MOODY!"
                     subtitle="Music for you"

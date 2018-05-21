@@ -9,7 +9,7 @@
         {
             "label": "Run in development mode (Windows)",
             "type": "shell",
-            "command": "set ASPNETCORE_ENVIRONMENT=Development & dotnet run",
+            "command": "$Env:ASPNETCORE_ENVIRONMENT = \"Development\" & dotnet run",
             "group": "build"
         },
         {
