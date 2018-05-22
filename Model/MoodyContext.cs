@@ -16,16 +16,14 @@ namespace moody.Model
         public virtual DbSet<Song> Song { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
 
-        public MoodyContext(DbContextOptions<MoodyContext> options) : base(options) {}
-
         public MoodyContext() {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // if (!optionsBuilder.IsConfigured)
-            // {
-            //     optionsBuilder.UseSqlServer(@"Server=localhost;Database=Moody;User ID=sa;Password=HongPhat0");
-            // }
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(Startup.MoodyConnectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

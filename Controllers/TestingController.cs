@@ -19,9 +19,9 @@ namespace moody.Controllers
         }
         
         [HttpGet("[action]")]
-        public Administrator allAdmin(MoodyContext db)
+        public IEnumerable<Administrator> allAdmin(MoodyContext db)
         {
-            return db.Administrator.First();
+            return db.Administrator;
         }
     }
 }
