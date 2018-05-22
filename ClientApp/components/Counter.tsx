@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Paper, Card, List, ListItem, CardActions, RaisedButton } from 'material-ui';
 
 interface CounterState {
     currentCount: number;
@@ -12,15 +13,14 @@ export class Counter extends React.Component<RouteComponentProps<{}>, CounterSta
     }
 
     public render() {
-        return <div>
-            <h1>Counter</h1>
-
-            <p>This is a simple example of a React component.</p>
-
-            <p>Current count: <strong>{ this.state.currentCount }</strong></p>
-
-            <button onClick={ () => { this.incrementCounter() } }>Increment</button>
-        </div>;
+        return (
+            <Card style={{padding: "50px"}}>
+                <h1>Counter</h1>
+                <span>Current count: <strong>{ this.state.currentCount }</strong></span>
+                <br/>
+                <RaisedButton style={{marginTop: "10px"}} onClick={() => { this.incrementCounter() }}>Increment</RaisedButton>
+            </Card>
+        );
     }
 
     incrementCounter() {

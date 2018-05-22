@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using moody.Model;
 
 namespace moody
 {
     public class Startup
     {
+        public static string MoodyConnectionString;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,6 +27,7 @@ namespace moody
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            MoodyConnectionString = Configuration.GetConnectionString("MoodyDatabase");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

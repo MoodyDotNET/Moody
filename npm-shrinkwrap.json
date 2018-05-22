@@ -673,6 +673,11 @@
       "integrity": "sha512-LxFiV5mefv0ley0SzqkOPR1bC4EbpPx8LkOz5vMe/Yi15t5hzwgO/G+tc7wOtL4PZTYjwHu8JnEiSLumuSjSfA==",
       "dev": true
     },
+    "bootstrap-4-grid": {
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/bootstrap-4-grid/-/bootstrap-4-grid-2.4.0.tgz",
+      "integrity": "sha1-2zdkpG3Lva27RAKjolGL7zwkdGY="
+    },
     "bowser": {
       "version": "1.9.3",
       "resolved": "https://registry.npmjs.org/bowser/-/bowser-1.9.3.tgz",
