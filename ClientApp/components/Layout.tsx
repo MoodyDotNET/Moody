@@ -4,6 +4,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {MoodyMenuBarSM} from './MoodyMenuBarSM';
 import {MoodyMenuBar} from './MoodyMenuBar';
 import {MoodyHomeBody} from './MoodyHomeBody';
+import {Login} from './login';
 
 export interface LayoutProps {
     children?: React.ReactNode;
@@ -21,6 +22,11 @@ export class Layout extends React.Component<LayoutProps, {}> {
                         <div className='col-sm-9'>
                             { this.props.children }
                         </div>
+
+                        <div className='col-sm-3'>
+                            <Login />
+                        </div>
+                        
                         
                         <div className='col-sm-12 hidden-sm-up'>
                             <MoodyMenuBarSM />
