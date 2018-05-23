@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { NavMenu } from './NavMenu';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {MoodyMenuBarSM} from './MoodyMenuBarSM';
+import {MoodyMenuBar} from './MoodyMenuBar';
+import {MoodyHomeBody} from './MoodyHomeBody';
 
 export interface LayoutProps {
     children?: React.ReactNode;
@@ -18,6 +21,19 @@ export class Layout extends React.Component<LayoutProps, {}> {
                         <div className='col-sm-9'>
                             { this.props.children }
                         </div>
+                        
+                        <div className='col-sm-12 hidden-sm-up'>
+                            <MoodyMenuBarSM />
+                        </div>
+                        
+                        <div className='col-sm-12 hidden-sm-down'>
+                            <MoodyMenuBar />
+                        </div>
+
+                        <div className='col-sm-12 hidden-sm-down section1'>
+                            <MoodyHomeBody />
+                        </div>
+
                     </div>
                 </div>
             </MuiThemeProvider>

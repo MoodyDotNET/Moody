@@ -1,7 +1,57 @@
 body {
     background-color: #333333;
+    margin:0px;
 }
 
 .NavMenu .active {
     border-left: 5px solid black !important;
+}
+
+.tag{
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+}
+
+.navMenu {
+    background-color:#314455;
+    font-size: 1.2rem !important;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+.navMenu .navMenu-title {
+    cursor:pointer;
+}
+.navMenu .navMenu-title:hover {
+    opacity:0.95;
+}
+.navMenu .navMenu-item {
+    text-decoration: none;
+    cursor:pointer;
+    text-align: center;
+    transition: all 0.3s;
+}
+.navMenu .navMenu-item:hover {
+    color:white;
+    background-color: #C96567;
+}
+.navMenu .search-box button {
+    outline:none;
+    background-color: #C96567;
+    color:white;
+    border:none; 
+    padding:4px;
+}
+
+.section1 {
+    background-color: #9E5A63;
+    height:91vh;
+}
+.section1 .card {
+    margin-top:5.5vh;
+    margin-bottom:5.4vh;
+}
+.section1 .card div {
+    background-color: white;
+    height: 35vh;
 }
