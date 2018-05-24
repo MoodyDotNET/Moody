@@ -44,7 +44,8 @@ export class Login extends React.Component<{}, LoginState> {
                 })
             } else {
                 this.setState({
-                    message: 'Incorrect username or password!'
+                    message: 'Incorrect username or password!',
+                    password: ''
                 })
             }
         });
@@ -66,6 +67,7 @@ export class Login extends React.Component<{}, LoginState> {
                             hintText="Username"
                             floatingLabelText="Username"
                             onChange={ (e, v) => this.changeUsername(e, v) }
+                            value={this.state.username}
                         />
                         
                         <TextField
@@ -73,6 +75,7 @@ export class Login extends React.Component<{}, LoginState> {
                             floatingLabelText="Password"
                             type = "password"
                             onChange={ (e, v) => this.changePassword(e, v) }
+                            value={this.state.password}
                         />
                         <br/>
                         <RaisedButton
