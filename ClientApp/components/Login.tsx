@@ -9,7 +9,7 @@ interface LoginState {
     password: string,
 }
 
-export class DemoLogin extends React.Component<{}, LoginState> {
+export class Login extends React.Component<{}, LoginState> {
     constructor(props: {}) {
         super(props);
         this.state = {
