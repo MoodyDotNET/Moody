@@ -27,6 +27,12 @@ namespace moody
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(24);
+                options.Cookie.HttpOnly = true;
+            });
             MoodyConnectionString = Configuration.GetConnectionString("MoodyDatabase");
         }
 
@@ -48,6 +54,7 @@ namespace moody
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
