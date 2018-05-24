@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, NavLink, Redirect } from 'react-router-dom';
 import { TextField,Card, CardHeader, CardText, RaisedButton } from 'material-ui';
+import { FormEvent } from 'react';
 
 interface LoginState {
     message: string,
@@ -31,7 +32,7 @@ export class DemoLogin extends React.Component<{}, LoginState> {
         })
     }
 
-    private login() {
+    private login(event: FormEvent<HTMLFormElement>) {
         fetch(`api/Authen/login?username=${this.state.username}&password=${this.state.password}`)
         .then(response => response.json() as Promise<boolean>)
         .then(data => {
@@ -45,6 +46,8 @@ export class DemoLogin extends React.Component<{}, LoginState> {
                 })
             }
         });
+        event.preventDefault();
+        return false;
     }
 
     public render() {
@@ -56,25 +59,26 @@ export class DemoLogin extends React.Component<{}, LoginState> {
                     subtitle = {this.state.message}
                 />
                 <CardText>
-                    <TextField
-                        hintText="Username"
-                        floatingLabelText="Username"
-                        onChange={ (e, v) => this.changeUsername(e, v) }
-                    />
-                    
-                    <TextField
-                        hintText="Password"
-                        floatingLabelText="Password"
-                        type = "password"
-                        onChange={ (e, v) => this.changePassword(e, v) }
-                    />
-                    <br/>
-                    <RaisedButton
-                        label="Login"
-                        primary={true}
-                        type="submit"
-                        onClick={ () => this.login() }
-                    />
+                    <form onSubmit= { (e) => this.login(e) }>
+                        <TextField
+                            hintText="Username"
+                            floatingLabelText="Username"
+                            onChange={ (e, v) => this.changeUsername(e, v) }
+                        />
+                        
+                        <TextField
+                            hintText="Password"
+                            floatingLabelText="Password"
+                            type = "password"
+                            onChange={ (e, v) => this.changePassword(e, v) }
+                        />
+                        <br/>
+                        <RaisedButton
+                            label="Login"
+                            primary={true}
+                            type="submit"
+                        />
+                    </form>
                 </CardText>
             </Card>
         );
