@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using moody.Extensions;
 using moody.Models;
 using Newtonsoft.Json;
 
@@ -21,16 +22,16 @@ namespace moody.Controllers
                 .FirstOrDefault();
             if (admin != null)
             {
-                HttpContext.Session.SetString("ADMIN", JsonConvert.SerializeObject(admin));
+                HttpContext.Session.Set<Administrator>("ADMIN", admin);
                 res = true;
             }
             return res;
         }
 
         [HttpGet("[action]")]
+        [AdminFilter]
         public Administrator current(MoodyContext db) {
-            String value = HttpContext.Session.GetString("ADMIN");
-            return JsonConvert.DeserializeObject<Administrator>(value);
+            return HttpContext.Session.Get<Administrator>("ADMIN");
         }
 
         [HttpGet("[action]")]
