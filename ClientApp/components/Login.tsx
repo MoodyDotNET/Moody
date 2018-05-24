@@ -17,7 +17,6 @@ export class Login extends React.Component<{}, LoginState> {
             username: "",
             password: ""
         };
-        this.login.bind(this);
     }
 
     private changeUsername(event: React.FormEvent<{}>, value: string) {
