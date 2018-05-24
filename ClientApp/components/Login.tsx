@@ -32,6 +32,9 @@ export class Login extends React.Component<{}, LoginState> {
     }
 
     private login(event: FormEvent<HTMLFormElement>) {
+        this.setState({
+            message: 'Logging in...'
+        })
         fetch(`api/Authen/login?username=${this.state.username}&password=${this.state.password}`)
         .then(response => response.json() as Promise<boolean>)
         .then(data => {
