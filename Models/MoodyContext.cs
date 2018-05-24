@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace moody.Model
+namespace moody.Models
 {
     public partial class MoodyContext : DbContext
     {

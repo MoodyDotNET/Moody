@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using moody.Model;
+using moody.Models;
 using Newtonsoft.Json;
 
 namespace moody.Controllers
@@ -34,6 +34,7 @@ namespace moody.Controllers
         }
 
         [HttpGet("[action]")]
+        [AdminFilter]
         public bool logout(MoodyContext db) {
             HttpContext.Session.Clear();
             return true;

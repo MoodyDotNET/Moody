@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace moody.Model
+namespace moody.Models
 {
     public partial class Member
     {
