@@ -19,18 +19,6 @@ export class Login extends React.Component<{}, LoginState> {
         };
     }
 
-    private changeUsername(event: React.FormEvent<{}>, value: string) {
-        this.setState({
-            username: value
-        });
-    }
-
-    private changePassword(event: React.FormEvent<{}>, value: string) {
-        this.setState({
-            password: value
-        })
-    }
-
     private login(event: FormEvent<HTMLFormElement>) {
         this.setState({
             message: 'Logging in...'
@@ -66,16 +54,16 @@ export class Login extends React.Component<{}, LoginState> {
                         <TextField
                             hintText="Username"
                             floatingLabelText="Username"
-                            onChange={ (e, v) => this.changeUsername(e, v) }
                             value={this.state.username}
+                            onChange={ (e, v) => this.setState({ username: v }) }
                         />
                         
                         <TextField
                             hintText="Password"
                             floatingLabelText="Password"
                             type = "password"
-                            onChange={ (e, v) => this.changePassword(e, v) }
                             value={this.state.password}
+                            onChange={ (e, v) => this.setState({ password: v }) }
                         />
                         <br/>
                         <RaisedButton
