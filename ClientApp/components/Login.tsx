@@ -23,7 +23,7 @@ export class Login extends React.Component<{}, LoginState> {
         this.setState({
             message: 'Logging in...'
         })
-        fetch(`api/Authen/login?username=${this.state.username}&password=${this.state.password}`)
+        fetch(`api/Member/login?username=${this.state.username}&password=${this.state.password}`)
         .then(response => response.json() as Promise<boolean>)
         .then(data => {
             if (data == true) {
