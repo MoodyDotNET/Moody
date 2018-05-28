@@ -3,7 +3,6 @@ import { NavMenu } from './NavMenu';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {MoodyMenuBar} from './MoodyMenuBar';
 import {MoodyNavBar} from './MoodyNavBar';
-import { Login } from './home/Login';
 import { RouteComponentProps } from 'react-router';
 
 export interface LayoutProps {
@@ -26,14 +25,14 @@ export class Layout extends React.Component<LayoutProps, {}> {
                         <div className='col-sm-3'>
                             <Login />
                         </div>*/}
-                        <div className='col-12 no-padding-left-right'>
-                                <MoodyMenuBar/>
+                        <div className='col-12 no-padding-left-right navBar'>
+                            <MoodyMenuBar/>
                         </div>
-                        <div className='col-12 no-padding-left-right'>
+                        {/*<div className='col-12 no-padding-left-right'>
                             
                                 <MoodyNavBar/>
                             
-                        </div>
+                        </div>*/}
                         <div className='col-12'>
                             { this.props.children }
                         </div>

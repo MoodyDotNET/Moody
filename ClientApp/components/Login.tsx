@@ -61,7 +61,7 @@ export class Login extends React.Component<{}, LoginState> {
                             value={this.state.username}
                             onChange={ (e, v) => this.setState({ username: v }) }
                         />
-                        
+                        <br/>
                         <TextField
                             hintText="Password"
                             floatingLabelText="Password"

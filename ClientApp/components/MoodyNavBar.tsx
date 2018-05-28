@@ -12,10 +12,10 @@ export class MoodyNavBar extends React.Component<{}, {}> {
         return (
             <Toolbar className = 'navBar' style={transparentBackground}>
                 <ToolbarGroup firstChild={true}>
-                    <RaisedButton className = 'nav-items' label='Home'
+                    <RaisedButton label='Home'
                         containerElement={<Link to="/"></Link>}
                     />
-                    <RaisedButton className = 'nav-items' label='Albums'>
+                    <RaisedButton label='Albums'>
                     
                     </RaisedButton>
                 </ToolbarGroup>

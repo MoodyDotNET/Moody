@@ -14,19 +14,32 @@ body {
 /*navbar*/
 .navBar {
     /**/
+    position: fixed !important;
+    z-index:2;
+    opacity:0.9;
 }
-
+.nav-items {
+    margin-left:1px !important;
+    margin-right:1px !important;
+}
+.login-dialog{
+    
+}
+.test {
+    position: relative !important;
+    top:-300px; 
+}
 /* home style */
 /*section1*/
 .section1 {
     position: relative;
-    height: 92vh;
+    height: 100vh;
     text-align: center;
 }
 .section1 .section1_title {
     color:white;
     font-size: 4rem;
-    margin-top: 20vh;
+    margin-top: 35vh;
     font-family: fantasy;
 }
 .section1 .background {
@@ -97,6 +110,17 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
 }
+@media screen and (max-width: 576px) {
+    .section2 .card {
+        width:70%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .section2 .card {
+        width:80%;
+    }
+}
+
 
 /*section 3 : albums*/
 .section3 {
