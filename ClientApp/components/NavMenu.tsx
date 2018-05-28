@@ -26,6 +26,12 @@ export class NavMenu extends React.Component<{}, {}> {
                             </NavLink>
                         }>
                         </ListItem>
+                        <ListItem primaryText="Moody Home Page" secondaryText="test" containerElement={
+                            <NavLink to={ '/homeBody' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> home page
+                            </NavLink>
+                        }>
+                        </ListItem>
                     </List>
                 </Paper>
             </div>

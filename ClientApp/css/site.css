@@ -1,57 +1,116 @@
 body {
     background-color: #333333;
     margin:0px;
+    padding:0px;
 }
 
 .NavMenu .active {
     border-left: 5px solid black !important;
 }
-
-.tag{
-    padding-right: 1rem !important;
-    padding-left: 1rem !important;
+.no-padding-left-right {
+    padding-left:0px !important;
+    padding-right:0px !important;
+}
+/*navbar*/
+.navBar {
+    /**/
 }
 
-.navMenu {
-    background-color:#314455;
-    font-size: 1.2rem !important;
-    color: white;
-    position: relative;
-    z-index: 1;
-}
-.navMenu .navMenu-title {
-    cursor:pointer;
-}
-.navMenu .navMenu-title:hover {
-    opacity:0.95;
-}
-.navMenu .navMenu-item {
-    text-decoration: none;
-    cursor:pointer;
-    text-align: center;
-    transition: all 0.3s;
-}
-.navMenu .navMenu-item:hover {
-    color:white;
-    background-color: #C96567;
-}
-.navMenu .search-box button {
-    outline:none;
-    background-color: #C96567;
-    color:white;
-    border:none; 
-    padding:4px;
-}
-
+/* home style */
+/*section1*/
 .section1 {
-    background-color: #9E5A63;
-    height:91vh;
+    position: relative;
+    height: 92vh;
+    text-align: center;
 }
-.section1 .card {
-    margin-top:5.5vh;
-    margin-bottom:5.4vh;
+.section1 .section1_title {
+    color:white;
+    font-size: 4rem;
+    margin-top: 20vh;
+    font-family: fantasy;
 }
-.section1 .card div {
-    background-color: white;
-    height: 35vh;
+.section1 .background {
+    position: absolute;
+    height: 100%;
+    width:100%;
+    background-image: url('../components/source/img/HomeBackground.jpg');
+    background-position:center ;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity:0.4;
+}
+/*set potion for links*/
+.sections .link {
+    position: absolute;;
+    right:120px;
+}
+.sections .link p {
+    cursor: pointer;
+}
+/*sections set padding top and padding for sections*/
+.sections {
+    padding-top:15vh;
+    padding-bottom:15vh;
+}
+/*section 2 : songs*/
+.section2 {
+    background-color:white;
+}
+.section2 .card {
+    margin-top:1.5vh;
+    margin-bottom:1.5vh;
+}
+.section2 .card .song-wrapper {
+    height:32vh;
+    background-color: lightcoral;
+}
+.section2 .card .song-wrapper:hover .song-script {
+    width:100%;
+}
+
+.section2 .card .song-wrapper:hover .song-script .song-name {
+    opacity: 1;
+}
+
+.section2 .card .song-wrapper:hover .song-script .song-artist {
+    opacity: 1;
+}
+
+.section2 .card .song-wrapper .song-script {
+    position: relative;
+    height:30%;
+    width:0%;
+    background-color: #333333;
+    opacity: 0.6;
+    top:70%;
+    transition: width 0.3s ease-in;
+    overflow: hidden;
+}
+.section2 .card .song-wrapper .song-script .song-name, .song-artist {
+    color:white;   
+    margin-left: 20px;
+    opacity:0;
+    transition:all 0.1s !important;
+}
+.section2 .card .song-wrapper .song-script .song-name{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/*section 3 : albums*/
+.section3 {
+    background-color: ghostwhite;
+    position: relative;
+}
+.section3 .album-cover, .album-script {
+    height: 40vh;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    box-sizing: border-box;
+}
+.section3 .album-cover {
+    background-color: lightcyan;
+}
+.section3 .album-script {
+    background-color: lightcyan;
 }

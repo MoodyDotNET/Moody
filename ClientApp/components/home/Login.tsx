@@ -19,6 +19,10 @@ export class Login extends React.Component<{}, LoginState> {
         };
     }
 
+    closeForm() {
+        
+    }    
+
     private login(event: FormEvent<HTMLFormElement>) {
         this.setState({
             message: 'Logging in...'
