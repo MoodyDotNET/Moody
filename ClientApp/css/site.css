@@ -16,7 +16,10 @@ body {
     /**/
     position: fixed !important;
     z-index:2;
-    opacity:0.9;
+    background-color: transparent;
+}
+.navBar div {
+    background-color: transparent !important;
 }
 .nav-items {
     margin-left:1px !important;
@@ -137,4 +140,10 @@ body {
 }
 .section3 .album-script {
     background-color: lightcyan;
+}
+.SearchField > input {
+    color: white !important;
+}
+.SearchField > div {
+    color: #ccc !important;
 }

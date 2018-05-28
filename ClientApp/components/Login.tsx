@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, NavLink, Redirect } from 'react-router-dom';
+import { Link, NavLink, Redirect, RouteComponentProps } from 'react-router-dom';
 import { TextField,Card, CardHeader, CardText, RaisedButton } from 'material-ui';
 import { FormEvent } from 'react';
 
@@ -47,37 +47,35 @@ export class Login extends React.Component<{}, LoginState> {
 
     public render() {
         return (
-            <Card>
+            <div>
                 { this.state.message.indexOf('Welcome') >= 0 && <Redirect to="/fetchdata" push/> }                
-                <CardHeader
-                    title = "Login"
-                    subtitle = {this.state.message}
-                />
-                <CardText>
-                    <form onSubmit= { (e) => this.login(e) }>
-                        <TextField
-                            hintText="Username"
-                            floatingLabelText="Username"
-                            value={this.state.username}
-                            onChange={ (e, v) => this.setState({ username: v }) }
-                        />
-                        <br/>
-                        <TextField
-                            hintText="Password"
-                            floatingLabelText="Password"
-                            type = "password"
-                            value={this.state.password}
-                            onChange={ (e, v) => this.setState({ password: v }) }
-                        />
-                        <br/>
-                        <RaisedButton
-                            label="Login"
-                            primary={true}
-                            type="submit"
-                        />
-                    </form>
-                </CardText>
-            </Card>
+                <h2>Login</h2>
+                <p>{ this.state.message }</p>
+                <form onSubmit= { (e) => this.login(e) }>
+                    <TextField
+                        hintText="Username"
+                        floatingLabelText="Username"
+                        value={this.state.username}
+                        onChange={ (e, v) => this.setState({ username: v }) }
+                        fullWidth
+                    />
+                    <br/>
+                    <TextField
+                        hintText="Password"
+                        floatingLabelText="Password"
+                        type = "password"
+                        value={this.state.password}
+                        onChange={ (e, v) => this.setState({ password: v }) }
+                        fullWidth
+                    />
+                    <br/>
+                    <RaisedButton
+                        label="Login"
+                        primary={true}
+                        type="submit"
+                    />
+                </form>
+            </div>
         );
     }
 }

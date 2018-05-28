@@ -33,6 +33,7 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                 <ToolbarGroup>
                     <TextField
                         hintText='Search'
+                        className='SearchField'
                     />
                     <RaisedButton label='Search'/>
                 </ToolbarGroup>
@@ -68,13 +69,6 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                             onRequestClose = {this.handleClose}
                             className='login-dialog'
                         >
-                            <IconButton 
-                                iconClassName="material-icons"
-                                onClick={this.handleClose}
-                                className='test'
-                            >
-                                close
-                            </IconButton>
                             <Login />
                         </Dialog>
                     </IconButton>

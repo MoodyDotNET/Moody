@@ -10,7 +10,7 @@ const transparentBackground = {
 export class MoodyNavBar extends React.Component<{}, {}> {
     public render(){
         return (
-            <Toolbar className = 'navBar' style={transparentBackground}>
+            <Toolbar className = 'navBar'>
                 <ToolbarGroup firstChild={true}>
                     <RaisedButton label='Home'
                         containerElement={<Link to="/"></Link>}
