@@ -59,8 +59,8 @@ export class HomeSession2 extends React.Component<{},{}>{
                                 </div>
                             </div>
                         </div>
-                        <div className='link'>
-                            <NavLink to={'/home'}><p>More songs</p></NavLink>
+                        <div>
+                            <NavLink to={'/home'}><p className='link'>More songs</p></NavLink>
                         </div>
                     </div>
                 </div>

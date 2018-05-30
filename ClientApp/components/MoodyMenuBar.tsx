@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton, FontIcon, Dialog } from 'material-ui';
 import {white, red100, transparent} from 'material-ui/styles/colors';
 import { Login } from './Login';
+import {Register} from './Register';
 
 const navStyle = {
     backgroundColor:white
@@ -12,17 +13,26 @@ const navStyle = {
 
 export class MoodyMenuBar extends React.Component<{}, {}> {
     state = {
-        open: false,
+        openLogin: false,
+        openRegis:false
       };
     
-      handleOpen = () => {
-        this.setState({open: true});
+      loginOpen = () => {
+        this.setState({openLogin: true});
       };
     
-      handleClose = () => {
-        this.setState({open: false});
+      loginClose = () => {
+        this.setState({openLogin: false});
       };
       
+      registerOpen = () => {
+        this.setState({openRegis: true});
+      };
+    
+      registerClose = () => {
+        this.setState({openRegis: false});
+      };
+
     public render(){
         
         return (
@@ -59,21 +69,33 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                         label='Songs'
                         primary={true}
                     />
+                    <RaisedButton 
+                        className = 'nav-items' 
+                        label='Playlists'
+                        primary={true}
+                    />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <IconButton tooltip="login" iconClassName="material-icons" onClick={this.handleOpen}>
+                    <IconButton tooltip="login" iconClassName="material-icons menu-icon" onClick={this.loginOpen}>
                         person
                         <Dialog
                             modal={false}
-                            open={this.state.open}
-                            onRequestClose = {this.handleClose}
+                            open={this.state.openLogin}
+                            onRequestClose = {this.loginClose}
                             className='login-dialog'
                         >
                             <Login />
                         </Dialog>
                     </IconButton>
-                    <IconButton tooltip="sign up" iconClassName="material-icons">
+                    <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
                         personadd
+                        <Dialog
+                            modal={false}
+                            open = {this.state.openRegis}
+                            onRequestClose={this.registerClose}
+                        >
+                            <Register />
+                        </Dialog>
                     </IconButton>                   
                 </ToolbarGroup>
             </Toolbar>

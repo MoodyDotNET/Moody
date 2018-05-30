@@ -15,9 +15,27 @@ export class HomeSession3 extends React.Component<{},{}>{
                             <div className='album-script'>
                             </div>
                         </div>
+                        
+                        <div className='col-sm-8'>
+                            <div className='album-script'>
+                            </div>
+                        </div>
+                        <div className='col-sm-4'>
+                            <div className='album-cover'>
+                            </div>
+                        </div>
+
+                        <div className='col-sm-4'>
+                            <div className='album-cover'>
+                            </div>
+                        </div>
+                        <div className='col-sm-8'>
+                            <div className='album-script'>
+                            </div>
+                        </div>
                     </div>
-                    <div className='link'>
-                        <NavLink to={'/home'}><p>More albums</p></NavLink>
+                    <div>
+                        <NavLink to={'/home'}><p className='link'>More albums</p></NavLink>
                     </div>
                 </div>
             </div>

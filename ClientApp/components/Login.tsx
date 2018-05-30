@@ -48,7 +48,7 @@ export class Login extends React.Component<{}, LoginState> {
     public render() {
         return (
             <div>
-                { this.state.message.indexOf('Welcome') >= 0 && <Redirect to="/fetchdata" push/> }                
+                { this.state.message.indexOf('Welcome') >= 0 && <Redirect to="/" push/> }                
                 <h2>Login</h2>
                 <p>{ this.state.message }</p>
                 <form onSubmit= { (e) => this.login(e) }>

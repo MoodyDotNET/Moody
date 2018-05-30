@@ -11,6 +11,10 @@ body {
     padding-left:0px !important;
     padding-right:0px !important;
 }
+.no-padding-left{
+    padding-left:0px !important;
+}
+
 /*navbar*/
 .navBar {
     /**/
@@ -25,13 +29,22 @@ body {
     margin-left:1px !important;
     margin-right:1px !important;
 }
-.login-dialog{
-    
+.menu-icon {
+    color:lightgray !important;
 }
-.test {
-    position: relative !important;
-    top:-300px; 
+.SearchField > input {
+    color: white !important;
 }
+.SearchField > div {
+    color: #ccc !important;
+}
+/*footer*/
+.footer {
+    color:white;
+    height:5vh;
+    bakcground:transparent;
+}
+
 /* home style */
 /*section1*/
 .section1 {
@@ -58,12 +71,12 @@ body {
 }
 /*set potion for links*/
 .sections .link {
-    position: absolute;;
+    position: absolute;
     right:120px;
-}
-.sections .link p {
+    text-decoration: none !important; 
     cursor: pointer;
 }
+
 /*sections set padding top and padding for sections*/
 .sections {
     padding-top:15vh;
@@ -127,13 +140,14 @@ body {
 
 /*section 3 : albums*/
 .section3 {
-    background-color: ghostwhite;
+    background-color: lavender;
     position: relative;
 }
 .section3 .album-cover, .album-script {
     height: 40vh;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
     box-sizing: border-box;
+    margin-bottom:1vh;
 }
 .section3 .album-cover {
     background-color: lightcyan;
@@ -141,9 +155,23 @@ body {
 .section3 .album-script {
     background-color: lightcyan;
 }
-.SearchField > input {
-    color: white !important;
+
+/*section 4: artists*/
+.section4 {
+    background-image: url('../components/source/img/3-seamless-icon-pattern-download.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-.SearchField > div {
-    color: #ccc !important;
+
+.artist-img-big {
+    background-color: azure;
+    height:57.5vh;
 }
+
+.artist-img-small{
+    background-color: bisque;
+    height:28vh;
+    margin-bottom:1vh;
+}
+.section4 .link {color:white !important;}

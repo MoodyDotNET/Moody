@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import {HomeSession1} from './HomeSession1';
 import {HomeSession2} from './HomeSession2';
 import {HomeSession3} from './HomeSession3';
+import {HomeSession4} from './HomeSession4';
 
 export class MoodyHomeBody extends React.Component<RouteComponentProps<{}>,{}> {
     public render(){
@@ -12,9 +13,14 @@ export class MoodyHomeBody extends React.Component<RouteComponentProps<{}>,{}> {
                 
             </div>*/
             <div className='row home'> 
+                {/*cover session*/}
                 <HomeSession1 />
-                <HomeSession2 />    
-                <HomeSession3 />                  
+                {/*songs session*/}
+                <HomeSession2 />
+                {/*albums session*/}    
+                <HomeSession3 />
+                {/*artist session*/} 
+                <HomeSession4 />             
             </div>
 
         );
