@@ -11,22 +11,51 @@ body {
     padding-left:0px !important;
     padding-right:0px !important;
 }
+.no-padding-left{
+    padding-left:0px !important;
+}
+
 /*navbar*/
 .navBar {
     /**/
+    position: fixed !important;
+    z-index:2;
+    background-color: transparent;
+}
+.navBar div {
+    background-color: transparent !important;
+}
+.nav-items {
+    margin-left:1px !important;
+    margin-right:1px !important;
+}
+.menu-icon {
+    color:lightgray !important;
+}
+.SearchField > input {
+    color: white !important;
+}
+.SearchField > div {
+    color: #ccc !important;
+}
+/*footer*/
+.footer {
+    color:white;
+    height:5vh;
+    bakcground:transparent;
 }
 
 /* home style */
 /*section1*/
 .section1 {
     position: relative;
-    height: 92vh;
+    height: 100vh;
     text-align: center;
 }
 .section1 .section1_title {
     color:white;
     font-size: 4rem;
-    margin-top: 20vh;
+    margin-top: 35vh;
     font-family: fantasy;
 }
 .section1 .background {
@@ -42,12 +71,12 @@ body {
 }
 /*set potion for links*/
 .sections .link {
-    position: absolute;;
+    position: absolute;
     right:120px;
-}
-.sections .link p {
+    text-decoration: none !important; 
     cursor: pointer;
 }
+
 /*sections set padding top and padding for sections*/
 .sections {
     padding-top:15vh;
@@ -97,16 +126,28 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
 }
+@media screen and (max-width: 576px) {
+    .section2 .card {
+        width:70%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .section2 .card {
+        width:80%;
+    }
+}
+
 
 /*section 3 : albums*/
 .section3 {
-    background-color: ghostwhite;
+    background-color: lavender;
     position: relative;
 }
 .section3 .album-cover, .album-script {
     height: 40vh;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
     box-sizing: border-box;
+    margin-bottom:1vh;
 }
 .section3 .album-cover {
     background-color: lightcyan;
@@ -114,3 +155,23 @@ body {
 .section3 .album-script {
     background-color: lightcyan;
 }
+
+/*section 4: artists*/
+.section4 {
+    background-image: url('../components/source/img/3-seamless-icon-pattern-download.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.artist-img-big {
+    background-color: azure;
+    height:57.5vh;
+}
+
+.artist-img-small{
+    background-color: bisque;
+    height:28vh;
+    margin-bottom:1vh;
+}
+.section4 .link {color:white !important;}
