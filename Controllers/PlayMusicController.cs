@@ -15,7 +15,6 @@ namespace moody.Controllers {
             List < Song > songs = new List < Song > (); 
             songs.Add(db.Song
                 .Where(s => s.Title.Contains(searchField) || s.Subtitle.Contains(searchField))
-                // .Where(s => s.Subtitle == searchField)
                 .FirstOrDefault()
                 );
             return songs;
