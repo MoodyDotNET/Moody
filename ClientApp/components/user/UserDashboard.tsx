@@ -34,7 +34,6 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
                 user: [data],
                 loading: false
             });
-            console.log(this.state.user[0].username);
         })
         .catch(error => {
             this.setState({
@@ -55,10 +54,12 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
 
     public render() {
         return (
-            <div className="container-fluid" style={{ backgroundColor: 'white', paddingTop: 80 }}>
-                { !this.state.logged && <Redirect to="/login" push/>}
-                { this.state.loading ? <CircularProgress /> : this.renderDashboard(this.state.user[0]) }
-            </div>
+            <Paper>
+                <div className="container-fluid" style={{ backgroundColor: 'white', paddingTop: 80, minHeight: '100vh' }}>
+                    { !this.state.logged && <Redirect to="/login" push/> }
+                    { this.state.loading ? <CircularProgress /> : this.renderDashboard(this.state.user[0]) }
+                </div>
+            </Paper>
         );
     }
 

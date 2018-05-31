@@ -1,4 +1,5 @@
 import * as React from "react";
+import { TextField, RaisedButton, Avatar, FlatButton } from "material-ui";
 
 export class UserManageAccount extends React.Component<{}, {}> {
     constructor(props: {}) {
@@ -8,7 +9,25 @@ export class UserManageAccount extends React.Component<{}, {}> {
     public render() {
         return (
             <div>
-                Manage Account
+                <div>
+                    <h2>Manage account</h2>
+                </div>
+                <div>
+                    <Avatar src="material.png" size={140} style={{display: 'block', marginBottom: 10}}/>
+                    <RaisedButton
+                        containerElement='label'
+                        label='Upload avatar'>
+                        <input type="file" style={{display: 'none'}}/>
+                    </RaisedButton>
+                </div>
+                <div>
+                    <TextField hintText="First name"/>
+                    <TextField hintText="Middle name"/>
+                    <TextField hintText="Last name"/>
+                </div>
+                <div>
+                    <RaisedButton label="Update my profile"></RaisedButton>
+                </div>
             </div>
         );
     }
