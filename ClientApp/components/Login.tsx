@@ -27,7 +27,9 @@ export class Login extends React.Component<{}, LoginState> {
         this.setState({
             message: 'Logging in...'
         })
-        fetch(`api/Member/login?username=${this.state.username}&password=${this.state.password}`)
+        fetch(`api/Member/login?username=${this.state.username}&password=${this.state.password}`, {
+            credentials: "same-origin"
+        })
         .then(response => response.json() as Promise<boolean>)
         .then(data => {
             if (data == true) {
@@ -48,7 +50,7 @@ export class Login extends React.Component<{}, LoginState> {
     public render() {
         return (
             <div>
-                { this.state.message.indexOf('Welcome') >= 0 && <Redirect to="/" push/> }                
+                { this.state.message.indexOf('Welcome') >= 0 && <Redirect to="/user" push/> }                
                 <h2>Login</h2>
                 <p>{ this.state.message }</p>
                 <form onSubmit= { (e) => this.login(e) }>
