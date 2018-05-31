@@ -38,5 +38,11 @@ namespace moody.Controllers
             HttpContext.Session.Clear();
             return true;
         }
+
+        [HttpGet("[action]")]
+        public bool update(MoodyContext db, Member user)
+        {
+            return true;
+        }
     }
 }
