@@ -16,8 +16,6 @@ namespace moody.Models
         public virtual DbSet<Song> Song { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
 
-        public MoodyContext() {}
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -105,8 +103,6 @@ namespace moody.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.MiddleName).HasMaxLength(50);
-
-                entity.Property(e => e.ProducerCode).HasDefaultValueSql("('N/A')");
 
                 entity.HasOne(d => d.BandNavigation)
                     .WithMany(p => p.InverseBandNavigation)
@@ -209,13 +205,7 @@ namespace moody.Models
             {
                 entity.HasKey(e => e.SongCode);
 
-                entity.Property(e => e.AlbumId)
-                    .HasColumnName("AlbumID")
-                    .HasDefaultValueSql("(N'N/A')");
-
-                entity.Property(e => e.Composer).HasDefaultValueSql("('N/A')");
-
-                entity.Property(e => e.ContributingArtist).HasDefaultValueSql("('N/A')");
+                entity.Property(e => e.AlbumId).HasColumnName("AlbumID");
 
                 entity.Property(e => e.CoverLink)
                     .IsRequired()
@@ -228,8 +218,6 @@ namespace moody.Models
                     .HasDefaultValueSql("(((1)/(1))/(1900))");
 
                 entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
-
-                entity.Property(e => e.LastModifyBy).HasDefaultValueSql("('N/A')");
 
                 entity.Property(e => e.Length).HasColumnType("time(0)");
 

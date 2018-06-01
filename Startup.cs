@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using moody.Models;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace moody
 {
@@ -27,6 +29,10 @@ namespace moody
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

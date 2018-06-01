@@ -8,17 +8,12 @@ using moody.Models;
 using Newtonsoft.Json; 
 
 namespace moody.Controllers {
-    [Produces("application/json")]
-    [Route("api/PlayMusic")]
+    [Route("api/[controller]")]
     public class PlayMusicController:Controller {
+        [HttpGet("[action]")]
         public IEnumerable<Song> getSong(MoodyContext db, string searchField) {
-            List < Song > songs = new List < Song > (); 
-            songs.Add(db.Song
-                .Where(s => s.Title.Contains(searchField) || s.Subtitle.Contains(searchField))
-                .FirstOrDefault()
-                );
-            return songs;
-
+            return db.Song
+                .Where(s => s.Title.Contains(searchField) || s.Subtitle.Contains(searchField));
         }
     }
 }
