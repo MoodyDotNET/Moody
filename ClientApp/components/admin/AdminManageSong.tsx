@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextField, FlatButton, RaisedButton } from "material-ui";
 
-export class AdminChangePassword extends React.Component<{}, {}> {
+export class AdminManageSong extends React.Component<{}, {}> {
     constructor(props: {}) {
         super(props)
     }
@@ -10,7 +10,7 @@ export class AdminChangePassword extends React.Component<{}, {}> {
         return (
             <div>
                 <div>
-                    <h2>Change password</h2>
+                    <h2>Songs</h2>
                 </div>
                 <div>
                     <TextField type="password" style={{display: 'block'}} hintText="Old password"/>

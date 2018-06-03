@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Paper, Card, List, ListItem, CardActions, RaisedButton, Avatar, Divider, CircularProgress } from 'material-ui';
-import { AdminChangePassword } from './AdminChangePassword';
-import { AdminManageAccount } from './AdminManageAccount';
 import Administrator from '../../model/Administrator';
+import { AdminManageSong } from './AdminManageSong';
+import { AdminManageAlbum } from './AdminManageAlbum';
+import { AdminManageArtist } from './AdminManageArtist';
+import { AdminManageUser } from './AdminManageUser';
+import { AdminManagePassword } from './AdminManagePassword';
+import { AdminManageProfile } from './AdminManageProfile';
 
 interface AdminDashboardState {
     admin: Administrator[],
@@ -17,7 +21,7 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
         super(props);
         this.state = {
             admin: [],
-            activeTab: 'manage',
+            activeTab: 'profile',
             logged: true,
             loading: true
         }
@@ -65,25 +69,41 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
 
     private renderPanel() {
         switch (this.state.activeTab) {
-            case 'manage':
-                return <AdminManageAccount/>
+            case 'profile':
+                return <AdminManageProfile admin={this.state.admin[0]}/>
         
             case 'password':
-                return <AdminChangePassword/>
+                return <AdminManagePassword/>
+
+            case 'song':
+                return <AdminManageSong/>
+        
+            case 'album':
+                return <AdminManageAlbum/>
+                        
+            case 'artist':
+                return <AdminManageArtist/>
+                    
+            case 'user':
+                return <AdminManageUser/>
         }
     }
 
     private renderDashboard(admin: Administrator) {
         return (
             <div className="row">
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-lg-3">
                     <List>
                         <ListItem 
                             leftAvatar={ <Avatar src="material.png" /> }
                             nestedItems={[
                                 <Divider/>,
-                                <ListItem onClick={ () => this.setState({activeTab: 'manage'}) }>Manage account</ListItem>,
-                                <ListItem onClick={ () => this.setState({activeTab: 'password'}) }>Change password</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'profile'}) }>Profile</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'password'}) }>Security</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'song'}) }>Songs</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'album'}) }>Album</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'artist'}) }>Artists</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'user'}) }>Users</ListItem>,
                                 <ListItem onClick={ () => this.logout() }>Log Out</ListItem>
                             ]}
                             initiallyOpen
@@ -92,7 +112,7 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
                         </ListItem>
                     </List>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-lg-9">
                     { this.renderPanel() }
                 </div>
             </div>

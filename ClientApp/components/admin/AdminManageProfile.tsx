@@ -1,8 +1,13 @@
 import * as React from "react";
 import { TextField, RaisedButton, Avatar, FlatButton } from "material-ui";
+import Administrator from "../../model/Administrator";
 
-export class AdminManageAccount extends React.Component<{}, {}> {
-    constructor(props: {}) {
+interface Props {
+    admin: Administrator;
+}
+
+export class AdminManageProfile extends React.Component<Props, {}> {
+    constructor(props: Props) {
         super(props)
     }
 
@@ -10,7 +15,7 @@ export class AdminManageAccount extends React.Component<{}, {}> {
         return (
             <div>
                 <div>
-                    <h2>Manage account</h2>
+                    <h2>{ this.props.admin.firstName ? this.props.admin.firstName : this.props.admin.username }'s profile</h2>
                 </div>
                 <div>
                     <Avatar src="material.png" size={140} style={{display: 'block', marginBottom: 10}}/>
@@ -21,9 +26,9 @@ export class AdminManageAccount extends React.Component<{}, {}> {
                     </RaisedButton>
                 </div>
                 <div>
-                    <TextField hintText="First name"/>
-                    <TextField hintText="Middle name"/>
-                    <TextField hintText="Last name"/>
+                    <TextField hintText={this.props.admin.firstName ? this.props.admin.firstName : "Firstname"}/>
+                    <TextField hintText={this.props.admin.miidleName ? this.props.admin.miidleName : "Middlename"}/>
+                    <TextField hintText={this.props.admin.lastName ? this.props.admin.lastName: "Lastname"}/>
                 </div>
                 <div>
                     <RaisedButton label="Update my profile"></RaisedButton>
