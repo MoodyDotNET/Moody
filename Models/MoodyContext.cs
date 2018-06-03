@@ -32,7 +32,7 @@ namespace moody.Models
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.Property(e => e.FullName).HasMaxLength(50);
+                entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
 
@@ -139,7 +139,7 @@ namespace moody.Models
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.Property(e => e.FullName).HasMaxLength(50);
+                entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
 

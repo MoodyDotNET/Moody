@@ -2,7 +2,7 @@ export default interface Member {
     userId: number,
     username: string,
     password: string,
-    fullName: string,
+    firstName: string,
     middleName: string,
     lastName: string
 }
