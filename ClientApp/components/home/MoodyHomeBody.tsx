@@ -12,7 +12,7 @@ export class MoodyHomeBody extends React.Component<RouteComponentProps<{}>,{}> {
             /*<div className='container'>
                 
             </div>*/
-            <div className='row home'> 
+            <div className='home'> 
                 {/*cover session*/}
                 <HomeSession1 />
                 {/*songs session*/}

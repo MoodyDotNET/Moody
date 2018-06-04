@@ -60,7 +60,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
         return (
             <Toolbar style={navStyle}>
                 <ToolbarGroup firstChild={true}>
-                    <RaisedButton label='Moody' primary={true}/>
+                    <RaisedButton label='Moody' primary={true} containerElement={<Link to="/"></Link>}/>
                 </ToolbarGroup>
                 <ToolbarGroup>
                     <TextField
