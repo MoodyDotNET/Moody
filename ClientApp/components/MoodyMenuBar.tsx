@@ -6,17 +6,33 @@ import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton,
 import {white, red100, transparent} from 'material-ui/styles/colors';
 import { Login } from './Login';
 import {Register} from './Register';
+import {SongsList} from './Songs/SongsList';
+
 
 const navStyle = {
-    backgroundColor:white
+    backgroundColor:transparent
 }
 
-export class MoodyMenuBar extends React.Component<{}, {}> {
-    state = {
-        openLogin: false,
-        openRegis:false
-      };
-    
+interface Ihome {
+    openLogin:boolean,
+    openRegis: boolean,
+    user: string
+}
+
+interface passedProp extends React.Props<any>{
+    LoginSuccess:any
+}
+
+export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
+    constructor(props:any){
+        super(props);
+        this.state={
+            openLogin:false,
+            openRegis:false,
+            user:"login",
+            LoginSuccess:function(){}
+        };
+    }
       loginOpen = () => {
         this.setState({openLogin: true});
       };
@@ -32,6 +48,12 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
       registerClose = () => {
         this.setState({openRegis: false});
       };
+
+      getUsername(username: string) {
+          this.setState({
+              user:username,
+          })
+      }
 
     public render(){
         
@@ -67,6 +89,7 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                     <RaisedButton 
                         className = 'nav-items' 
                         label='Songs'
+                        containerElement={<Link to="/songs"/>}
                         primary={true}
                     />
                     <RaisedButton 
@@ -76,7 +99,7 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                     />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <IconButton tooltip="login" iconClassName="material-icons menu-icon" onClick={this.loginOpen}>
+                    <IconButton tooltip={this.state.user} iconClassName="material-icons menu-icon" onClick={this.loginOpen}>
                         person
                         <Dialog
                             modal={false}
@@ -84,13 +107,14 @@ export class MoodyMenuBar extends React.Component<{}, {}> {
                             onRequestClose = {this.loginClose}
                             className='login-dialog'
                         >
-                            <Login />
+                            
+                            <Login closeLoginForm={this.loginClose} getUserName = {this.getUsername.bind(this)}/>
                         </Dialog>
                     </IconButton>
                     <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
                         personadd
                         <Dialog
-                            modal={false}
+                            modal={true}
                             open = {this.state.openRegis}
                             onRequestClose={this.registerClose}
                         >

@@ -48,7 +48,7 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
         }).then(res => {
             this.setState({
                 logged: false
-            })
+            })       
         });
     }
 
@@ -75,7 +75,7 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
 
     private renderDashboard(user: Member) {
         return (
-            <div className="row">
+            <div className="row  no-padding-left-right">
                 <div className="col-12 col-md-3">
                     <List>
                         <ListItem 

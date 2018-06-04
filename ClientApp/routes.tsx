@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { MoodyHomeBody } from './components/home/MoodyHomeBody';
 import { UserDashboard } from './components/user/UserDashboard';
+import {SongsList} from './components/Songs/SongsList';
 
 export const routes = (
     <Layout>
@@ -14,5 +15,6 @@ export const routes = (
         <Route path='/fetchdata' component={ FetchData } />
         <Route path='/home' component={ Home }/>
         <Route path='/user' component={ UserDashboard }/>
+        <Route path='/songs' component={ SongsList }/>
     </Layout>
 );

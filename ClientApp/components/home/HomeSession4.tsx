@@ -1,10 +1,16 @@
 import * as React from 'react';
 import {NavLink} from 'react-router-dom';
 
+const style={
+    background:{
+        backgroundImage:'URL("/img/3-seamless-icon-pattern-download.jpg")',
+    }
+}
+
 export class HomeSession4 extends React.Component<{},{}>{
     public render(){
         return (
-            <div className='col-12 section4 sections'>
+            <div className='col-12 section4 sections' style={style.background}>
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-5'>

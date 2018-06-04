@@ -28,7 +28,7 @@ export class Layout extends React.Component<LayoutProps, {}> {
                         <div className='col-12 no-padding-left-right navBar'>
                             <MoodyMenuBar/>
                         </div>
-                        <div className='col-12 no-padding-left-right'>
+                        <div className='col-12'>
                             { this.props.children }
                         </div>
                         <div className='col-12 footer'>

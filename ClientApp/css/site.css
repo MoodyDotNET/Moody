@@ -20,10 +20,7 @@ body {
     /**/
     position: fixed !important;
     z-index:2;
-    background-color: transparent;
-}
-.navBar div {
-    background-color: transparent !important;
+    background-color: rgba(41, 48, 48, 0.85);
 }
 .nav-items {
     margin-left:1px !important;
@@ -42,7 +39,8 @@ body {
 .footer {
     color:white;
     height:5vh;
-    bakcground:transparent;
+    position: relative;
+    background-color: rgba(41, 48, 48, 0.85);
 }
 
 /* home style */
@@ -62,7 +60,7 @@ body {
     position: absolute;
     height: 100%;
     width:100%;
-    background-image: url('../components/source/img/HomeBackground.jpg');
+    /* background-image: url('../components/source/img/HomeBackground.jpg'); */
     background-position:center ;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -143,22 +141,22 @@ body {
     background-color: lavender;
     position: relative;
 }
-.section3 .album-cover, .album-script {
-    height: 40vh;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-    box-sizing: border-box;
-    margin-bottom:1vh;
+.section3 .album-wrapper{
+    margin:0.5vh 0;
 }
 .section3 .album-cover {
-    background-color: lightcyan;
+    height: 30vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .section3 .album-script {
-    background-color: lightcyan;
+    height:20vh;
 }
 
 /*section 4: artists*/
 .section4 {
-    background-image: url('../components/source/img/3-seamless-icon-pattern-download.jpg');
+    /* background-image: url('../components/source/img/3-seamless-icon-pattern-download.jpg'); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -175,3 +173,12 @@ body {
     margin-bottom:1vh;
 }
 .section4 .link {color:white !important;}
+
+/*songs-list page*/
+.songs-list{
+    height: 100vh;
+    background-image: url("../components/source/img/minimalistic-purple-artwork-imagine-dragons-night-visions-1920x1080-67499.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

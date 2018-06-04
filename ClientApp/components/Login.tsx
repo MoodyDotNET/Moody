@@ -9,18 +9,14 @@ interface LoginState {
     password: string,
 }
 
-export class Login extends React.Component<{}, LoginState> {
-    constructor(props: {}) {
+export class Login extends React.Component<any, LoginState> {
+    constructor(props: any) {
         super(props);
         this.state = {
             message: "Enter your username and password to login",
             username: "",
             password: ""
         };
-    }
-
-    closeForm() {
-        
     }    
 
     private login(event: FormEvent<HTMLFormElement>) {
@@ -35,7 +31,9 @@ export class Login extends React.Component<{}, LoginState> {
             if (data == true) {
                 this.setState({
                     message: `Welcome ${this.state.username}`,
-                })
+                });
+                this.props.closeLoginForm();
+                this.props.getUserName(this.state.username);
             } else {
                 this.setState({
                     message: 'Incorrect username or password!',
