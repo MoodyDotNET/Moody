@@ -21,7 +21,7 @@ namespace moody.Controllers
                 .FirstOrDefault();
             if (authen != null)
             {
-                HttpContext.Session.SetString("AUTHEN", JsonConvert.SerializeObject(authen));
+                HttpContext.Session.SetString("ADMIN", JsonConvert.SerializeObject(authen));
                 res = true;
             }
             return res;
@@ -29,7 +29,7 @@ namespace moody.Controllers
 
         [HttpGet("[action]")]
         public Administrator current(MoodyContext db) {
-            String value = HttpContext.Session.GetString("AUTHEN");
+            String value = HttpContext.Session.GetString("ADMIN");
             return JsonConvert.DeserializeObject<Administrator>(value);
         }
 
