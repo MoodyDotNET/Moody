@@ -24,18 +24,21 @@ const style={
     },
     description: {
         height:'10vh'
+    },
+    background: {
+        backgroundImage: 'URL("/img/songBackground.jpg")'
     }
 };
 
 
 export class SongsList extends React.Component<RouteComponentProps<{}>,songInterface>{
-    // http://localhost:5000/api/playMusic?searchField=a
     constructor(props: RouteComponentProps<{}>){ 
         super(props);
         this.state={ songs:[], }
-        fetch('api/playMusic/getsong?searchField=a')
-        .then(response => response.json())
+        fetch('api/playMusic/getSong?searchField=a')
+        .then(response => response.json() as Promise<any>)
         .then(data=>{
+            console.log(data);
             this.setState({ songs:data });
         })
 
@@ -43,7 +46,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>,songInter
  
     public render(){
         return (
-            <div className='row songs-list sections'>
+            <div className='songs-list sections' style={style.background}>
                 <div className='col-12'>
                     <div className='container'>
                         <div className='row'>

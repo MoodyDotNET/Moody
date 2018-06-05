@@ -176,8 +176,8 @@ body {
 
 /*songs-list page*/
 .songs-list{
-    height: 100vh;
-    background-image: url("../components/source/img/minimalistic-purple-artwork-imagine-dragons-night-visions-1920x1080-67499.jpg");
+    padding: 10vh 0vh;
+    background-attachment: fixed;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

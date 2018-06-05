@@ -9,6 +9,7 @@ import { UserDashboard } from './components/user/UserDashboard';
 import {SongsList} from './components/Songs/SongsList';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { AdminLogin } from './components/admin/AdminLogin';
+import { Song } from './components/Songs/Song';
 
 export const routes = (
     <Layout>
@@ -18,6 +19,7 @@ export const routes = (
         <Route path='/home' component={ Home }/>
         <Route path='/user' component={ UserDashboard }/>
         <Route path='/songs' component={ SongsList }/>
+        <Route path='/song' component={ Song }/>
         <Route exact path='/admin' component={ AdminDashboard }/>
         <Route path='/admin/login' component={ AdminLogin }/>
     </Layout>
