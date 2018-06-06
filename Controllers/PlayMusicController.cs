@@ -11,16 +11,16 @@ namespace moody.Controllers {
     [Route("api/[controller]")]
     public class PlayMusicController:Controller {
         [HttpGet("[action]")]
-        public IEnumerable<Song> getSong(MoodyContext db, string searchField) {
+        public IEnumerable<Song> listSong(MoodyContext db, string searchField) {
             return db.Song
                 .Where(s => s.Title.Contains(searchField) || s.Subtitle.Contains(searchField));
         }
 
         [HttpGet("[action]")]
-        public Song chooseSong(MoodyContext db, string id)
+        public Song getSong(MoodyContext db, string id)
         {
             return db.Song
-                .Where(s => s.SongCode.Equals(id));
+                .Where(s => s.SongCode.Equals(id)).First();
         }
     }
 }
