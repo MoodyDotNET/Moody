@@ -17,10 +17,9 @@ namespace moody.Controllers {
         }
 
         [HttpGet("[action]")]
-        public Song getSong(MoodyContext db, string id)
+        public Song getSong(MoodyContext db, int id)
         {
-            return db.Song
-                .Where(s => s.SongCode.Equals(id)).First();
+            return db.Song.Where(s => s.SongCode == id).FirstOrDefault();
         }
     }
 }
