@@ -65,6 +65,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>,songInter
                                     </CardText>
                                     <CardActions>
                                         <RaisedButton label='Hear it' primary={true}/>
+                                        <RaisedButton label='Add to playlist' primary={true}/>
                                     </CardActions>
                                 </Card>
                             </div>
