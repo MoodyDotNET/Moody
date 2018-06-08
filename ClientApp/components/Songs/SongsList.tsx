@@ -38,7 +38,6 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
         fetch('api/playMusic/listSong?searchField=a')
             .then(response => response.json() as Promise<any>)
             .then(data => {
-                console.log(data);
                 this.setState({ songs: data });
             })
 
@@ -50,7 +49,6 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                 <div className='col-12'>
                     <div className='container'>
                         <div className='row'>
-<<<<<<< HEAD
                             <div className='col-10 col-sm-8 col-md-7 col-lg-4'>
                                 <Card style={style.card}>
                                     <CardHeader title="Prototype"/>
@@ -71,9 +69,6 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                                 </Card>
                             </div>
                             {this.state.songs.map((song:any,index:number)=>
-=======
-                            {this.state.songs.map((song: any, index: number) =>
->>>>>>> 29ff9245297e5cd5ec444d0b214497988fb8964b
                                 <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                     <Card style={style.card}>
                                         <CardHeader title="Test with sample data json" />

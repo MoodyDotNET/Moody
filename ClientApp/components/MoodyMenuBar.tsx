@@ -1,7 +1,7 @@
 import * as React from 'react';
 //import { RouteComponentProps } from 'react-router';
 //import { Link } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, NavLink, Redirect } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton, FontIcon, Dialog } from 'material-ui';
 import {white, red100, transparent} from 'material-ui/styles/colors';
 import { Login } from './Login';
@@ -16,7 +16,9 @@ const navStyle = {
 interface Ihome {
     openLogin:boolean,
     openRegis: boolean,
-    user: string
+    user: string,
+    searchValue:string,
+    searchResult:Array<any>,
 }
 
 interface passedProp extends React.Props<any>{
@@ -30,8 +32,27 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
             openLogin:false,
             openRegis:false,
             user:"login",
+            searchValue:"",
+            searchResult:[],
             LoginSuccess:function(){}
         };
+    }
+
+    private search(event: React.FormEvent<HTMLFormElement>){
+        fetch(`api/playMusic/listSong?searchField=a`)
+        // fetch(`api/playMusic/listSong?searchField=${this.state.searchValue}`)
+        .then(response => response.json() as Promise<any>)
+        .then(data => {
+            console.log(data);
+            this.setState({searchResult:data})
+            // if(data == null) {
+            //     console.log("null data")
+            // }
+            // else {
+            //     console.log(data);
+            //     this.setState({searchResult:true})
+            // }
+        })
     }
       loginOpen = () => {
         this.setState({openLogin: true});
@@ -62,13 +83,19 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
                 <ToolbarGroup firstChild={true}>
                     <RaisedButton label='Moody' primary={true} containerElement={<Link to="/"></Link>}/>
                 </ToolbarGroup>
-                <ToolbarGroup>
-                    <TextField
-                        hintText='Search'
-                        className='SearchField'
-                    />
-                    <RaisedButton label='Search'/>
-                </ToolbarGroup>
+                {/* {this.state.searchResult.indexOf("test") >=0 && <Redirect to="/songs" push/>} */}
+                <form onSubmit={(e) => this.search(e)}>
+                    <ToolbarGroup>                    
+                        <TextField
+                            hintText='Search'
+                            className='SearchField'
+                            value={this.state.searchValue}
+                            onChange={(e,v) => this.setState({searchValue: v})}
+                        />
+                        <RaisedButton label='Search' type="submit"/>
+                            {/* {this.state.searchResult == true && <Redirect to="/songs" push/>} */}                    
+                    </ToolbarGroup>
+                </form>
                 <ToolbarGroup>
                     <RaisedButton 
                         className = 'nav-items' 
