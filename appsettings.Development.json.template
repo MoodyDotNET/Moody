@@ -1,0 +1,12 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "MoodyDatabase": "Server=localhost;Database=Moody;User ID=sa;Password=123"
+  }
+}

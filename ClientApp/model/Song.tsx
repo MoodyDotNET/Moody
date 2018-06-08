@@ -3,25 +3,25 @@ import Artist from "./Artist";
 import Administrator from "./Administrator";
 
 export default interface Song {
-    SongCode: number;
-    Title: string;
-    Subtitle: string;
-    Rating: number;
-    ListeningFrequency: number;
-    ContributingArtist: number;
-    AlbumId: number;
-    DateReleased: Date;
-    LastModifyAt: Date;
-    LastModifyBy: number;
-    Composer: number;
-    LyricCode: string;
-    CoverLink: string;
-    Available: boolean;
-    Length: number;
+    songCode: number;
+    title: string;
+    subtitle: string;
+    rating: number;
+    listeningFrequency: number;
+    contributingArtist: number;
+    albumId: number;
+    dateReleased: Date;
+    lastModifyAt: Date;
+    lastModifyBy: number;
+    composer: number;
+    lyricCode: string;
+    coverLink: string;
+    available: boolean;
+    length: number;
 
-    Album: Album;
-    ComposerNavigation: Artist;
-    ContributingArtistNavigation: Artist;
-    LastModifyByNavigation: Administrator;
+    album: Album;
+    composerNavigation: Artist;
+    contributingArtistNavigation: Artist;
+    lastModifyByNavigation: Administrator;
     // Tag: ICollection;
 }

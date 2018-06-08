@@ -1,0 +1,10 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "MoodyDatabase": "Server=localhost;Database=Moody;User ID=sa;Password=123"
+  }
+}
