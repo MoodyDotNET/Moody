@@ -1,9 +1,17 @@
 import * as React from "react";
 import { TextField, FlatButton, RaisedButton, Table, TableHeader, TableRow, TableHeaderColumn, TableBody, TableRowColumn, Paper, DatePicker, SelectField, MenuItem } from "material-ui";
 import Song from "../../model/Song";
+import Artist from "../../model/Artist";
+import Album from "../../model/Album";
+import Producer from "../../model/Producer";
+import Category from "../../model/Category";
 
 interface AdminManageSongState {
     songs: Song[];
+    artists: Artist[];
+    albums: Album[];
+    producers: Producer[],
+    categories: Category[],
     loading: boolean;
     selected: Song | null;
 }
@@ -12,8 +20,28 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
     constructor(props: {}) {
         super(props)
 
-        this.state = { songs: [], loading: true, selected: null };
+        this.state = { songs: [], artists: [], albums: [], producers: [], categories: [], loading: true, selected: null };
 
+        fetch('/api/artist/all')
+            .then(response => response.json() as Promise<Artist[]>)
+            .then(data => {
+                this.setState({ artists: data });
+            });
+        fetch('/api/album/all')
+            .then(response => response.json() as Promise<Album[]>)
+            .then(data => {
+                this.setState({ albums: data });
+            });
+        fetch('/api/producer/all')
+            .then(response => response.json() as Promise<Producer[]>)
+            .then(data => {
+                this.setState({ producers: data });
+            });
+        fetch('/api/category/all')
+            .then(response => response.json() as Promise<Category[]>)
+            .then(data => {
+                this.setState({ categories: data });
+            });
         fetch('/api/playmusic/all')
             .then(response => response.json() as Promise<Song[]>)
             .then(data => {
@@ -33,7 +61,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
         return (
             <div>
                 <div>
-                    <h2>Songs management</h2>
+                    <h2>Manage Song</h2>
                 </div>
                 <div className="row">
                     <div className="col-lg-4 col-md-12">
@@ -80,11 +108,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                             }
                                         }))
                                     }}>
-                                        <MenuItem value={1} primaryText="Never" />
-                                        <MenuItem value={2} primaryText="Every Night" />
-                                        <MenuItem value={3} primaryText="Weeknights" />
-                                        <MenuItem value={4} primaryText="Weekends" />
-                                        <MenuItem value={5} primaryText="Weekly" />
+                                        {this.state.albums.map(album => <MenuItem value={album.albumId} primaryText={album.album1} />)}
                                     </SelectField>
                                 </td>
                             </tr>
@@ -102,16 +126,12 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                             }
                                         }))
                                     }}>
-                                        <MenuItem value={1} primaryText="Never" />
-                                        <MenuItem value={2} primaryText="Every Night" />
-                                        <MenuItem value={3} primaryText="Weeknights" />
-                                        <MenuItem value={4} primaryText="Weekends" />
-                                        <MenuItem value={5} primaryText="Weekly" />
+                                        {this.state.artists.map(artist => <MenuItem value={artist.artistCode} primaryText={artist.firstName + ' ' + artist.middleName + ' ' + artist.lastName} />)}
                                     </SelectField>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Composer</td>
+                                <td>Producer</td>
                                 <td>
                                     <SelectField 
                                     floatingLabelText="Composer" 
@@ -124,11 +144,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                             }
                                         }))
                                     }}>
-                                        <MenuItem value={1} primaryText="Never" />
-                                        <MenuItem value={2} primaryText="Every Night" />
-                                        <MenuItem value={3} primaryText="Weeknights" />
-                                        <MenuItem value={4} primaryText="Weekends" />
-                                        <MenuItem value={5} primaryText="Weekly" />
+                                        {this.state.producers.map(producer => <MenuItem value={producer.producerCode} primaryText={producer.companyName} />)}
                                     </SelectField>
                                 </td>
                             </tr>
@@ -181,6 +197,24 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                                 }))
                                             }
                                         } } />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Categories</td>
+                                <td>
+                                    <SelectField 
+                                    floatingLabelText="Categories" 
+                                    value={this.state.selected != null ? this.state.selected.tag : ''} 
+                                    onChange={(e, i, v) => {
+                                        this.setState(prev => ({
+                                            selected: {
+                                                ...prev.selected as Song,
+                                                tag: v
+                                            }
+                                        }))
+                                    }}>
+                                        {this.state.categories.map(category => <MenuItem value={category.tagCode} primaryText={category.tagName} />)}
+                                    </SelectField>
                                 </td>
                             </tr>
                         </table>
