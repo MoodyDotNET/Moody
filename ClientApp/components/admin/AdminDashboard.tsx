@@ -8,6 +8,7 @@ import { AdminManageArtist } from './AdminManageArtist';
 import { AdminManageUser } from './AdminManageUser';
 import { AdminManagePassword } from './AdminManagePassword';
 import { AdminManageProfile } from './AdminManageProfile';
+import { AdminManageCategory } from './AdminManageCategory';
 
 interface AdminDashboardState {
     admin: Administrator[],
@@ -84,6 +85,9 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
             case 'artist':
                 return <AdminManageArtist/>
                     
+            case 'category':
+                return <AdminManageCategory/>
+
             case 'user':
                 return <AdminManageUser/>
         }
@@ -103,6 +107,7 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
                                 <ListItem onClick={ () => this.setState({activeTab: 'song'}) }>Songs</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'album'}) }>Album</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'artist'}) }>Artists</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'category'}) }>Categories</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'user'}) }>Users</ListItem>,
                                 <ListItem onClick={ () => this.logout() }>Log Out</ListItem>
                             ]}

@@ -15,5 +15,33 @@ namespace moody.Controllers
         {
             return db.Category;
         }
+        
+        [HttpPost("[action]")]
+        [AdminFilter]
+        public bool insert(MoodyContext db, [FromBody]Category category)
+        {
+            db.Category.Add(new Category{TagName=category.TagName});
+            db.SaveChanges();
+            return true;
+        }
+        
+        [HttpPut("[action]")]
+        [AdminFilter]
+        public bool update(MoodyContext db, [FromBody]Category category)
+        {
+            Category t = db.Category.Where(c => c.TagCode == category.TagCode).First();
+            t.TagName = category.TagName;
+            db.SaveChanges();
+            return true;
+        }
+        
+        [HttpDelete("[action]")]
+        [AdminFilter]
+        public bool delete(MoodyContext db, [FromBody]Category category)
+        {
+            db.Category.Remove(db.Category.Where(c => c.TagCode == category.TagCode).First());            
+            db.SaveChanges();
+            return true;
+        }
     }
 }

@@ -153,9 +153,8 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 <td>
                                     <DatePicker 
                                         style={{display: 'inline'}}
-                                        hintText="Released date" 
+                                        hintText="Change released date" 
                                         mode="landscape"
-                                        value={this.state.selected != null ? this.state.selected.dateReleased : undefined}
                                         onChange={(na, date) => {
                                             this.setState(prev => ({
                                                 selected: {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField, FlatButton, RaisedButton, Table, TableHeader, TableRow, TableHeaderColumn, TableBody, TableRowColumn, Paper, DatePicker, SelectField, MenuItem } from "material-ui";
+import { TextField, FlatButton, RaisedButton, Table, TableHeader, TableRow, TableHeaderColumn, TableBody, TableRowColumn, Paper, DatePicker, SelectField, MenuItem, Dialog } from "material-ui";
 import Song from "../../model/Song";
 import Artist from "../../model/Artist";
 import Album from "../../model/Album";
@@ -11,14 +11,19 @@ interface AdminManageAlbumState {
     albums: Album[];
     loading: boolean;
     selected: Album | null;
+    confirming: boolean;
 }
 
 export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState> {
     constructor(props: {}) {
         super(props)
 
-        this.state = { albums: [], loading: true, selected: null };
+        this.state = { albums: [], loading: true, selected: null, confirming: false };
 
+        this.reload();
+    }
+
+    private reload() {
         fetch('/api/album/all')
             .then(response => response.json() as Promise<Album[]>)
             .then(data => {
@@ -26,7 +31,7 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
             });
     }
 
-    private updateAlbum(e: React.MouseEvent<{}>) {
+    private update(e: React.MouseEvent<{}>) {
         fetch('/api/album/update', {
             method: 'PUT',
             body: JSON.stringify(this.state.selected),
@@ -36,10 +41,23 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
             credentials: 'same-origin'
         }).then(res => res.json())
           .catch(error => console.error('Error:', error))
-          .then(response => console.log('Success:', response));
+          .then(response => this.reload());
     }
 
-    private addAlbum(e: React.MouseEvent<{}>) {
+    private delete() {
+        fetch('/api/album/delete', {
+            method: 'DELETE',
+            body: JSON.stringify(this.state.selected),
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        }).then(res => res.json())
+          .catch(error => console.error('Error:', error))
+          .then(response => this.reload());
+    }
+
+    private insert(e: React.MouseEvent<{}>) {
         fetch('/api/album/insert', {
             method: 'POST',
             body: JSON.stringify(this.state.selected),
@@ -49,13 +67,13 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
             credentials: 'same-origin'
         }).then(res => res.json())
           .catch(error => console.error('Error:', error))
-          .then(response => console.log('Success:', response));
+          .then(response => this.reload());
     }
 
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.renderAlbums();
+            : this.renderTable();
 
         return (
             <div>
@@ -98,9 +116,8 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                                 <td>
                                     <DatePicker 
                                         style={{display: 'inline'}}
-                                        hintText="Released date" 
+                                        hintText="Change released date" 
                                         mode="landscape"
-                                        value={this.state.selected != null ? this.state.selected.dateReleased : undefined}
                                         onChange={(na, date) => {
                                             this.setState(prev => ({
                                                 selected: {
@@ -112,9 +129,9 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                                 </td>
                             </tr>
                         </table>
-                        <RaisedButton label="Add" onClick={(e) => this.addAlbum(e) } backgroundColor={blue400} labelColor={white}/>
-                        <RaisedButton label="Update" onClick={(e) => this.updateAlbum(e) } />
-                        <RaisedButton label="Delete" onClick={(e) => this.addAlbum(e) } backgroundColor={orange400} labelColor={white}/>
+                        <RaisedButton label="Add" onClick={(e) => this.insert(e) } backgroundColor={blue400} labelColor={white}/>
+                        <RaisedButton label="Update" onClick={(e) => this.update(e) } />
+                        <RaisedButton label="Delete" onClick={(e) => this.setState({confirming: true}) } backgroundColor={orange400} labelColor={white}/>
                     </div>
                     <div className="col-lg-8 col-md-12">
                         <Paper style={{padding: "50px"}}>
@@ -122,18 +139,19 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                         </Paper>
                     </div>
                 </div>
+                { this.renderConfirm() }
             </div>
         );
     }
 
-    private selectSong(rows: number[] | "all") {
+    private selectRow(rows: number[] | "all") {
         var pos : number = rows[0] as number;
         this.setState({selected: this.state.albums[pos]})
     }
     
-    private renderAlbums() {
+    private renderTable() {
         return (
-            <Table onRowSelection={ (rows) => this.selectSong(rows) }>
+            <Table onRowSelection={ (rows) => this.selectRow(rows) }>
                 <TableHeader>
                     <TableRow>
                         <TableHeaderColumn>Title</TableHeaderColumn>
@@ -152,5 +170,44 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                 </TableBody>
             </Table>
         );
+    }
+
+    private confirmYes() {
+        this.delete();
+        this.setState({confirming: false});
+    }
+
+    private confirmNo() {
+        this.setState({confirming: false});        
+    }
+
+    private renderConfirm() {
+        const actions = [
+            <FlatButton
+              label="Yes"
+              primary={true}
+              onClick={() => this.confirmYes()}
+            />,
+            <FlatButton
+              label="No"
+              primary={true}
+              keyboardFocused={true}
+              onClick={() => this.confirmNo()}
+            />,
+          ];
+
+        return (
+            <div>
+              <Dialog
+                title="Confirm"
+                actions={actions}
+                modal={false}
+                open={this.state.confirming}
+                onRequestClose={() => this.setState({confirming: false})}
+              >
+                { this.state.selected != null ? 'Are you sure you want to delete album "' + this.state.selected.album1 + '"' : 'No album selected!'}
+              </Dialog>
+            </div>
+          );
     }
 }
