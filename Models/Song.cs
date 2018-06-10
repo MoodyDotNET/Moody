@@ -25,7 +25,7 @@ namespace moody.Models
         public string LyricCode { get; set; }
         public string CoverLink { get; set; }
         public bool Available { get; set; }
-        public TimeSpan? Length { get; set; }
+        public int? Length { get; set; }
 
         public Album Album { get; set; }
         public Artist ComposerNavigation { get; set; }

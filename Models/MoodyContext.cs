@@ -80,8 +80,6 @@ namespace moody.Models
             {
                 entity.HasKey(e => e.ArtistCode);
 
-                entity.Property(e => e.Biography).HasMaxLength(500);
-
                 entity.Property(e => e.BirthDate).HasColumnType("datetime");
 
                 entity.Property(e => e.CoverLink)
@@ -93,8 +91,6 @@ namespace moody.Models
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Introduce).HasMaxLength(100);
 
                 entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
 
@@ -218,8 +214,6 @@ namespace moody.Models
                     .HasDefaultValueSql("(((1)/(1))/(1900))");
 
                 entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
-
-                entity.Property(e => e.Length).HasColumnType("time(0)");
 
                 entity.Property(e => e.ListeningFrequency).HasDefaultValueSql("((0))");
 

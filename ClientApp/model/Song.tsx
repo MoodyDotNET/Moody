@@ -2,6 +2,7 @@ import Album from "./Album";
 import Artist from "./Artist";
 import Administrator from "./Administrator";
 import Category from "./Category";
+import Tag from "./Tag";
 
 export default interface Song {
     songCode: number;
@@ -24,5 +25,5 @@ export default interface Song {
     composerNavigation: Artist;
     contributingArtistNavigation: Artist;
     lastModifyByNavigation: Administrator;
-    tag: Category[];
+    tag: Tag[];
 }
