@@ -217,9 +217,8 @@ namespace moody.Models
 
                 entity.Property(e => e.ListeningFrequency).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.LyricCode)
+                entity.Property(e => e.Lyric)
                     .IsRequired()
-                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasDefaultValueSql("('N/A')");
 

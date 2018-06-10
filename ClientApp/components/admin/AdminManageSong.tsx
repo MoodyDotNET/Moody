@@ -12,7 +12,6 @@ interface AdminManageSongState {
     songs: Song[];
     artists: Artist[];
     albums: Album[];
-    producers: Producer[],
     categories: Category[],
     loading: boolean;
     confirming: boolean;
@@ -23,7 +22,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
     constructor(props: {}) {
         super(props)
 
-        this.state = { songs: [], artists: [], albums: [], producers: [], categories: [], loading: true, confirming: false, selected: null };
+        this.state = { songs: [], artists: [], albums: [], categories: [], loading: true, confirming: false, selected: null };
 
         fetch('/api/artist/all')
             .then(response => response.json() as Promise<Artist[]>)
@@ -34,11 +33,6 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
             .then(response => response.json() as Promise<Album[]>)
             .then(data => {
                 this.setState({ albums: data });
-            });
-        fetch('/api/producer/all')
-            .then(response => response.json() as Promise<Producer[]>)
-            .then(data => {
-                this.setState({ producers: data });
             });
         fetch('/api/category/all')
             .then(response => response.json() as Promise<Category[]>)
@@ -173,7 +167,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Producer</td>
+                                <td>Composer</td>
                                 <td>
                                     <SelectField 
                                     floatingLabelText="Composer" 
@@ -186,7 +180,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                             }
                                         }))
                                     }}>
-                                        {this.state.producers.map(producer => <MenuItem value={producer.producerCode} primaryText={producer.companyName} />)}
+                                        {this.state.artists.map(artist => <MenuItem value={artist.artistCode} primaryText={artist.firstName + ' ' + artist.middleName + ' ' + artist.lastName} />)}
                                     </SelectField>
                                 </td>
                             </tr>
@@ -295,7 +289,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                         <TableHeaderColumn>Title</TableHeaderColumn>
                         <TableHeaderColumn>Artist</TableHeaderColumn>
                         <TableHeaderColumn>Album</TableHeaderColumn>
-                        <TableHeaderColumn>Length</TableHeaderColumn>
+                        <TableHeaderColumn>Composer</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody deselectOnClickaway={false}>
@@ -304,7 +298,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                         <TableRowColumn>{ song.title }</TableRowColumn>
                         <TableRowColumn>{ song.contributingArtist != null ? song.contributingArtistNavigation.firstName + ' ' + song.contributingArtistNavigation.middleName + ' ' + song.contributingArtistNavigation.lastName : '' }</TableRowColumn>
                         <TableRowColumn>{ song.album != null ? song.album.album1 : '' }</TableRowColumn>
-                        <TableRowColumn>{ song.length }s</TableRowColumn>
+                        <TableRowColumn>{ song.composerNavigation != null ? song.composerNavigation.firstName + ' ' + song.composerNavigation.middleName + ' ' + song.composerNavigation.lastName : '' }</TableRowColumn>
                     </TableRow>
                 )}
                 </TableBody>

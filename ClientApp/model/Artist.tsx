@@ -1,5 +1,6 @@
 import Administrator from "./Administrator";
 import Song from "./Song";
+import Producer from "./Producer";
 
 export default interface Artist {
     artistCode: number;
@@ -17,6 +18,7 @@ export default interface Artist {
     band: number;
 
     bandNavigation: Artist;
+    producerCodeNavigation: Producer;
     lastModifyByNavigation: Administrator;
     artist: Artist;
     song: Song[];

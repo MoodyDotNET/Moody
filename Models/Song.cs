@@ -22,7 +22,7 @@ namespace moody.Models
         public DateTime? LastModifyAt { get; set; }
         public int? LastModifyBy { get; set; }
         public int Composer { get; set; }
-        public string LyricCode { get; set; }
+        public string Lyric { get; set; }
         public string CoverLink { get; set; }
         public bool Available { get; set; }
         public int? Length { get; set; }

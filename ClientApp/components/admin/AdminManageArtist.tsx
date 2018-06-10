@@ -9,6 +9,7 @@ import { blue400, white, orange400 } from "material-ui/styles/colors";
 
 interface AdminManageArtistState {
     artists: Artist[];
+    producers: Producer[];
     loading: boolean;
     confirming: boolean;
     selected: Artist | null;
@@ -18,8 +19,14 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
     constructor(props: {}) {
         super(props)
 
-        this.state = { artists: [], loading: true, selected: null, confirming: false };
+        this.state = { artists: [], producers: [], loading: true, selected: null, confirming: false };
 
+
+        fetch('/api/producer/all')
+            .then(response => response.json() as Promise<Producer[]>)
+            .then(data => {
+                this.setState({ producers: data, loading: false });
+            });
         this.reload();
     }
 
@@ -172,6 +179,24 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                                 </td>
                             </tr>
                             <tr>
+                                <td>Producer</td>
+                                <td>
+                                    <SelectField 
+                                    floatingLabelText="Producer" 
+                                    value={this.state.selected != null ? this.state.selected.producerCode : ''} 
+                                    onChange={(e, i, v) => {
+                                        this.setState(prev => ({
+                                            selected: {
+                                                ...prev.selected as Artist,
+                                                producerCode: v
+                                            }
+                                        }))
+                                    }}>
+                                        {this.state.producers.map(producer => <MenuItem value={producer.producerCode} primaryText={producer.companyName} />)}
+                                    </SelectField>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Birthday</td>
                                 <td>
                                     <DatePicker 
@@ -215,6 +240,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                 <TableHeader>
                     <TableRow>
                         <TableHeaderColumn>Name</TableHeaderColumn>
+                        <TableHeaderColumn>Producer</TableHeaderColumn>
                         <TableHeaderColumn>Introduce</TableHeaderColumn>
                         <TableHeaderColumn>Birthday</TableHeaderColumn>
                     </TableRow>
@@ -223,6 +249,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                 {this.state.artists.map(artist =>
                     <TableRow key={ artist.artistCode } selected={ artist == this.state.selected }>
                         <TableRowColumn>{ artist.firstName + ' ' + artist.middleName + ' ' + artist.lastName }</TableRowColumn>
+                        <TableRowColumn>{ artist.producerCodeNavigation != null ? artist.producerCodeNavigation.companyName : '' }</TableRowColumn>
                         <TableRowColumn>{ artist.introduce }</TableRowColumn>
                         <TableRowColumn>{ artist.birthDate }</TableRowColumn>
                     </TableRow>

@@ -27,7 +27,8 @@ namespace moody.Controllers
                 Biography = artist.Biography,
                 Introduce = artist.Introduce,
                 Band = artist.Band,
-                BirthDate = artist.BirthDate
+                BirthDate = artist.BirthDate,
+                ProducerCode = artist.ProducerCode
             });
             db.SaveChanges();
             return true;
@@ -45,6 +46,7 @@ namespace moody.Controllers
             t.Introduce = artist.Introduce;
             t.Band = artist.Band;
             t.BirthDate = artist.BirthDate;
+            t.ProducerCode = artist.ProducerCode;
             db.SaveChanges();
             return true;
         }
