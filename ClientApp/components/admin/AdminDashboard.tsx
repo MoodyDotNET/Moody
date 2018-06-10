@@ -5,10 +5,10 @@ import Administrator from '../../model/Administrator';
 import { AdminManageSong } from './AdminManageSong';
 import { AdminManageAlbum } from './AdminManageAlbum';
 import { AdminManageArtist } from './AdminManageArtist';
-import { AdminManageUser } from './AdminManageUser';
 import { AdminManagePassword } from './AdminManagePassword';
 import { AdminManageProfile } from './AdminManageProfile';
 import { AdminManageCategory } from './AdminManageCategory';
+import { AdminManageProducer } from './AdminManageProducer';
 
 interface AdminDashboardState {
     admin: Administrator[],
@@ -84,12 +84,15 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
                         
             case 'artist':
                 return <AdminManageArtist/>
+                        
+            case 'producer':
+                return <AdminManageProducer/>
                     
             case 'category':
                 return <AdminManageCategory/>
 
-            case 'user':
-                return <AdminManageUser/>
+            // case 'user':
+            //     return <AdminManageUser/>
         }
     }
 
@@ -107,8 +110,8 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
                                 <ListItem onClick={ () => this.setState({activeTab: 'song'}) }>Songs</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'album'}) }>Album</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'artist'}) }>Artists</ListItem>,
+                                <ListItem onClick={ () => this.setState({activeTab: 'producer'}) }>Producer</ListItem>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'category'}) }>Categories</ListItem>,
-                                <ListItem onClick={ () => this.setState({activeTab: 'user'}) }>Users</ListItem>,
                                 <ListItem onClick={ () => this.logout() }>Log Out</ListItem>
                             ]}
                             initiallyOpen
