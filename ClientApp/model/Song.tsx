@@ -16,7 +16,7 @@ export default interface Song {
     lastModifyAt: Date;
     lastModifyBy: number;
     composer: number;
-    lyricCode: string;
+    lyric: string;
     coverLink: string;
     available: boolean;
     length: number;

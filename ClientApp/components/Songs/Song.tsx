@@ -8,8 +8,8 @@ const style={
         opacity:0.8,
     },
     title:{
-        // height:'7vh',
-        // padding:'0px 16px',
+        height:'7vh',
+        padding:'0px 16px',
     },
     cover:{
         textAlign:'center',
@@ -28,7 +28,36 @@ const style={
         borderRadius: 0,
     }
 }
-export class Song extends React.Component<RouteComponentProps<{}>,{}>{
+interface Isong {
+    songInfo: any,
+    mp3FilePath: any,
+    
+}
+
+export class Song extends React.Component<RouteComponentProps<{}>,Isong>{
+    constructor(props: RouteComponentProps<{}>){
+        super(props);
+        this.state= {
+            songInfo: {},
+            mp3FilePath:""
+        }
+
+        var paramURL:any = this.props.match.params;
+        var songId:string = paramURL.songId; 
+        fetch(`api/song/get?id=${songId}`)
+        .then(response => response.json() as Promise<any>)
+        .then(data =>{
+            this.setState({
+                songInfo:data,
+                mp3FilePath:"mp3/"+songId+".mp3"              
+            })  
+            var aud = this.refs.audio as HTMLAudioElement;
+            aud.load();
+                      
+        })
+       
+    }
+    
     public render(){
         return(
             <div className='songs-list sections' style={style.background}>
@@ -37,17 +66,22 @@ export class Song extends React.Component<RouteComponentProps<{}>,{}>{
                         <div className='row justify-content-center'>
                             <div className="col-11 col-sm-8">
                                 <Card style={style.card}>
-                                    <CardHeader title="Prototype"/>
+                                    <CardHeader title="test when calling API"/>
                                     <CardMedia
                                         overlay={
-                                            <audio controls style={style.audio}>
-                                                <source src="mp3/Introducing-Me.mp3" type="audio/mpeg"/>
+                                            <audio controls style={style.audio} ref="audio">
+                                                <source src={this.state.mp3FilePath} type="audio/mpeg"/>
                                             </audio>
                                         }
                                     >
                                         <div style={style.cover}>Cover</div>
                                     </CardMedia>
-                                    <CardTitle style={style.title} title='Song title' actAsExpander={true} showExpandableButton={true}/>
+                                    <CardTitle 
+                                        style={style.title} 
+                                        title={`${this.state.songInfo.title} - ${this.state.songInfo.subtitle}`} 
+                                        actAsExpander={true} 
+                                        showExpandableButton={true}
+                                    />
                                     <CardText style={style.description} expandable={true}>
                                         By: artist<br/>
                                         Date released: date<br/>

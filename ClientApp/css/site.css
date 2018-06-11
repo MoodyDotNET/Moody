@@ -38,9 +38,7 @@ body {
 /*footer*/
 .footer {
     color:white;
-    height:5vh;
-    position: relative;
-    background-color: rgba(41, 48, 48, 0.85);
+    background-color: rgba(41, 48, 48, 1);
 }
 
 /* home style */

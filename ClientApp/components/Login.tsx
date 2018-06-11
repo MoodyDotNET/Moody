@@ -34,6 +34,7 @@ export class Login extends React.Component<any, LoginState> {
                 });
                 this.props.closeLoginForm();
                 this.props.getUserName(this.state.username);
+                this.props.checkLogin(true);
             } else {
                 this.setState({
                     message: 'Incorrect username or password!',

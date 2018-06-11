@@ -1,13 +1,11 @@
 import * as React from 'react';
-//import { RouteComponentProps } from 'react-router';
-//import { Link } from 'react-router-dom';
-import { Link, NavLink, Redirect } from 'react-router-dom';
+import { Link, NavLink, Redirect,BrowserRouter } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton, FontIcon, Dialog } from 'material-ui';
-import {white, red100, transparent} from 'material-ui/styles/colors';
+import {white, red100, transparent, pink100} from 'material-ui/styles/colors';
 import { Login } from './Login';
 import {Register} from './Register';
 import {SongsList} from './Songs/SongsList';
-
+import { Logout } from './logout';
 
 const navStyle = {
     backgroundColor:transparent
@@ -18,14 +16,11 @@ interface Ihome {
     openRegis: boolean,
     user: string,
     searchValue:string,
-    searchResult:Array<any>,
+    isRedirect:boolean,
+    isLogin:boolean
 }
 
-interface passedProp extends React.Props<any>{
-    LoginSuccess:any
-}
-
-export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
+export class MoodyMenuBar extends React.Component<{},Ihome> {
     constructor(props:any){
         super(props);
         this.state={
@@ -33,26 +28,17 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
             openRegis:false,
             user:"login",
             searchValue:"",
-            searchResult:[],
-            LoginSuccess:function(){}
+            isRedirect:false,
+            isLogin:false,
         };
     }
 
     private search(event: React.FormEvent<HTMLFormElement>){
-        fetch(`api/playMusic/listSong?searchField=a`)
-        // fetch(`api/playMusic/listSong?searchField=${this.state.searchValue}`)
-        .then(response => response.json() as Promise<any>)
-        .then(data => {
-            console.log(data);
-            this.setState({searchResult:data})
-            // if(data == null) {
-            //     console.log("null data")
-            // }
-            // else {
-            //     console.log(data);
-            //     this.setState({searchResult:true})
-            // }
-        })
+        if(this.state.searchValue.length >0){
+            this.setState({isRedirect:true});
+        }        
+        event.preventDefault();
+        return false;
     }
       loginOpen = () => {
         this.setState({openLogin: true});
@@ -76,14 +62,18 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
           })
       }
 
+      isLogin(login:boolean){
+          this.setState({
+              isLogin:login
+          })
+      }
+
     public render(){
-        
         return (
             <Toolbar style={navStyle}>
                 <ToolbarGroup firstChild={true}>
                     <RaisedButton label='Moody' primary={true} containerElement={<Link to="/"></Link>}/>
                 </ToolbarGroup>
-                {/* {this.state.searchResult.indexOf("test") >=0 && <Redirect to="/songs" push/>} */}
                 <form onSubmit={(e) => this.search(e)}>
                     <ToolbarGroup>                    
                         <TextField
@@ -92,9 +82,13 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
                             value={this.state.searchValue}
                             onChange={(e,v) => this.setState({searchValue: v})}
                         />
-                        <RaisedButton label='Search' type="submit"/>
-                            {/* {this.state.searchResult == true && <Redirect to="/songs" push/>} */}                    
+                        <RaisedButton 
+                            label='Search' 
+                            type="submit"                           
+                        />
+                        
                     </ToolbarGroup>
+                    {this.state.isRedirect == true && <Redirect to={`/songs/${this.state.searchValue}`} push/>}
                 </form>
                 <ToolbarGroup>
                     <RaisedButton 
@@ -116,7 +110,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
                     <RaisedButton 
                         className = 'nav-items' 
                         label='Songs'
-                        containerElement={<Link to="/songs"/>}
+                        containerElement={<Link to="/songs/''"></Link>}
                         primary={true}
                     />
                     <RaisedButton 
@@ -126,28 +120,40 @@ export class MoodyMenuBar extends React.Component<{},Ihome & passedProp> {
                     />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <IconButton tooltip={this.state.user} iconClassName="material-icons menu-icon" onClick={this.loginOpen}>
-                        person
+                    <IconButton 
+                        tooltip={this.state.user} 
+                        iconClassName="material-icons menu-icon" 
+                        onClick={this.loginOpen}
+                    >
+                        account_circle
                         <Dialog
                             modal={false}
                             open={this.state.openLogin}
                             onRequestClose = {this.loginClose}
                             className='login-dialog'
-                        >
-                            
-                            <Login closeLoginForm={this.loginClose} getUserName = {this.getUsername.bind(this)}/>
+                        >                    
+                            <Login 
+                                closeLoginForm={this.loginClose} 
+                                getUserName = {this.getUsername.bind(this)}
+                                checkLogin = {this.isLogin.bind(this)}    
+                            />
                         </Dialog>
                     </IconButton>
-                    <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
-                        personadd
-                        <Dialog
-                            modal={true}
-                            open = {this.state.openRegis}
-                            onRequestClose={this.registerClose}
-                        >
-                            <Register />
-                        </Dialog>
-                    </IconButton>                   
+                    {this.state.isLogin == false && 
+                        <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
+                            person_add
+                            <Dialog
+                                modal={true}
+                                open = {this.state.openRegis}
+                                onRequestClose={this.registerClose}
+                            >
+                                <Register />
+                            </Dialog>
+                        </IconButton>
+                    } 
+                    {this.state.isLogin == true && 
+                        <Logout />
+                    }                 
                 </ToolbarGroup>
             </Toolbar>
         );

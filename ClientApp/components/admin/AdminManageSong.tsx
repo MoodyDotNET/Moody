@@ -207,11 +207,11 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                     <TextField 
                                         hintText="Lyric" 
                                         multiLine={true}
-                                        value={this.state.selected != null ? this.state.selected.lyricCode : ''} 
+                                        value={this.state.selected != null ? this.state.selected.lyric : ''} 
                                         onChange={ (e, v) => this.setState(prev => ({
                                             selected: {
                                                 ...prev.selected as Song,
-                                                lyricCode: v
+                                                lyric: v
                                             }
                                         })) } />
                                 </td>

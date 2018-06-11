@@ -19,8 +19,8 @@ export const routes = (
         <Route path='/fetchdata' component={ FetchData } />
         <Route path='/home' component={ Home }/>
         <Route path='/user' component={ UserDashboard }/>
-        <Route path='/songs' component={ SongsList }/>
-        <Route path='/song' component={ Song }/>
+        <Route path='/songs/:searchResult' component={ SongsList }/>
+        <Route path='/song/:songId' component={ Song }/>
         <Route exact path='/admin' component={ AdminDashboard }/>
         <Route path='/admin/login' component={ AdminLogin }/>
         <Route path='/upload' component={ UploadFile }/>
