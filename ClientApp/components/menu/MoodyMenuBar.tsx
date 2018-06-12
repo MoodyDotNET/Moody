@@ -2,10 +2,12 @@ import * as React from 'react';
 import { Link, NavLink, Redirect,BrowserRouter } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton, FontIcon, Dialog } from 'material-ui';
 import {white, red100, transparent, pink100} from 'material-ui/styles/colors';
-import { Login } from './Login';
-import {Register} from './Register';
-import {SongsList} from './Songs/SongsList';
-import { Logout } from './logout';
+import { Login } from '../Login';
+import {Register} from '../Register';
+import {SongsList} from '../Songs/SongsList';
+import { Logout } from '../logout';
+import { MenuItem } from './menu-item';
+import { DropdownMenu } from './dropdownmenu';
 
 const navStyle = {
     backgroundColor:transparent
@@ -36,10 +38,13 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
     private search(event: React.FormEvent<HTMLFormElement>){
         if(this.state.searchValue.length >0){
             this.setState({isRedirect:true});
+            console.log("search1")
         }        
+        console.log("search2")
         event.preventDefault();
-        return false;
+        //return false;
     }
+    
       loginOpen = () => {
         this.setState({openLogin: true});
       };
@@ -68,12 +73,20 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
           })
       }
 
+      resetSearchValue(){
+          this.setState({
+              searchValue:""
+           });
+          console.log("reset search value");
+      }
+
     public render(){
         return (
             <Toolbar style={navStyle}>
                 <ToolbarGroup firstChild={true}>
-                    <RaisedButton label='Moody' primary={true} containerElement={<Link to="/"></Link>}/>
+                    <RaisedButton className="menu-brand" label='Moody' primary={true} containerElement={<Link to="/"></Link>}/>
                 </ToolbarGroup>
+                {/*search box*/}
                 <form onSubmit={(e) => this.search(e)}>
                     <ToolbarGroup>                    
                         <TextField
@@ -84,42 +97,23 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                         />
                         <RaisedButton 
                             label='Search' 
-                            type="submit"                           
+                            type="submit"
+                            onClick={this.resetSearchValue}                           
                         />
                         
                     </ToolbarGroup>
                     {this.state.isRedirect == true && <Redirect to={`/songs/${this.state.searchValue}`} push/>}
                 </form>
+                {/*drop down menu will be displayed at 1140px*/}
                 <ToolbarGroup>
-                    <RaisedButton 
-                        className = 'nav-items' 
-                        label='Home'
-                        containerElement={<Link to="/"></Link>}
-                        secondary={true}
-                    />
-                    <RaisedButton 
-                        className = 'nav-items' 
-                        label='Albums'
-                        primary={true}
-                    />                    
-                    <RaisedButton 
-                        className = 'nav-items' 
-                        label='Artists'
-                        primary={true}
-                    />
-                    <RaisedButton 
-                        className = 'nav-items' 
-                        label='Songs'
-                        containerElement={<Link to="/songs/''"></Link>}
-                        primary={true}
-                    />
-                    <RaisedButton 
-                        className = 'nav-items' 
-                        label='Playlists'
-                        primary={true}
-                    />
+                    <DropdownMenu />
+                </ToolbarGroup>
+                {/*normal menu items will be hidden at 1140px*/}
+                <ToolbarGroup>
+                    <MenuItem />
                 </ToolbarGroup>
                 <ToolbarGroup>
+                    {/*login button*/}
                     <IconButton 
                         tooltip={this.state.user} 
                         iconClassName="material-icons menu-icon" 
@@ -139,6 +133,8 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                             />
                         </Dialog>
                     </IconButton>
+
+                    {/*sign up button*/}
                     {this.state.isLogin == false && 
                         <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
                             person_add
