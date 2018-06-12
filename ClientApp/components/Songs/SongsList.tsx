@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader } from 'material-ui';
 import { blueGrey100, white } from 'material-ui/styles/colors';
-import { Song } from './Song';
 
 interface songInterface {
     songs: Array<any>,

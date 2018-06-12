@@ -34,7 +34,7 @@ interface Isong {
     
 }
 
-export class Song extends React.Component<RouteComponentProps<{}>,Isong>{
+export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong>{
     constructor(props: RouteComponentProps<{}>){
         super(props);
         this.state= {

@@ -4,7 +4,6 @@ import { Toolbar, ToolbarGroup, FlatButton, TextField, RaisedButton, IconButton,
 import {white, red100, transparent, pink100} from 'material-ui/styles/colors';
 import { Login } from '../Login';
 import {Register} from '../Register';
-import {SongsList} from '../Songs/SongsList';
 import { Logout } from '../logout';
 import { MenuItem } from './menu-item';
 import { DropdownMenu } from './dropdownmenu';
