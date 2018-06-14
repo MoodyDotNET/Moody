@@ -97,7 +97,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                         <RaisedButton 
                             label='Search' 
                             type="submit"
-                            onClick={this.resetSearchValue}                           
+                            // onClick={this.resetSearchValue}                           
                         />
                         
                     </ToolbarGroup>
