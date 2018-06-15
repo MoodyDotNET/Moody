@@ -15,11 +15,14 @@ export class UploadFile extends React.Component<RouteComponentProps<{}>, UploadF
         this.state = { filename: '', formdata: new FormData() };
     }
 
-    private upload(e:FormEvent<HTMLFormElement>) {
+    private upload(e: FormEvent<HTMLFormElement>) {
+        this.setState({
+            formdata: new FormData()
+        });
         var fileField : any = document.querySelector("#thefile");
         this.state.formdata.append('filename', this.state.filename);
         this.state.formdata.append('thefile', fileField.files[0]);
-        fetch('/api/upload', {
+        fetch('/api/Profile/changeImg', {
             method: 'PUT',
             body: this.state.formdata
             });
