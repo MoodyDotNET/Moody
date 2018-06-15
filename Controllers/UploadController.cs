@@ -14,17 +14,17 @@ using Microsoft.Net.Http.Headers;
 namespace moody.Controllers
 {
     [Route("api/[controller]")]
-    public class ProfileController : Controller
+    public class UploadController : Controller
     {
         private readonly IHostingEnvironment _environment;
 
-        public ProfileController(IHostingEnvironment environment)
+        public UploadController(IHostingEnvironment environment)
         {
             _environment = environment;
         }
 
-        [HttpPut("[action]")]
-        public string changeImg(string filename)
+        [HttpPut]
+        public string Index(string filename)
         {
             var newFileName = string.Empty;
             string PathDB = string.Empty;
@@ -37,7 +37,7 @@ namespace moody.Controllers
                 {
                     if (file.Length > 0)
                     {
-                        filename = Path.Combine(_environment.WebRootPath, "img") + $@"\{filename}.jpg";
+                        filename = Path.Combine(_environment.WebRootPath, "img") + $@"/{filename}.jpg";
 
                         using (FileStream fs = System.IO.File.Open(filename, FileMode.Create))
                         {
