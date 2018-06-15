@@ -1,6 +1,7 @@
 import * as React from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router-dom';
 
 const styles = {
   customWidth: {
@@ -22,13 +23,28 @@ export class DropdownMenu extends React.Component<{},IDropdown> {
 
   render() {
     return (
-      <div>
+      <div className="menu-item-sm">
         <DropDownMenu value={this.state.value} onChange={this.handleChange}>
-          <MenuItem value={1} primaryText="Home" />
-          <MenuItem value={2} primaryText="Albums" />
-          <MenuItem value={3} primaryText="Artists" />
-          <MenuItem value={4} primaryText="Songs" />
-          <MenuItem value={5} primaryText="Playlists" />
+          <MenuItem 
+            value={1} primaryText="Home" 
+            containerElement={<Link to="/"/>}
+          />
+          <MenuItem 
+            value={2} primaryText="Albums" 
+            containerElement={<Link to="/albumd"/>}
+          />
+          <MenuItem 
+            value={3} primaryText="Artists"
+            containerElement={<Link to="/artists"/>}
+          />
+          <MenuItem 
+            value={4} primaryText="Songs" 
+            containerElement={<Link to="/songs/''"/>}
+          />
+          <MenuItem 
+            value={5} primaryText="Playlists" 
+            containerElement={<Link to="/"/>}
+          />
         </DropDownMenu>
         
       </div>

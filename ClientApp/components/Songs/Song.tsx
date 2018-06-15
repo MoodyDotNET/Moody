@@ -5,7 +5,7 @@ import { blueGrey100, white } from 'material-ui/styles/colors';
 
 const style={
     card:{
-        opacity:0.8,
+        opacity:0.85,
     },
     title:{
         height:'7vh',
@@ -34,7 +34,7 @@ interface Isong {
     
 }
 
-export class Song extends React.Component<RouteComponentProps<{}>,Isong>{
+export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong>{
     constructor(props: RouteComponentProps<{}>){
         super(props);
         this.state= {
@@ -60,7 +60,7 @@ export class Song extends React.Component<RouteComponentProps<{}>,Isong>{
     
     public render(){
         return(
-            <div className='songs-list sections' style={style.background}>
+            <div className='bakcground-img-style sections' style={style.background}>
                 <div className='col-12'>
                     <div className='container'>
                         <div className='row justify-content-center'>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavMenu } from './NavMenu';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {MoodyMenuBar} from './MoodyMenuBar';
+import {MoodyMenuBar} from './menu/MoodyMenuBar';
 import { RouteComponentProps } from 'react-router';
 import {MoodyFooter} from './MoodyFooter';
 

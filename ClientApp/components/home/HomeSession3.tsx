@@ -67,7 +67,7 @@ export class HomeSession3 extends React.Component<{},{}>{
                         
                     </div>
                     <div>
-                        <NavLink to={'/home'}><p className='link'>More albums</p></NavLink>
+                        <NavLink to={'/albums'}><p className='link'>More albums</p></NavLink>
                     </div>
                 </div>
             </div>

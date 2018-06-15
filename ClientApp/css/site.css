@@ -26,6 +26,12 @@ body {
     margin-left:1px !important;
     margin-right:1px !important;
 }
+.menu-item-sm {
+    display: none;
+}
+.menu-item-sm div {
+    color:white !important;
+}
 .menu-icon {
     color:lightgray !important;
 }
@@ -35,6 +41,18 @@ body {
 .SearchField > div {
     color: #ccc !important;
 }
+@media screen and (max-width: 1140px) {
+    .navBar .menu-item-bg {display: none}
+    .navBar .menu-item-sm {display: block}
+}
+@media screen and (max-width:780px){
+    .SearchField {width:130px !important}
+}
+@media screen and (max-width:650px){
+    .SearchField {width:100px !important}
+    .menu-brand {display: none !important}
+}
+
 /*footer*/
 .footer {
     color:white;
@@ -136,7 +154,7 @@ body {
 
 /*section 3 : albums*/
 .section3 {
-    background-color: lavender;
+    background-color: ghostwhite;
     position: relative;
 }
 .section3 .album-wrapper{
@@ -173,7 +191,7 @@ body {
 .section4 .link {color:white !important;}
 
 /*songs-list page*/
-.songs-list{
+.bakcground-img-style {
     padding: 10vh 0vh;
     background-attachment: fixed;
     background-size: cover;

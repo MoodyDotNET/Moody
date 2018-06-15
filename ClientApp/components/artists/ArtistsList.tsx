@@ -4,12 +4,10 @@ import { RouteComponentProps } from 'react-router';
 import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader } from 'material-ui';
 import { blueGrey100, white } from 'material-ui/styles/colors';
 
-interface songInterface {
-    songs: Array<any>,
+interface artistInterface {
+    artists: Array<any>,
     loading:boolean
 }
-
-
 const style = {
     card: {
         opacity: 0.85,
@@ -28,7 +26,7 @@ const style = {
         height: '10vh'
     },
     background: {
-        backgroundImage: 'URL("/img/songBackground.jpg")',
+        backgroundImage: 'URL("/img/ArtistBackground.jpg")',
         minHeight:'92.5vh'
     },
     noResult: {
@@ -39,45 +37,17 @@ const style = {
 };
 
 
-export class SongsList extends React.Component<RouteComponentProps<{}>, songInterface>{
+export class ArtistsList extends React.Component<RouteComponentProps<{}>, artistInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { songs: [], loading:true }
+        this.state = { artists: [{code:1,name:"artist1",image:""}], loading:false }
         
-        const search:any = this.props.match.params;
-        var searchValue = document.getElementById("searchValue");
-        console.log(searchValue);
-
-        if(search != ''){
-            fetch(`api/song/search?searchField=${search.searchResult}`)
-            .then(response => response.json() as Promise<any>)
-            .then(data => {   
-                if(data != null){
-                    this.setState({ songs: data,loading:false });
-                }                           
-            })
-        }
-    }
-
-    public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
-        const search:any = nextProp.match.params;
-        
-        if(search != ''){
-            fetch(`api/song/search?searchField=${search.searchResult}`)
-            .then(response => response.json() as Promise<any>)
-            .then(data => {   
-                if(data != null){
-                    this.setState({ songs: data,loading:false });
-                    console.log(this.state.songs);
-                }                           
-            })
-        }
     }
 
     public render() {
         if(this.state.loading == true) {
             return (
-                <div className='bakcground-img-style sections' style={style.background}>
+                <div className='songs-list sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
@@ -91,37 +61,32 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
             )
         }
         else {
-            if(this.state.songs.length > 0)
+            if(this.state.artists.length > 0)
             {
                 return (
-                    <div className='songs-list sections' style={style.background}>
+                    <div className='bakcground-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row'>
-                                    {this.state.songs.map((song:any,index:number)=>
+                                    {this.state.artists.map((artist:any,index:number)=>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
                                                 <CardHeader title="Test with sample data json" />
                                                 <CardMedia
-                                                    overlay={<CardTitle style={style.title} title={song.title} />}
+                                                    overlay={<CardTitle style={style.title} title={artist.name} />}
                                                 >
-                                                    <div style={style.cover}>{song.cover}Cover</div>
+                                                    <div style={style.cover}>{artist.image}Cover</div>
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    By: artist<br />
-                                                    Date released: date<br />
-                                                    Album: <a>album name</a>
+                                                    Date of birth: date of birth<br />
+                                                    Band: <a>Band</a>
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton 
-                                                        label='Hear it'
+                                                        label='Read more'
                                                         containerElement={
-                                                            <Link to={`/song/${song.songCode}`}></Link>
+                                                            <Link to={`/artist/${artist.code}`}></Link>
                                                         }
-                                                        primary={true} 
-                                                    />
-                                                    <RaisedButton 
-                                                        label='Add to play list'
                                                         primary={true} 
                                                     />
                                                 </CardActions>
