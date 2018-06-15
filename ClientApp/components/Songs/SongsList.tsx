@@ -44,7 +44,23 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
     constructor(props: RouteComponentProps<{}>) {
         super(props);
         this.state = { songs: [], loading:true }
+        
         const search:any = this.props.match.params;
+        
+        if(search != ''){
+            fetch(`api/song/search?searchField=${search.searchResult}`)
+            .then(response => response.json() as Promise<any>)
+            .then(data => {   
+                if(data != null){
+                    this.setState({ songs: data,loading:false });
+                    console.log(this.state.songs);
+                }                           
+            })
+        }
+    }
+
+    public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
+        const search:any = nextProp.match.params;
         
         if(search != ''){
             fetch(`api/song/search?searchField=${search.searchResult}`)

@@ -36,7 +36,9 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
     private search(event: React.FormEvent<HTMLFormElement>){
         if(this.state.searchValue.length >0){
             this.setState({isRedirect:true});
-        }        
+        }
+        setTimeout(() => this.setState({isRedirect:false}), 1000);
+        
         event.preventDefault();
         return false;
     }
@@ -80,11 +82,14 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                             hintText='Search'
                             className='SearchField'
                             value={this.state.searchValue}
-                            onChange={(e,v) => this.setState({searchValue: v})}
+                            onChange={(e,v) => this.setState({
+                                searchValue: v,
+                                isRedirect: false
+                            })}
                         />
                         <RaisedButton 
                             label='Search' 
-                            type="submit"                           
+                            type="submit"
                         />
                         
                     </ToolbarGroup>
