@@ -4,12 +4,10 @@ import { RouteComponentProps } from 'react-router';
 import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader } from 'material-ui';
 import { blueGrey100, white } from 'material-ui/styles/colors';
 
-interface songInterface {
-    songs: Array<any>,
+interface albumInterface {
+    albums: Array<any>,
     loading:boolean
 }
-
-
 const style = {
     card: {
         opacity: 0.85,
@@ -28,7 +26,7 @@ const style = {
         height: '10vh'
     },
     background: {
-        backgroundImage: 'URL("/img/songBackground.jpg")',
+        backgroundImage: 'URL("/img/AlbumBackground.jpg")',
         minHeight:'92.5vh'
     },
     noResult: {
@@ -39,23 +37,11 @@ const style = {
 };
 
 
-export class SongsList extends React.Component<RouteComponentProps<{}>, songInterface>{
+export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { songs: [], loading:true }
-        const search:any = this.props.match.params;
-        var searchValue = document.getElementById("searchValue");
-        console.log(searchValue);
-
-        if(search != ''){
-            fetch(`api/song/search?searchField=${search.searchResult}`)
-            .then(response => response.json() as Promise<any>)
-            .then(data => {   
-                if(data != null){
-                    this.setState({ songs: data,loading:false });
-                }                           
-            })
-        }
+        this.state = { albums: [{code:1,name:"album1",image:""}], loading:false }
+        
     }
 
     public render() {
@@ -75,37 +61,32 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
             )
         }
         else {
-            if(this.state.songs.length > 0)
+            if(this.state.albums.length > 0)
             {
                 return (
                     <div className='songs-list sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row'>
-                                    {this.state.songs.map((song:any,index:number)=>
+                                    {this.state.albums.map((album:any,index:number)=>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
                                                 <CardHeader title="Test with sample data json" />
                                                 <CardMedia
-                                                    overlay={<CardTitle style={style.title} title={song.title} />}
+                                                    overlay={<CardTitle style={style.title} title={album.title} />}
                                                 >
-                                                    <div style={style.cover}>{song.cover}Cover</div>
+                                                    <div style={style.cover}>{album.cover}Cover</div>
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    By: artist<br />
                                                     Date released: date<br />
-                                                    Album: <a>album name</a>
+                                                    Description: <a>description</a>
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton 
                                                         label='Hear it'
                                                         containerElement={
-                                                            <Link to={`/song/${song.songCode}`}></Link>
+                                                            <Link to={`/album/${album.code}`}></Link>
                                                         }
-                                                        primary={true} 
-                                                    />
-                                                    <RaisedButton 
-                                                        label='Add to play list'
                                                         primary={true} 
                                                     />
                                                 </CardActions>

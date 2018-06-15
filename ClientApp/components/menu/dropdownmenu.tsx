@@ -31,11 +31,11 @@ export class DropdownMenu extends React.Component<{},IDropdown> {
           />
           <MenuItem 
             value={2} primaryText="Albums" 
-            containerElement={<Link to="/"/>}
+            containerElement={<Link to="/albumd"/>}
           />
           <MenuItem 
             value={3} primaryText="Artists"
-            containerElement={<Link to="/"/>}
+            containerElement={<Link to="/artists"/>}
           />
           <MenuItem 
             value={4} primaryText="Songs" 

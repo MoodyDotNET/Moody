@@ -37,11 +37,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
     private search(event: React.FormEvent<HTMLFormElement>){
         if(this.state.searchValue.length >0){
             this.setState({isRedirect:true});
-            console.log("search1")
-        }        
-        console.log("search2")
-        event.preventDefault();
-        //return false;
+        }       
     }
     
       loginOpen = () => {
@@ -72,12 +68,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
           })
       }
 
-      resetSearchValue(){
-          this.setState({
-              searchValue:""
-           });
-          console.log("reset search value");
-      }
+    
 
     public render(){
         return (
@@ -91,17 +82,18 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                         <TextField
                             hintText='Search'
                             className='SearchField'
+                            id="searchValue"
                             value={this.state.searchValue}
                             onChange={(e,v) => this.setState({searchValue: v})}
                         />
                         <RaisedButton 
                             label='Search' 
-                            type="submit"
-                            // onClick={this.resetSearchValue}                           
+                            type="submit"                   
                         />
                         
                     </ToolbarGroup>
                     {this.state.isRedirect == true && <Redirect to={`/songs/${this.state.searchValue}`} push/>}
+                    
                 </form>
                 {/*drop down menu will be displayed at 1140px*/}
                 <ToolbarGroup>

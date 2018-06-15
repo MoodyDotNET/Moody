@@ -15,11 +15,13 @@ export class MenuItem extends React.Component<{}>{
                     <RaisedButton 
                         className = 'nav-items' 
                         label='Albums'
+                        containerElement={<Link to="/albums"></Link>}
                         primary={true}
                     />                    
                     <RaisedButton 
                         className = 'nav-items' 
                         label='Artists'
+                        containerElement={<Link to="/artists"></Link>}
                         primary={true}
                     />
                     <RaisedButton 

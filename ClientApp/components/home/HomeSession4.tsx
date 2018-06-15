@@ -42,7 +42,7 @@ export class HomeSession4 extends React.Component<{},{}>{
                         </div>
                     </div>
                     <div>
-                        <NavLink to={'/home'}><p className='link'>More artists</p></NavLink>
+                        <NavLink to={'/artists'}><p className='link'>More artists</p></NavLink>
                     </div>
                 </div>
             </div>
