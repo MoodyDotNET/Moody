@@ -82,7 +82,7 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
                 <div className="col-12 col-md-3">
                     <List>
                         <ListItem 
-                            leftAvatar={ <Avatar src={this.state.avatarSrc} /> }
+                            leftAvatar={  <Avatar src={this.state.avatarSrc}/> }
                             nestedItems={[
                                 <Divider/>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'manage'}) }>Manage account</ListItem>,

@@ -137,11 +137,12 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                         <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
                             person_add
                             <Dialog
-                                modal={true}
+                                modal={false}
                                 open = {this.state.openRegis}
                                 onRequestClose={this.registerClose}
                             >
-                                <Register />
+                                <Register 
+                                    close={this.registerClose} />
                             </Dialog>
                         </IconButton>
                     } 

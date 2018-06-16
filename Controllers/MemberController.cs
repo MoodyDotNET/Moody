@@ -39,6 +39,24 @@ namespace moody.Controllers
             HttpContext.Session.Clear();
             return true;
         }
+        
+        [HttpPost("[action]")]
+        public bool insert(MoodyContext db, [FromBody]Member member)
+        {
+            member.Username = member.Username.Trim();
+            member.Password = member.Password.Trim();
+            if (member.Username == "" || member.Password == "")
+            {
+                return false;
+            }
+            if (db.Member.Any(m => m.Username == member.Username))
+            {
+                return false;
+            }
+            db.Member.Add(new Member {Username = member.Username, Password = member.Password});
+            db.SaveChanges();
+            return true;
+        }
 
         [HttpPut("[action]")]
         public bool update(MoodyContext db, [FromBody]Member member)

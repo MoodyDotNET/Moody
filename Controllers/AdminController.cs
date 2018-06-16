@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using moody.Extensions;
 using moody.Models;
 using Newtonsoft.Json;
 
@@ -52,6 +53,24 @@ namespace moody.Controllers
         [HttpGet("[action]")]
         public bool logout(MoodyContext db) {
             HttpContext.Session.Clear();
+            return true;
+        }
+
+        [HttpPut("[action]")]
+        public bool update(MoodyContext db, [FromBody]Administrator member)
+        {
+            Administrator logged = HttpContext.Session.Get<Administrator>("ADMIN");
+            if (logged.UserId != member.UserId)
+            {
+                return false;
+            }
+            Administrator t = db.Administrator.Where(a => a.UserId == a.UserId).First();
+            t.FirstName = member.FirstName;
+            t.MiidleName = member.MiidleName;
+            t.LastName = member.LastName;
+            t.Password = member.Password;
+            db.SaveChanges();
+            HttpContext.Session.Set<Administrator>("ADMIN", t);
             return true;
         }
     }

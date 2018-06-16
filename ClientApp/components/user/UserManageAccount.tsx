@@ -68,7 +68,7 @@ export class UserManageAccount extends React.Component<UserManageAccountProp, Us
                 </div>
                 <div>
                     <form onSubmit= { (e) => this.upload(e) }>
-                        <input id="thefile" type="file" style={{display: 'none'}}/>         
+                        <input id="thefile" type="file" style={{display: 'none'}}/>
                         <Avatar 
                             src={this.state.avatarSrc}
                             size={140} 
