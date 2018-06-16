@@ -7,6 +7,8 @@ import Producer from "../../model/Producer";
 import Category from "../../model/Category";
 import { white, blue400, orange400 } from "material-ui/styles/colors";
 import Tag from "../../model/Tag";
+import { AdminUploadPicture } from "./AdminUploadPicture";
+import { AdminUploadSong } from "./AdminUploadSong";
 
 interface AdminManageSongState {
     songs: Song[];
@@ -99,6 +101,17 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                 <div>
                     <h2>Manage Song</h2>
                 </div>
+                { this.state.selected != null &&
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <AdminUploadPicture filename={`img/song/${this.state.selected.songCode}.jpg`} />
+                        </div>
+                        <div className="col-md-6">
+                            <AdminUploadSong filename={`mp3/${this.state.selected.songCode}.mp3`} />
+                        </div>
+                    </div>
+                </div> }
                 <div className="row">
                     <div className="col-lg-4 col-md-12">
                         <table>

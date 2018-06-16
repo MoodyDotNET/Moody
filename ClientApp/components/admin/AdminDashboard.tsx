@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
-import { Paper, Card, List, ListItem, CardActions, RaisedButton, Avatar, Divider, CircularProgress } from 'material-ui';
+import { Paper, Card, List, ListItem, CardActions, RaisedButton, Avatar, Divider, CircularProgress, Dialog } from 'material-ui';
 import Administrator from '../../model/Administrator';
 import { AdminManageSong } from './AdminManageSong';
 import { AdminManageAlbum } from './AdminManageAlbum';
@@ -15,7 +15,7 @@ interface AdminDashboardState {
     activeTab: string,
     logged: boolean,
     loading: boolean,
-    avatarSrc: string
+    avatarSrc: string,
 }
 
 export class AdminDashboard extends React.Component<RouteComponentProps<{}>, AdminDashboardState> {

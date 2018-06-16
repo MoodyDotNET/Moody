@@ -6,6 +6,7 @@ import Album from "../../model/Album";
 import Producer from "../../model/Producer";
 import Category from "../../model/Category";
 import { blue400, white, orange400 } from "material-ui/styles/colors";
+import { AdminUploadPicture } from "./AdminUploadPicture";
 
 interface AdminManageArtistState {
     artists: Artist[];
@@ -87,6 +88,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                 <div>
                     <h2>Manage Artist</h2>
                 </div>
+                {this.state.selected != null && <AdminUploadPicture filename={`img/artist/${this.state.selected.artistCode}.jpg`} />}
                 <div className="row">
                     <div className="col-lg-4 col-md-12">
                         <table>
