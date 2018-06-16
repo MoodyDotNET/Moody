@@ -6,25 +6,22 @@ import { FormEvent } from 'react';
 
 interface UploadFileState {
     filename: string,
-    formdata: FormData
 }
 
 export class UploadFile extends React.Component<RouteComponentProps<{}>, UploadFileState> {
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { filename: '', formdata: new FormData() };
+        this.state = { filename: '' };
     }
 
     private upload(e: FormEvent<HTMLFormElement>) {
-        this.setState({
-            formdata: new FormData()
-        });
+        var formdata = new FormData();
         var fileField : any = document.querySelector("#thefile");
-        this.state.formdata.append('filename', this.state.filename);
-        this.state.formdata.append('thefile', fileField.files[0]);
+        formdata.append('filename', this.state.filename);
+        formdata.append('thefile', fileField.files[0]);
         fetch('/api/upload', {
             method: 'PUT',
-            body: this.state.formdata
+            body: formdata
             });
         e.preventDefault();
         return false;

@@ -37,7 +37,7 @@ namespace moody.Controllers
                 {
                     if (file.Length > 0)
                     {
-                        filename = Path.Combine(_environment.WebRootPath, "img") + $@"/{filename}.jpg";
+                        filename = _environment.WebRootPath + $@"/{filename}";
 
                         using (FileStream fs = System.IO.File.Open(filename, FileMode.Create))
                         {

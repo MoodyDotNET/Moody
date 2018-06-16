@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using moody.Extensions;
 using moody.Models;
 using Newtonsoft.Json;
 
@@ -39,9 +40,21 @@ namespace moody.Controllers
             return true;
         }
 
-        [HttpGet("[action]")]
-        public bool update(MoodyContext db, Member user)
+        [HttpPut("[action]")]
+        public bool update(MoodyContext db, [FromBody]Member member)
         {
+            Member logged = HttpContext.Session.Get<Member>("MEMBER");
+            if (logged.UserId != member.UserId)
+            {
+                return false;
+            }
+            Member t = db.Member.Where(u => u.UserId == u.UserId).First();
+            t.FirstName = member.FirstName;
+            t.MiddleName = member.MiddleName;
+            t.LastName = member.LastName;
+            t.Password = member.Password;
+            db.SaveChanges();
+            HttpContext.Session.Set<Member>("MEMBER", t);
             return true;
         }
     }

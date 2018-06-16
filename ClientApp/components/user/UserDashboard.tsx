@@ -9,7 +9,8 @@ interface UserDashboardState {
     user: Member[],
     activeTab: string,
     logged: boolean,
-    loading: boolean
+    loading: boolean,
+    avatarSrc: string
 }
 
 export class UserDashboard extends React.Component<RouteComponentProps<{}>, UserDashboardState> {
@@ -19,7 +20,8 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
             user: [],
             activeTab: 'manage',
             logged: true,
-            loading: true
+            loading: true,
+            avatarSrc: ``
         }
         this.fetchCurrentUser();
     }
@@ -34,6 +36,7 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
                 user: [data],
                 loading: false
             });
+            this.setState({avatarSrc: `img/user/${this.state.user[0].userId}.jpg`})
         })
         .catch(error => {
             this.setState({
@@ -66,10 +69,10 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
     private renderPanel() {
         switch (this.state.activeTab) {
             case 'manage':
-                return <UserManageAccount/>
+                return <UserManageAccount user={this.state.user[0]} changeAvatar={(v: string) => this.setState({avatarSrc: v})}/>
         
             case 'password':
-                return <UserChangePassword/>
+                return <UserChangePassword user={this.state.user[0]} logout={() => this.logout()}/>
         }
     }
 
@@ -79,7 +82,7 @@ export class UserDashboard extends React.Component<RouteComponentProps<{}>, User
                 <div className="col-12 col-md-3">
                     <List>
                         <ListItem 
-                            leftAvatar={ <Avatar src="material.png" /> }
+                            leftAvatar={ <Avatar src={this.state.avatarSrc} /> }
                             nestedItems={[
                                 <Divider/>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'manage'}) }>Manage account</ListItem>,

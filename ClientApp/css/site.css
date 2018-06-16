@@ -198,3 +198,6 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+img {
+    object-fit: cover;
+}
