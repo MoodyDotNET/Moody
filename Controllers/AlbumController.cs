@@ -17,6 +17,10 @@ namespace moody.Controllers
             return db.Album;
         }
         
+        public Album get(MoodyContext db, int id){
+            return db.Album.Where(a => a.AlbumId == id).FirstOrDefault();
+        }
+
         [HttpPost("[action]")]
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Album album)

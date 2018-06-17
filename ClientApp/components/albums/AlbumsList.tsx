@@ -11,6 +11,7 @@ interface albumInterface {
 const style = {
     card: {
         opacity: 0.85,
+        marginTop:'0.5vh'
     },
     title: {
         height: '7vh',
@@ -40,8 +41,16 @@ const style = {
 export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { albums: [{code:1,name:"album1",image:""}], loading:false }
-        
+        this.state = { albums: [], loading:true }
+        fetch('api/album/all')
+        .then(response => response.json() as Promise<any>)
+        .then(data => {
+            this.setState({
+                albums:data,
+                loading:false
+            })
+        })
+
     }
 
     public render() {
@@ -71,21 +80,20 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                                     {this.state.albums.map((album:any,index:number)=>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
-                                                <CardHeader title="Test with sample data json" />
                                                 <CardMedia
-                                                    overlay={<CardTitle style={style.title} title={album.title} />}
+                                                    overlay={<CardTitle style={style.title} title={album.album1} />}
                                                 >
-                                                    <div style={style.cover}>{album.cover}Cover</div>
+                                                    <div style={style.cover}>Cover</div>
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    Date released: date<br />
-                                                    Description: <a>description</a>
+                                                    Date released: {album.dateReleased}<br />
+                                                    Genre: {album.genre}
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton 
                                                         label='Hear it'
                                                         containerElement={
-                                                            <Link to={`/album/${album.code}`}></Link>
+                                                            <Link to={`/album/${album.albumId}`}></Link>
                                                         }
                                                         primary={true} 
                                                     />
@@ -93,21 +101,6 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                                             </Card>
                                         </div>
                                     )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-            else {
-                return (
-                    <div className='songs-list sections' style={style.background}>
-                        <div className='col-12'>
-                            <div className='container'>
-                                <div className='row justify-content-center'>
-                                    <Card style = {style.noResult}>
-                                        <CardTitle title="No result"/>
-                                    </Card>
                                 </div>
                             </div>
                         </div>

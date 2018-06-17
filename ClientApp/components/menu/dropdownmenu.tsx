@@ -39,7 +39,7 @@ export class DropdownMenu extends React.Component<{},IDropdown> {
           />
           <MenuItem 
             value={4} primaryText="Songs" 
-            containerElement={<Link to="/songs/''"/>}
+            containerElement={<Link to="/songs/all"/>}
           />
           <MenuItem 
             value={5} primaryText="Playlists" 

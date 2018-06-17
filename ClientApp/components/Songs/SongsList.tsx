@@ -6,13 +6,14 @@ import { blueGrey100, white } from 'material-ui/styles/colors';
 
 interface songInterface {
     songs: Array<any>,
-    loading:boolean
+    loading: boolean
 }
 
 
 const style = {
     card: {
         opacity: 0.85,
+        marginTop:'0.5vh'
     },
     title: {
         height: '7vh',
@@ -29,12 +30,12 @@ const style = {
     },
     background: {
         backgroundImage: 'URL("/img/songBackground.jpg")',
-        minHeight:'92.5vh'
+        minHeight: '92.5vh'
     },
     noResult: {
-        width:"50%",
+        width: "50%",
         marginTop: "30vh",
-        opacity:0.8
+        opacity: 0.8
     }
 };
 
@@ -42,47 +43,53 @@ const style = {
 export class SongsList extends React.Component<RouteComponentProps<{}>, songInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { songs: [], loading:true }
-        
-        const search:any = this.props.match.params;
-        var searchValue = document.getElementById("searchValue");
-        console.log(searchValue);
+        this.state = { songs: [], loading: true }
 
-        if(search != ''){
-            fetch(`api/song/search?searchField=${search.searchResult}`)
-            .then(response => response.json() as Promise<any>)
-            .then(data => {   
-                if(data != null){
-                    this.setState({ songs: data,loading:false });
-                }                           
-            })
+        const search: any = this.props.match.params;
+        var searchValue = search.searchResult;
+        if (searchValue != "all") {
+            fetch(`api/song/search?searchField=${searchValue}`)
+                .then(response => response.json() as Promise<any>)
+                .then(data => {
+                    if (data != null) {
+                        this.setState({ songs: data, loading: false });
+                    }
+                })
+        }
+        else {
+            fetch('api/song/all')
+                .then(response => response.json() as Promise<any>)
+                .then(data => {
+                    if (data != null) {
+                        this.setState({ songs: data, loading: false });
+                    }
+                })
         }
     }
 
     public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
         const search:any = nextProp.match.params;
-        
-        if(search != ''){
+
+        if(search != null){
             fetch(`api/song/search?searchField=${search.searchResult}`)
             .then(response => response.json() as Promise<any>)
             .then(data => {   
                 if(data != null){
                     this.setState({ songs: data,loading:false });
-                    console.log(this.state.songs);
                 }                           
             })
         }
     }
 
     public render() {
-        if(this.state.loading == true) {
+        if (this.state.loading == true) {
             return (
                 <div className='bakcground-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
-                                <Card style = {style.noResult}>
-                                    <CardTitle title="Loading . . ."/>
+                                <Card style={style.noResult}>
+                                    <CardTitle title="Loading . . ." />
                                 </Card>
                             </div>
                         </div>
@@ -91,14 +98,13 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
             )
         }
         else {
-            if(this.state.songs.length > 0)
-            {
+            if (this.state.songs.length > 0) {
                 return (
                     <div className='songs-list sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row'>
-                                    {this.state.songs.map((song:any,index:number)=>
+                                    {this.state.songs.map((song: any, index: number) =>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
                                                 <CardHeader title="Test with sample data json" />
@@ -113,16 +119,16 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                                                     Album: <a>album name</a>
                                                 </CardText>
                                                 <CardActions>
-                                                    <RaisedButton 
+                                                    <RaisedButton
                                                         label='Hear it'
                                                         containerElement={
                                                             <Link to={`/song/${song.songCode}`}></Link>
                                                         }
-                                                        primary={true} 
+                                                        primary={true}
                                                     />
-                                                    <RaisedButton 
+                                                    <RaisedButton
                                                         label='Add to play list'
-                                                        primary={true} 
+                                                        primary={true}
                                                     />
                                                 </CardActions>
                                             </Card>
@@ -140,8 +146,8 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row justify-content-center'>
-                                    <Card style = {style.noResult}>
-                                        <CardTitle title="No result"/>
+                                    <Card style={style.noResult}>
+                                        <CardTitle title="No result" />
                                     </Card>
                                 </div>
                             </div>
@@ -150,6 +156,6 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                 );
             }
         }
-        
+
     }
 }

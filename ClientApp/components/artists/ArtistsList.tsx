@@ -11,6 +11,7 @@ interface artistInterface {
 const style = {
     card: {
         opacity: 0.85,
+        marginTop:'0.5vh'
     },
     title: {
         height: '7vh',
@@ -40,8 +41,15 @@ const style = {
 export class ArtistsList extends React.Component<RouteComponentProps<{}>, artistInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { artists: [{code:1,name:"artist1",image:""}], loading:false }
-        
+        this.state = { artists: [], loading:true }
+        fetch('api/artist/all')
+        .then(res => res.json() as Promise<any>)
+        .then(data => {
+            this.setState({
+                artists:data,
+                loading:false
+            })
+        })
     }
 
     public render() {
@@ -73,19 +81,20 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
                                             <Card style={style.card}>
                                                 <CardHeader title="Test with sample data json" />
                                                 <CardMedia
-                                                    overlay={<CardTitle style={style.title} title={artist.name} />}
+                                                    overlay={<CardTitle style={style.title} title={`${artist.firstName} ${artist.lastName}`} />}
                                                 >
-                                                    <div style={style.cover}>{artist.image}Cover</div>
+                                                    <div style={style.cover}>Cover</div>
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    Date of birth: date of birth<br />
+                                                    Date of birth: {artist.birthdate}<br />
                                                     Band: <a>Band</a>
+
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton 
                                                         label='Read more'
                                                         containerElement={
-                                                            <Link to={`/artist/${artist.code}`}></Link>
+                                                            <Link to={`/artist/${artist.artistCode}`}></Link>
                                                         }
                                                         primary={true} 
                                                     />
@@ -93,21 +102,6 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
                                             </Card>
                                         </div>
                                     )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-            else {
-                return (
-                    <div className='songs-list sections' style={style.background}>
-                        <div className='col-12'>
-                            <div className='container'>
-                                <div className='row justify-content-center'>
-                                    <Card style = {style.noResult}>
-                                        <CardTitle title="No result"/>
-                                    </Card>
                                 </div>
                             </div>
                         </div>

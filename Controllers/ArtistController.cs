@@ -15,6 +15,10 @@ namespace moody.Controllers
         {
             return db.Artist;
         }
+
+        public Artist get(MoodyContext db, int id){
+            return db.Artist.Where(a => a.ArtistCode == id).FirstOrDefault();
+        }
         
         [HttpPost("[action]")]
         [AdminFilter]

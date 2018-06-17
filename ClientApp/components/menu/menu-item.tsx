@@ -27,7 +27,7 @@ export class MenuItem extends React.Component<{}>{
                     <RaisedButton 
                         className = 'nav-items' 
                         label='Songs'
-                        containerElement={<Link to="/songs/''"></Link>}
+                        containerElement={<Link to="/songs/all"></Link>}
                         primary={true}
                     />
                     <RaisedButton 
