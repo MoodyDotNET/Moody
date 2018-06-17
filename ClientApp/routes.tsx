@@ -15,12 +15,14 @@ import { AlbumsList } from './components/albums/AlbumsList';
 import { AlbumComponent } from './components/albums/Album';
 import { ArtistsList } from './components/artists/ArtistsList';
 import { ArtistComponent } from './components/artists/Artist';
+import { MemberLoginRoute } from './components/user/MemberLoginRoute';
 
 export const routes = (
     <Layout>
         <Route exact path='/' component={ MoodyHomeBody } />
         <Route path='/counter' component={ Counter } />
         <Route path='/fetchdata' component={ FetchData } />
+        <Route path='/login' component={ MemberLoginRoute } />
         <Route path='/home' component={ Home }/>
         <Route path='/user' component={ UserDashboard }/>
         <Route path='/songs/:searchResult' component={ SongsList }/>

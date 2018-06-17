@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
-import { Paper, Card, List, ListItem, CardActions, RaisedButton, Avatar, Divider, CircularProgress } from 'material-ui';
+import { Paper, Card, List, ListItem, CardActions, RaisedButton, Avatar, Divider, CircularProgress, Dialog } from 'material-ui';
 import Administrator from '../../model/Administrator';
 import { AdminManageSong } from './AdminManageSong';
 import { AdminManageAlbum } from './AdminManageAlbum';
@@ -14,7 +14,8 @@ interface AdminDashboardState {
     admin: Administrator[],
     activeTab: string,
     logged: boolean,
-    loading: boolean
+    loading: boolean,
+    avatarSrc: string,
 }
 
 export class AdminDashboard extends React.Component<RouteComponentProps<{}>, AdminDashboardState> {
@@ -24,7 +25,8 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
             admin: [],
             activeTab: 'profile',
             logged: true,
-            loading: true
+            loading: true,
+            avatarSrc: ''
         }
         this.fetchCurrentUser();
     }
@@ -37,7 +39,8 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
         .then(data => {
             this.setState({
                 admin: [data],
-                loading: false
+                loading: false,
+                avatarSrc: `img/admin/${data.userId}.jpg`
             });
         })
         .catch(error => {
@@ -71,10 +74,10 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
     private renderPanel() {
         switch (this.state.activeTab) {
             case 'profile':
-                return <AdminManageProfile admin={this.state.admin[0]}/>
+                return <AdminManageProfile admin={this.state.admin[0]} changeAvatar={(v: string) => this.setState({avatarSrc: v})} refresh={() => this.fetchCurrentUser()}/>
         
             case 'password':
-                return <AdminManagePassword/>
+                return <AdminManagePassword admin={this.state.admin[0]} logout={() => this.logout()}/>
 
             case 'song':
                 return <AdminManageSong/>
@@ -102,7 +105,7 @@ export class AdminDashboard extends React.Component<RouteComponentProps<{}>, Adm
                 <div className="col-12 col-lg-3">
                     <List>
                         <ListItem 
-                            leftAvatar={ <Avatar src="material.png" /> }
+                            leftAvatar={ <Avatar src={this.state.avatarSrc} /> }
                             nestedItems={[
                                 <Divider/>,
                                 <ListItem onClick={ () => this.setState({activeTab: 'profile'}) }>Profile</ListItem>,
