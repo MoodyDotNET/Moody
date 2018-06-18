@@ -17,6 +17,7 @@ namespace moody.Controllers
             return db.Album;
         }
         
+        [HttpGet("[action]")]
         public Album get(MoodyContext db, int id){
             return db.Album.Where(a => a.AlbumId == id).FirstOrDefault();
         }

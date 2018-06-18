@@ -16,6 +16,7 @@ namespace moody.Controllers
             return db.Artist;
         }
 
+        [HttpGet("[action]")]
         public Artist get(MoodyContext db, int id){
             return db.Artist.Where(a => a.ArtistCode == id).FirstOrDefault();
         }

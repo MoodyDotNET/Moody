@@ -47,6 +47,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
 
         const search: any = this.props.match.params;
         var searchValue = search.searchResult;
+        console.log(searchValue);
         if (searchValue != "all") {
             fetch(`api/song/search?searchField=${searchValue}`)
                 .then(response => response.json() as Promise<any>)
