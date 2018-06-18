@@ -18,7 +18,10 @@ namespace moody
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls("http://localhost:5000", $"http://{args[0]}:80")
                 .UseStartup<Startup>()
                 .Build();
     }
