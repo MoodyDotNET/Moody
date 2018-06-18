@@ -15,10 +15,11 @@ const navStyle = {
 interface Ihome {
     openLogin:boolean,
     openRegis: boolean,
-    user: string,
+    user: any,
     searchValue:string,
     isRedirect:boolean,
-    isLogin:boolean
+    isLogin:boolean,
+    tooltip:string
 }
 
 export class MoodyMenuBar extends React.Component<{},Ihome> {
@@ -27,11 +28,22 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
         this.state={
             openLogin:false,
             openRegis:false,
-            user:"login",
+            user:{},
+            tooltip:"login",
             searchValue:"",
             isRedirect:false,
             isLogin:false,
         };
+        // fetch('api/member/current')
+        // .then(res => res.json() as Promise<any>)
+        // .then(data => {
+        //     if(data !=null ){
+        //         this.setState({
+        //             user:data,
+        //             tooltip:data.userId
+        //         })
+        //     }
+        // })
     }
 
     private search(event: React.FormEvent<HTMLFormElement>){
@@ -82,7 +94,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                 </ToolbarGroup>
                 {/*search box*/}
                 <form onSubmit={(e) => this.search(e)}>
-                    <ToolbarGroup>                    
+                    <ToolbarGroup className='searchBar'>                    
                         <TextField
                             hintText='Search'
                             className='SearchField'
@@ -93,7 +105,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                                 isRedirect: false
                             })}
                         />
-                        <RaisedButton 
+                        <FlatButton 
                             label='Search' 
                             type="submit"
                         />
@@ -113,7 +125,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                 <ToolbarGroup>
                     {/*login button*/}
                     <IconButton 
-                        tooltip={this.state.user} 
+                        tooltip={this.state.tooltip} 
                         iconClassName="material-icons menu-icon" 
                         onClick={this.loginOpen}
                     >
@@ -133,7 +145,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                     </IconButton>
 
                     {/*sign up button*/}
-                    {this.state.isLogin == false && 
+                    {this.state.tooltip == "login" && 
                         <IconButton tooltip="sign up" iconClassName="material-icons menu-icon" onClick={this.registerOpen}>
                             person_add
                             <Dialog
@@ -146,7 +158,7 @@ export class MoodyMenuBar extends React.Component<{},Ihome> {
                             </Dialog>
                         </IconButton>
                     } 
-                    {this.state.isLogin == true && 
+                    {this.state.tooltip!="login" && 
                         <Logout />
                     }                 
                 </ToolbarGroup>

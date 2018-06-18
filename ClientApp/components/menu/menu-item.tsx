@@ -1,39 +1,40 @@
 import * as React from 'react';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton,FlatButton } from 'material-ui';
 import { Link } from 'react-router-dom';
 
 export class MenuItem extends React.Component<{}>{
     public render(){
         return (
             <div className="menu-item-bg">
-                <RaisedButton 
+                <FlatButton 
                         className = 'nav-items' 
                         label='Home'
                         containerElement={<Link to="/"></Link>}
-                        secondary={true}
+                        
                     />
-                    <RaisedButton 
+                    <FlatButton 
                         className = 'nav-items' 
                         label='Albums'
                         containerElement={<Link to="/albums"></Link>}
-                        primary={true}
+                        
                     />                    
-                    <RaisedButton 
+                    <FlatButton 
                         className = 'nav-items' 
                         label='Artists'
                         containerElement={<Link to="/artists"></Link>}
-                        primary={true}
+                        
                     />
-                    <RaisedButton 
+                    <FlatButton 
                         className = 'nav-items' 
                         label='Songs'
                         containerElement={<Link to="/songs/all"></Link>}
-                        primary={true}
+                        
                     />
-                    <RaisedButton 
+                    <FlatButton 
                         className = 'nav-items' 
                         label='Playlists'
-                        primary={true}
+                        containerElement={<Link to="/"></Link>}
+                        
                     />
             </div>
         );

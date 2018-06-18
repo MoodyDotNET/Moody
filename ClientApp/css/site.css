@@ -2,6 +2,7 @@ body {
     background-color: #333333;
     margin:0px;
     padding:0px;
+    min-width: 540px !important;
 }
 
 .NavMenu .active {
@@ -22,9 +23,27 @@ body {
     z-index:2;
     background-color: rgba(41, 48, 48, 0.85);
 }
+.searchBar button {
+    color:ghostwhite !important;
+    border-radius: 5% !important;
+    outline: 1px solid ghostwhite !important;
+}
 .nav-items {
     margin-left:1px !important;
     margin-right:1px !important;
+    background-color: transparent !important;
+    /* box-shadow: none !important; */
+    transition:all 0.3s ease-in-out;
+    border-radius: 0% !important;
+}
+.nav-items:hover {
+    box-shadow: 0px 4px 0px ghostwhite !important;
+}
+.nav-items a {
+    background-color: transparent !important;
+}
+.nav-items span {
+    color:ghostwhite !important;
 }
 .menu-item-sm {
     display: none;
@@ -55,8 +74,18 @@ body {
 
 /*footer*/
 .footer {
-    color:white;
+    color:lightgray;
     background-color: rgba(41, 48, 48, 1);
+    padding:2vh 0px;
+}
+.footer .developer {
+    text-align: right;
+}
+.footer .icon {
+    font-size: 24px;
+}
+.copyright {
+    padding-top:7px;
 }
 
 /* home style */

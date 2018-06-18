@@ -28,7 +28,7 @@ export class Logout extends React.Component<{},Ilogout>{
         return(
             <IconButton tooltip="logout" iconClassName="material-icons menu-icon">
                 person_outline
-                {/* {this.state.returnHome==true && <Redirect to = "/" push/>} */}
+                {this.state.returnHome==true && <Redirect to = "/" push/>}
             </IconButton>            
         );
     }
