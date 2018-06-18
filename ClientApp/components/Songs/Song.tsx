@@ -12,10 +12,7 @@ const style={
         padding:'0px 16px',
     },
     cover:{
-        textAlign:'center',
         height:'50vh',
-        backgroundColor:blueGrey100,
-        color:white,
     },
     description: {
         height:'10vh'
@@ -73,8 +70,9 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong
                                                 <source src={this.state.mp3FilePath} type="audio/mpeg"/>
                                             </audio>
                                         }
+                                        
                                     >
-                                        <div style={style.cover}>Cover</div>
+                                        <img style={style.cover} src={`img/song/${this.state.songInfo.songCode}.jpg`}/>
                                     </CardMedia>
                                     <CardTitle 
                                         style={style.title} 
