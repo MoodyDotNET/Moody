@@ -35,22 +35,6 @@ namespace moody.Controllers
         }
 
         [HttpGet("[action]")]
-        public bool newAdmin(MoodyContext db)
-        {
-            db.Administrator.Add(new Administrator { Username = "hongphat", Password = "hongphat", Available = true });
-            db.Administrator.Add(new Administrator { Username = "hoangduong", Password = "hoangduong", Available = true });
-            db.Administrator.Add(new Administrator { Username = "minhnhat", Password = "minhnhat", Available = true });
-            db.SaveChanges();
-            return true;
-        }
-
-        [HttpGet("[action]")]
-        public IEnumerable<Administrator> allAdmin(MoodyContext db)
-        {
-            return db.Administrator;
-        }
-
-        [HttpGet("[action]")]
         public bool logout(MoodyContext db) {
             HttpContext.Session.Clear();
             return true;

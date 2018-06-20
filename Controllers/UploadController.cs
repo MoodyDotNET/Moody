@@ -16,29 +16,24 @@ namespace moody.Controllers
     [Route("api/[controller]")]
     public class UploadController : Controller
     {
-        private readonly IHostingEnvironment _environment;
+        private readonly IHostingEnvironment Environment;
 
         public UploadController(IHostingEnvironment environment)
         {
-            _environment = environment;
+            Environment = environment;
         }
 
         [HttpPut]
         public string Index(string filename)
-        {
-            var newFileName = string.Empty;
-            string PathDB = string.Empty;
-            string[] tmp = new string[10];
+        {            
             if (HttpContext.Request.Form.Files != null)
             {
                 var files = HttpContext.Request.Form.Files;
-
                 foreach (var file in files)
                 {
                     if (file.Length > 0)
                     {
-                        filename = _environment.WebRootPath + $@"/{filename}";
-
+                        filename = Environment.WebRootPath + $@"/{filename}";
                         using (FileStream fs = System.IO.File.Open(filename, FileMode.Create))
                         {
                             file.CopyTo(fs);
