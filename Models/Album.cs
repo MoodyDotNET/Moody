@@ -10,12 +10,14 @@ namespace moody.Models
             Song = new HashSet<Song>();
         }
 
-        public string Album1 { get; set; }
+        public int AlbumId { get; set; }
+        public string AlbumName { get; set; }
         public DateTime? DateReleased { get; set; }
         public string Genre { get; set; }
-        public string CoverLink { get; set; }
-        public int AlbumId { get; set; }
+        public DateTime? LastModifyAt { get; set; }
+        public int? LastModifyBy { get; set; }
 
+        public Administrator LastModifyByNavigation { get; set; }
         public ICollection<Song> Song { get; set; }
     }
 }

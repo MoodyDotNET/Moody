@@ -26,7 +26,7 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Album album)
         {
-            db.Album.Add(new Album {Album1=album.Album1, Genre=album.Genre, DateReleased=album.DateReleased});
+            db.Album.Add(new Album {AlbumName=album.AlbumName, Genre=album.Genre, DateReleased=album.DateReleased});
             db.SaveChanges();
             return true;
         }
@@ -36,7 +36,7 @@ namespace moody.Controllers
         public bool update(MoodyContext db, [FromBody]Album album)
         {
             Album t = db.Album.Where(a => a.AlbumId == album.AlbumId).First();
-            t.Album1 = album.Album1;
+            t.AlbumName = album.AlbumName;
             t.Genre = album.Genre;
             t.DateReleased = album.DateReleased;
             db.SaveChanges();

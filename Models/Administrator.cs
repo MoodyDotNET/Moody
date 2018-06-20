@@ -7,8 +7,10 @@ namespace moody.Models
     {
         public Administrator()
         {
+            Album = new HashSet<Album>();
             Artist = new HashSet<Artist>();
-            InverseLastModifyByNavigation = new HashSet<Administrator>();
+            Category = new HashSet<Category>();
+            Member = new HashSet<Member>();
             Producer = new HashSet<Producer>();
             Song = new HashSet<Song>();
         }
@@ -17,15 +19,14 @@ namespace moody.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
-        public string MiidleName { get; set; }
+        public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public bool Available { get; set; }
         public DateTime? LastModifyAt { get; set; }
-        public int? LastModifyBy { get; set; }
 
-        public Administrator LastModifyByNavigation { get; set; }
+        public ICollection<Album> Album { get; set; }
         public ICollection<Artist> Artist { get; set; }
-        public ICollection<Administrator> InverseLastModifyByNavigation { get; set; }
+        public ICollection<Category> Category { get; set; }
+        public ICollection<Member> Member { get; set; }
         public ICollection<Producer> Producer { get; set; }
         public ICollection<Song> Song { get; set; }
     }

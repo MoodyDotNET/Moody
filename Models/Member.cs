@@ -7,6 +7,7 @@ namespace moody.Models
     {
         public Member()
         {
+            Playlist = new HashSet<Playlist>();
             Rating = new HashSet<Rating>();
         }
 
@@ -16,7 +17,11 @@ namespace moody.Models
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public int? LastModifyBy { get; set; }
+        public DateTime? LastModifyAt { get; set; }
 
+        public Administrator LastModifyByNavigation { get; set; }
+        public ICollection<Playlist> Playlist { get; set; }
         public ICollection<Rating> Rating { get; set; }
     }
 }

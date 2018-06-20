@@ -11,6 +11,7 @@ namespace moody.Models
         public virtual DbSet<Artist> Artist { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<Playlist> Playlist { get; set; }
         public virtual DbSet<Producer> Producer { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Song> Song { get; set; }
@@ -20,7 +21,8 @@ namespace moody.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Startup.MoodyConnectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=Moody;User ID=sa;Password=123");
             }
         }
 
@@ -38,7 +40,7 @@ namespace moody.Models
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
-                entity.Property(e => e.MiidleName).HasMaxLength(50);
+                entity.Property(e => e.MiddleName).HasMaxLength(50);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -49,31 +51,28 @@ namespace moody.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.LastModifyByNavigation)
-                    .WithMany(p => p.InverseLastModifyByNavigation)
-                    .HasForeignKey(d => d.LastModifyBy)
-                    .HasConstraintName("FK_Administrator_Administrator");
             });
 
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.AlbumId).HasColumnName("AlbumID");
 
-                entity.Property(e => e.Album1)
+                entity.Property(e => e.AlbumName)
                     .IsRequired()
-                    .HasColumnName("Album")
                     .HasMaxLength(50);
-
-                entity.Property(e => e.CoverLink)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.DateReleased).HasColumnType("datetime");
 
                 entity.Property(e => e.Genre)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
+
+                entity.HasOne(d => d.LastModifyByNavigation)
+                    .WithMany(p => p.Album)
+                    .HasForeignKey(d => d.LastModifyBy)
+                    .HasConstraintName("FK_Album_Administrator");
             });
 
             modelBuilder.Entity<Artist>(entity =>
@@ -81,12 +80,6 @@ namespace moody.Models
                 entity.HasKey(e => e.ArtistCode);
 
                 entity.Property(e => e.BirthDate).HasColumnType("datetime");
-
-                entity.Property(e => e.CoverLink)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('404.png')");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -120,9 +113,17 @@ namespace moody.Models
             {
                 entity.HasKey(e => e.TagCode);
 
+                entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
+
                 entity.Property(e => e.TagName)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.LastModifyByNavigation)
+                    .WithMany(p => p.Category)
+                    .HasForeignKey(d => d.LastModifyBy)
+                    .HasConstraintName("FK_Category_Administrator");
             });
 
             modelBuilder.Entity<Member>(entity =>
@@ -137,6 +138,8 @@ namespace moody.Models
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
+                entity.Property(e => e.LastModifyAt).HasColumnType("datetime");
+
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.MiddleName).HasMaxLength(50);
@@ -150,6 +153,32 @@ namespace moody.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.LastModifyByNavigation)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.LastModifyBy)
+                    .HasConstraintName("FK_Member_Administrator");
+            });
+
+            modelBuilder.Entity<Playlist>(entity =>
+            {
+                entity.HasKey(e => new { e.SongId, e.UserId });
+
+                entity.Property(e => e.SongId).HasColumnName("SongID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.Playlist)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Playlist_Song");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Playlist)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Playlist_Member");
             });
 
             modelBuilder.Entity<Producer>(entity =>
@@ -203,12 +232,6 @@ namespace moody.Models
 
                 entity.Property(e => e.AlbumId).HasColumnName("AlbumID");
 
-                entity.Property(e => e.CoverLink)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('404.png')");
-
                 entity.Property(e => e.DateReleased)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(((1)/(1))/(1900))");
@@ -219,7 +242,6 @@ namespace moody.Models
 
                 entity.Property(e => e.Lyric)
                     .IsRequired()
-                    .IsUnicode(false)
                     .HasDefaultValueSql("('N/A')");
 
                 entity.Property(e => e.Rating).HasDefaultValueSql("((0))");

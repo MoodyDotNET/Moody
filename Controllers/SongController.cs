@@ -38,7 +38,6 @@ namespace moody.Controllers {
                 ContributingArtist = song.ContributingArtist,
                 Composer = song.Composer,
                 DateReleased = song.DateReleased,
-                Length = song.Length,
                 Lyric = song.Lyric
             };
             db.Song.Add(s);
@@ -63,7 +62,6 @@ namespace moody.Controllers {
             t.ContributingArtist = song.ContributingArtist;
             t.Composer = song.Composer;
             t.DateReleased = song.DateReleased;
-            t.Length = song.Length;
             t.Lyric = song.Lyric;
             db.SaveChanges();
             db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));

@@ -50,7 +50,7 @@ namespace moody.Controllers
             }
             Administrator t = db.Administrator.Where(a => a.UserId == a.UserId).First();
             t.FirstName = member.FirstName;
-            t.MiidleName = member.MiidleName;
+            t.MiddleName = member.MiddleName;
             t.LastName = member.LastName;
             t.Password = member.Password;
             db.SaveChanges();

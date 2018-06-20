@@ -14,7 +14,6 @@ namespace moody.Models
         public string CompanyName { get; set; }
         public string Owner { get; set; }
         public string Address { get; set; }
-        public bool Available { get; set; }
         public DateTime? LastModifyAt { get; set; }
         public int? LastModifyBy { get; set; }
 
