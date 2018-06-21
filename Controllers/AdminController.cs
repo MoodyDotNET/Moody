@@ -14,7 +14,8 @@ namespace moody.Controllers
     public class AdminController : Controller
     {
         [HttpGet("[action]")]
-        public bool login(MoodyContext db, string username, string password) {
+        public bool login(MoodyContext db, string username, string password)
+        {
             bool res = false;
             Administrator authen = db.Administrator
                 .Where(q => q.Username == username)
@@ -22,20 +23,26 @@ namespace moody.Controllers
                 .FirstOrDefault();
             if (authen != null)
             {
-                HttpContext.Session.SetString("ADMIN", JsonConvert.SerializeObject(authen));
+                HttpContext.Session.SetString("ADMIN", JsonConvert.SerializeObject(authen, new JsonSerializerSettings()
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    Formatting = Formatting.Indented
+                }));
                 res = true;
             }
             return res;
         }
 
         [HttpGet("[action]")]
-        public Administrator current(MoodyContext db) {
+        public Administrator current(MoodyContext db)
+        {
             String value = HttpContext.Session.GetString("ADMIN");
-            return JsonConvert.DeserializeObject<Administrator>(value);
+            return value == null ? null : JsonConvert.DeserializeObject<Administrator>(value);
         }
 
         [HttpGet("[action]")]
-        public bool logout(MoodyContext db) {
+        public bool logout(MoodyContext db)
+        {
             HttpContext.Session.Clear();
             return true;
         }

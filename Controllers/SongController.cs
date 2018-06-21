@@ -80,7 +80,7 @@ namespace moody.Controllers {
             db.SaveChanges();
             return true;
         }
-        
+
         [HttpDelete("[action]")]
         [AdminFilter]
         public bool delete(MoodyContext db, [FromBody]Song song)

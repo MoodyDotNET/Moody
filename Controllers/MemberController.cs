@@ -14,7 +14,8 @@ namespace moody.Controllers
     public class MemberController : Controller
     {
         [HttpGet("[action]")]
-        public bool login(MoodyContext db, string username, string password) {
+        public bool login(MoodyContext db, string username, string password)
+        {
             bool res = false;
             Member authen = db.Member
                 .Where(q => q.Username == username)
@@ -22,24 +23,31 @@ namespace moody.Controllers
                 .FirstOrDefault();
             if (authen != null)
             {
-                HttpContext.Session.SetString("MEMBER", JsonConvert.SerializeObject(authen));
+                HttpContext.Session.SetString("MEMBER",
+                    JsonConvert.SerializeObject(authen, new JsonSerializerSettings()
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                        Formatting = Formatting.Indented
+                    }));
                 res = true;
             }
             return res;
         }
 
         [HttpGet("[action]")]
-        public Member current(MoodyContext db) {
+        public Member current(MoodyContext db)
+        {
             String value = HttpContext.Session.GetString("MEMBER");
-            return JsonConvert.DeserializeObject<Member>(value);
+            return value == null ? null : JsonConvert.DeserializeObject<Member>(value);
         }
 
         [HttpGet("[action]")]
-        public bool logout(MoodyContext db) {
+        public bool logout(MoodyContext db)
+        {
             HttpContext.Session.Clear();
             return true;
         }
-        
+
         [HttpPost("[action]")]
         public bool insert(MoodyContext db, [FromBody]Member member)
         {
@@ -53,7 +61,7 @@ namespace moody.Controllers
             {
                 return false;
             }
-            db.Member.Add(new Member {Username = member.Username, Password = member.Password});
+            db.Member.Add(new Member { Username = member.Username, Password = member.Password });
             db.SaveChanges();
             return true;
         }
