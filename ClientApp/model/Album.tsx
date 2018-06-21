@@ -1,7 +1,7 @@
 import Song from "./Song";
 
 export default interface Album {
-    album1: string;
+    albumName: string;
     dateReleased: Date;
     genre: string;
     coverLink: string;

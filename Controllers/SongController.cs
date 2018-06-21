@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq; 
 using System.Threading.Tasks; 
 using Microsoft.AspNetCore.Http; 
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
+using moody.Extensions;
 using moody.Models; 
 using Newtonsoft.Json; 
 
@@ -31,6 +32,7 @@ namespace moody.Controllers {
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Song song)
         {
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
             Song s = new Song {
                 Title = song.Title,
                 Subtitle = song.Subtitle,
@@ -38,7 +40,9 @@ namespace moody.Controllers {
                 ContributingArtist = song.ContributingArtist,
                 Composer = song.Composer,
                 DateReleased = song.DateReleased,
-                Lyric = song.Lyric
+                Lyric = song.Lyric,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
             };
             db.Song.Add(s);
             db.SaveChanges();
@@ -55,6 +59,7 @@ namespace moody.Controllers {
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Song song)
         {
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
             Song t = db.Song.Where(a => a.SongCode == song.SongCode).First();
             t.Title = song.Title;
             t.Subtitle = song.Subtitle;
@@ -63,6 +68,8 @@ namespace moody.Controllers {
             t.Composer = song.Composer;
             t.DateReleased = song.DateReleased;
             t.Lyric = song.Lyric;
+            t.LastModifyBy = admin.UserId;
+            t.LastModifyAt = DateTime.Now;
             db.SaveChanges();
             db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));
             db.SaveChanges();

@@ -5,12 +5,12 @@ namespace moody.Models
 {
     public partial class Artist
     {
-        //public Artist()
-        //{
-        //    InverseBandNavigation = new HashSet<Artist>();
-        //    SongComposerNavigation = new HashSet<Song>();
-        //    SongContributingArtistNavigation = new HashSet<Song>();
-        //}
+        public Artist()
+        {
+            InverseBandNavigation = new HashSet<Artist>();
+            SongComposerNavigation = new HashSet<Song>();
+            SongContributingArtistNavigation = new HashSet<Song>();
+        }
 
         public int ArtistCode { get; set; }
         public int? Band { get; set; }

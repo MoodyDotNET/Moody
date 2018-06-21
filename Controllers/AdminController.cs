@@ -53,6 +53,7 @@ namespace moody.Controllers
             t.MiddleName = member.MiddleName;
             t.LastName = member.LastName;
             t.Password = member.Password;
+            t.LastModifyAt = DateTime.Now;
             db.SaveChanges();
             HttpContext.Session.Set<Administrator>("ADMIN", t);
             return true;

@@ -157,7 +157,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                             }
                                         }))
                                     }}>
-                                        {this.state.albums.map(album => <MenuItem value={album.albumId} primaryText={album.album1} />)}
+                                        {this.state.albums.map(album => <MenuItem value={album.albumId} primaryText={album.albumName} />)}
                                     </SelectField>
                                 </td>
                             </tr>
@@ -310,7 +310,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                     <TableRow key={ song.songCode } selected={ song == this.state.selected }>
                         <TableRowColumn>{ song.title }</TableRowColumn>
                         <TableRowColumn>{ song.contributingArtist != null ? song.contributingArtistNavigation.firstName + ' ' + song.contributingArtistNavigation.middleName + ' ' + song.contributingArtistNavigation.lastName : '' }</TableRowColumn>
-                        <TableRowColumn>{ song.album != null ? song.album.album1 : '' }</TableRowColumn>
+                        <TableRowColumn>{ song.album != null ? song.album.albumName : '' }</TableRowColumn>
                         <TableRowColumn>{ song.composerNavigation != null ? song.composerNavigation.firstName + ' ' + song.composerNavigation.middleName + ' ' + song.composerNavigation.lastName : '' }</TableRowColumn>
                     </TableRow>
                 )}

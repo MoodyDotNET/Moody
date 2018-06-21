@@ -90,11 +90,11 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                                 <td>
                                     <TextField 
                                         hintText="Title" 
-                                        value={this.state.selected != null ? this.state.selected.album1 : ''} 
+                                        value={this.state.selected != null ? this.state.selected.albumName : ''} 
                                         onChange={ (e, v) => this.setState(prev => ({
                                             selected: {
                                                 ...prev.selected as Album,
-                                                album1: v
+                                                albumName: v
                                             }
                                         })) } />
                                 </td>
@@ -164,7 +164,7 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                 <TableBody deselectOnClickaway={false}>
                 {this.state.albums.map(album =>
                     <TableRow key={ album.albumId } selected={ album == this.state.selected }>
-                        <TableRowColumn>{ album.album1 }</TableRowColumn>
+                        <TableRowColumn>{ album.albumName }</TableRowColumn>
                         <TableRowColumn>{ album.genre }</TableRowColumn>
                         <TableRowColumn>{ album.dateReleased }</TableRowColumn>
                     </TableRow>
@@ -207,7 +207,7 @@ export class AdminManageAlbum extends React.Component<{}, AdminManageAlbumState>
                 open={this.state.confirming}
                 onRequestClose={() => this.setState({confirming: false})}
               >
-                { this.state.selected != null ? 'Are you sure you want to delete album "' + this.state.selected.album1 + '"' : 'No album selected!'}
+                { this.state.selected != null ? 'Are you sure you want to delete album "' + this.state.selected.albumName + '"' : 'No album selected!'}
               </Dialog>
             </div>
           );

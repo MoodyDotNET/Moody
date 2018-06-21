@@ -3,7 +3,7 @@ export default interface Administrator {
     username: string;
     password: string;
     firstName: string;
-    miidleName: string;
+    middleName: string;
     lastName: string;
     available: boolean;
     lastModifyAt: Date;

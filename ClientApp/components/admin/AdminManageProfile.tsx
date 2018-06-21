@@ -93,11 +93,11 @@ export class AdminManageProfile extends React.Component<AdminManageProfileProp, 
                         }))} />
                     <TextField 
                         hintText="Middle name" 
-                        value={this.state.admin.miidleName} 
+                        value={this.state.admin.middleName} 
                         onChange={ (e, v) => this.setState(prev => ({
                             admin: {
                                 ...prev.admin as Administrator,
-                                miidleName: v
+                                middleName: v
                             }
                         }))} />
                     <TextField 

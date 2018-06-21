@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using moody.Extensions;
 using moody.Models;
 
 namespace moody.Controllers
@@ -26,7 +28,14 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Album album)
         {
-            db.Album.Add(new Album {AlbumName=album.AlbumName, Genre=album.Genre, DateReleased=album.DateReleased});
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            db.Album.Add( new Album {
+                AlbumName = album.AlbumName,
+                Genre = album.Genre,
+                DateReleased = album.DateReleased,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
+                });
             db.SaveChanges();
             return true;
         }
@@ -35,10 +44,13 @@ namespace moody.Controllers
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Album album)
         {
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
             Album t = db.Album.Where(a => a.AlbumId == album.AlbumId).First();
             t.AlbumName = album.AlbumName;
             t.Genre = album.Genre;
             t.DateReleased = album.DateReleased;
+            t.LastModifyBy = admin.UserId;
+            t.LastModifyAt = DateTime.Now;
             db.SaveChanges();
             return true;
         }

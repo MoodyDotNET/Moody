@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using moody.Extensions;
 using moody.Models;
 
 namespace moody.Controllers
@@ -20,10 +21,13 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Producer producer)
         {
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
             db.Producer.Add(new Producer {
                 CompanyName = producer.CompanyName,
                 Owner = producer.Owner,
                 Address = producer.Address,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
             });
             db.SaveChanges();
             return true;
@@ -33,10 +37,13 @@ namespace moody.Controllers
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Producer producer)
         {
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
             Producer t = db.Producer.Where(a => a.ProducerCode == producer.ProducerCode).First();
             t.CompanyName = producer.CompanyName;
             t.Owner = producer.Owner;
             t.Address = producer.Address;
+            t.LastModifyBy = admin.UserId;
+            t.LastModifyAt = DateTime.Now;
             db.SaveChanges();
             return true;
         }
