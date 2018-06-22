@@ -18,9 +18,10 @@ namespace moody.Controllers
         {
             return db.Album;
         }
-        
+
         [HttpGet("[action]")]
-        public Album get(MoodyContext db, int id){
+        public Album get(MoodyContext db, int id)
+        {
             return db.Album.Where(a => a.AlbumId == id).FirstOrDefault();
         }
 
@@ -28,40 +29,62 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Album album)
         {
-            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-            db.Album.Add( new Album {
-                AlbumName = album.AlbumName,
-                Genre = album.Genre,
-                DateReleased = album.DateReleased,
-                LastModifyAt = DateTime.Now,
-                LastModifyBy = admin.UserId
+            try
+            {
+                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+                db.Album.Add(new Album
+                {
+                    AlbumName = album.AlbumName,
+                    Genre = album.Genre,
+                    DateReleased = album.DateReleased,
+                    LastModifyAt = DateTime.Now,
+                    LastModifyBy = admin.UserId
                 });
-            db.SaveChanges();
-            return true;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
-        
+
         [HttpPut("[action]")]
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Album album)
         {
-            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-            Album t = db.Album.Where(a => a.AlbumId == album.AlbumId).First();
-            t.AlbumName = album.AlbumName;
-            t.Genre = album.Genre;
-            t.DateReleased = album.DateReleased;
-            t.LastModifyBy = admin.UserId;
-            t.LastModifyAt = DateTime.Now;
-            db.SaveChanges();
-            return true;
+            try
+            {
+                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+                Album t = db.Album.Where(a => a.AlbumId == album.AlbumId).First();
+                t.AlbumName = album.AlbumName;
+                t.Genre = album.Genre;
+                t.DateReleased = album.DateReleased;
+                t.LastModifyBy = admin.UserId;
+                t.LastModifyAt = DateTime.Now;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
-        
+
         [HttpDelete("[action]")]
         [AdminFilter]
         public bool delete(MoodyContext db, [FromBody]Album album)
         {
-            db.Album.Remove(db.Album.Where(a => a.AlbumId == album.AlbumId).First());
-            db.SaveChanges();
-            return true;
+            try
+            {
+                db.Album.Remove(db.Album.Where(a => a.AlbumId == album.AlbumId).First());
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
