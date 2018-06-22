@@ -34,11 +34,11 @@ namespace moody.Controllers
             return added;
         }
 
-        //[HttpGet("[action]")]
-        //public IEnumerable<Playlist> LoadPlayList(MoodyContext db)
-        //{
+        // [HttpGet("[action]")]
+        // public IEnumerable<Playlist> LoadPlayList(MoodyContext db)
+        // {
         //    Member member = HttpContext.Session.Get<Member>("MEMBER");
         //    return db.Playlist.Where(s => s.UserId.Equals(member.UserId));
-        //}
+        // }
     }
 }

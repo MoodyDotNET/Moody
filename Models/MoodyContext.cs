@@ -17,7 +17,7 @@ namespace moody.Models {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if ( ! optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=Moody;User ID=sa;Password=123"); 
+                optionsBuilder.UseSqlServer(Startup.MoodyConnectionString); 
             }
         }
 

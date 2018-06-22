@@ -56,7 +56,7 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
     public render() {
         if(this.state.loading == true) {
             return (
-                <div className='bakcground-img-style sections' style={style.background}>
+                <div className='background-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
@@ -73,7 +73,7 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
             if(this.state.albums.length > 0)
             {
                 return (
-                    <div className='songs-list sections' style={style.background}>
+                    <div className='background-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row'>

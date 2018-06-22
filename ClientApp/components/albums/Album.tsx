@@ -10,7 +10,7 @@ const style = {
         background: 'transparent',
     },
     background: {
-        background: 'URL("/img/ArtistBackground.jpg")',
+        background: 'URL("/img/AlbumBackground.jpg")',
         minHeight: '92.5vh'
     },
     card: {
@@ -51,7 +51,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>,IAlb
     public render() {
         if(this.state.loading == true){
             return (
-                <div className='bakcground-img-style sections' style={style.background}>
+                <div className='background-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
@@ -66,7 +66,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>,IAlb
         }
         else{
             return (          
-                <div className='bakcground-img-style sections' style={style.background}>
+                <div className='background-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>

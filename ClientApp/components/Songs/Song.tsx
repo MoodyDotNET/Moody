@@ -23,12 +23,15 @@ const style={
     audio: {
         width:'100%',
         borderRadius: 0,
+    },
+    rating:{
+        fontSize:'1.4rem'
     }
 }
 interface Isong {
     songInfo: any,
     mp3FilePath: any,
-    
+    rateDemo:number,
 }
 
 export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong>{
@@ -36,9 +39,10 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong
         super(props);
         this.state= {
             songInfo: {},
-            mp3FilePath:""
+            mp3FilePath:"",
+            rateDemo: 4.6/5*100,
         }
-
+        console.log(this.state.rateDemo);
         var paramURL:any = this.props.match.params;
         var songId:string = paramURL.songId; 
         fetch(`api/song/get?id=${songId}`)
@@ -52,12 +56,12 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong
             aud.load();
                       
         })
-       
+        
     }
     
     public render(){
         return(
-            <div className='bakcground-img-style sections' style={style.background}>
+            <div className='background-img-style sections' style={style.background}>
                 <div className='col-12'>
                     <div className='container'>
                         <div className='row justify-content-center'>
@@ -84,6 +88,14 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>,Isong
                                         By: artist<br/>
                                         Date released: date<br/>
                                         Album: <a>album name</a>
+                                    </CardText>
+                                    <CardText style={style.rating}>
+                                        Rating: 
+                                        <div className="rating-outer">
+                                            <div className="rating-inner" style={{width:`${this.state.rateDemo}%`}}>
+
+                                            </div>
+                                        </div>
                                     </CardText>
                                     <CardText>
                                         <CardTitle title="lyrics"/>
