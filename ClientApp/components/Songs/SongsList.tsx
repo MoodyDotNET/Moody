@@ -85,7 +85,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
     public render() {
         if (this.state.loading == true) {
             return (
-                <div className='bakcground-img-style sections' style={style.background}>
+                <div className='background-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
@@ -101,7 +101,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
         else {
             if (this.state.songs.length > 0) {
                 return (
-                    <div className='songs-list sections' style={style.background}>
+                    <div className='background-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row'>

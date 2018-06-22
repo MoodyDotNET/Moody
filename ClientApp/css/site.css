@@ -2,7 +2,7 @@ body {
     background-color: #333333;
     margin:0px;
     padding:0px;
-    min-width: 540px !important;
+    min-width: 500px !important;
 }
 
 .NavMenu .active {
@@ -220,7 +220,7 @@ body {
 .section4 .link {color:white !important;}
 
 
-.bakcground-img-style {
+.background-img-style {
     padding: 10vh 0vh;
     background-attachment: fixed;
     background-size: cover;
@@ -229,4 +229,28 @@ body {
 }
 img {
     object-fit: cover;
+}
+
+/*rating for songs*/
+.rating-outer {
+    display: inline-block;
+    position: relative;
+    font-size:1.8rem;
+}
+.rating-outer::before {
+    content: "\2606 \2606 \2606 \2606 \2606";
+    /* f006 is unicode for star with outline only */
+}
+.rating-inner {
+    position:absolute;
+    width:0;
+    top:0;
+    left:0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.rating-inner::before {
+    content: "\2605 \2605 \2605 \2605 \2605";
+    /* f006 is unicode for star with filled color */
+    color: #f8ce0b;
 }

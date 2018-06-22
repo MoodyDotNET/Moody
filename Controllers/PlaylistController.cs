@@ -30,10 +30,19 @@ namespace moody.Controllers {
             return added; 
         }
 
+// HEAD
         [HttpGet("[action]")]
         public IEnumerable < Playlist > LoadPlayList(MoodyContext db) {
            Member member = HttpContext.Session.Get < Member > ("MEMBER"); 
            return (member != null) ? db.Playlist.Where(s => s.UserId.Equals(member.UserId)) : null; 
         }
+//
+        // [HttpGet("[action]")]
+        // public IEnumerable<Playlist> LoadPlayList(MoodyContext db)
+        // {
+        //    Member member = HttpContext.Session.Get<Member>("MEMBER");
+        //    return db.Playlist.Where(s => s.UserId.Equals(member.UserId));
+        // }
+// 435fdef6ccd2f236e288705c91b6975b2f09ca3e
     }
 }
