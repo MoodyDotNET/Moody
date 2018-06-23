@@ -45,7 +45,6 @@ export class MoodyMenuBar extends React.Component<{}, Ihome> {
         .catch(error => {
             console.log("error");
         })
-
     }
 
     private search(event: React.FormEvent<HTMLFormElement>) {
@@ -123,11 +122,11 @@ export class MoodyMenuBar extends React.Component<{}, Ihome> {
                 </form>
                 {/*drop down menu will be displayed at 1140px*/}
                 <ToolbarGroup>
-                    <DropdownMenu />
+                    <DropdownMenu  isLogin={this.state.isLogin}/>
                 </ToolbarGroup>
                 {/*normal menu items will be hidden at 1140px*/}
                 <ToolbarGroup>
-                    <MenuItem />
+                    <MenuItem isLogin={this.state.isLogin}/>                    
                 </ToolbarGroup>
                 <ToolbarGroup>
                     {

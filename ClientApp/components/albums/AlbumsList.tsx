@@ -42,6 +42,10 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
     constructor(props: RouteComponentProps<{}>) {
         super(props);
         this.state = { albums: [], loading:true }
+        this.loadData();
+    }
+
+    private loadData(){
         fetch('api/album/all')
         .then(response => response.json() as Promise<any>)
         .then(data => {
@@ -50,7 +54,6 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                 loading:false
             })
         })
-
     }
 
     public render() {
