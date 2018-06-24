@@ -36,7 +36,7 @@ export class DropdownMenu extends React.Component<any, IDropdown> {
           />
           <MenuItem
             value={2} primaryText="Albums"
-            containerElement={<Link to="/albumd" />}
+            containerElement={<Link to="/albums" />}
           />
           <MenuItem
             value={3} primaryText="Artists"

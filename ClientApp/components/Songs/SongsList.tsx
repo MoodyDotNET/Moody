@@ -1,29 +1,29 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader, Snackbar } from 'material-ui';
 import { blueGrey100, white } from 'material-ui/styles/colors';
 
 interface songInterface {
     songs: Array<any>,
-    loading: boolean
+    loading: boolean,
+    isLogin: boolean,
+    openSnackbar: boolean,
+    message: string,
 }
 
 
 const style = {
     card: {
         opacity: 0.85,
-        marginTop:'0.5vh'
+        marginTop: '0.5vh'
     },
     title: {
         height: '7vh',
         padding: '0px 16px',
     },
     cover: {
-        textAlign: 'center',
         height: '30vh',
-        backgroundColor: blueGrey100,
-        color: white,
     },
     description: {
         height: '10vh'
@@ -33,17 +33,26 @@ const style = {
         minHeight: '92.5vh'
     },
     noResult: {
-        width: "50%",
+        width: "22%",
         marginTop: "30vh",
         opacity: 0.8
-    }
+    },
+    snackbar: {
+        textAlign:'center'
+    },
 };
 
 
-export class SongsList extends React.Component<RouteComponentProps<{}>, songInterface>{
-    constructor(props: RouteComponentProps<{}>) {
+export class SongsList extends React.Component<RouteComponentProps<any>, songInterface>{
+    constructor(props: RouteComponentProps<any>) {
         super(props);
-        this.state = { songs: [], loading: true }
+        this.state = { 
+            songs: [], 
+            loading: true, 
+            isLogin: false ,
+            openSnackbar: false,
+            message:"Add fail",
+        }
 
         const search: any = this.props.match.params;
         var searchValue = search.searchResult;
@@ -53,6 +62,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                 .then(data => {
                     if (data != null) {
                         this.setState({ songs: data, loading: false });
+
                     }
                 })
         }
@@ -65,19 +75,56 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                     }
                 })
         }
+
     }
 
-    public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
-        const search:any = nextProp.match.params;
-
-        if(search != null){
-            fetch(`api/song/search?searchField=${search.searchResult}`)
+    componentDidMount() {
+        fetch('api/member/current', {
+            credentials: "same-origin"
+        })
             .then(response => response.json() as Promise<any>)
-            .then(data => {   
-                if(data != null){
-                    this.setState({ songs: data,loading:false });
-                }                           
+            .then(data => {
+                this.setState({ isLogin: true })
             })
+            .catch(error => {
+            })
+    }
+
+    addPlaylist() {
+        if (this.state.isLogin == false) {
+            this.setState({message:"You have to login first"});
+        }
+        else {
+            this.setState({message:"Add success"})
+        }
+        this.setState({openSnackbar:true});
+    }
+
+    closeSnackbar(){
+        this.setState({openSnackbar:false})
+    }
+    // getAlbumName(id:number){
+    //     var albumName:string="";
+    //     fetch('api/album/get?id='+id)
+    //     .then(response => response.json() as Promise<any>)
+    //     .then(data => {
+    //         albumName=data.albumName;
+    //         console.log("api return: "+albumName)
+    //         return albumName;
+    //     })
+    // }
+
+    public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
+        const search: any = nextProp.match.params;
+
+        if (search != null) {
+            fetch(`api/song/search?searchField=${search.searchResult}`)
+                .then(response => response.json() as Promise<any>)
+                .then(data => {
+                    if (data != null) {
+                        this.setState({ songs: data, loading: false });
+                    }
+                })
         }
     }
 
@@ -89,7 +136,10 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                         <div className='container'>
                             <div className='row justify-content-center'>
                                 <Card style={style.noResult}>
-                                    <CardTitle title="Loading . . ." />
+                                    <CardTitle>
+                                        <img className="loader-gif" src="/img/loader1.gif"/>
+                                        <span className="loader-text">Loading</span>
+                                    </CardTitle>
                                 </Card>
                             </div>
                         </div>
@@ -103,20 +153,19 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                     <div className='background-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
-                                <div className='row'>
+                                <div className='row justify-content-center'>
                                     {this.state.songs.map((song: any, index: number) =>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
-                                                <CardHeader title="Test with sample data json" />
                                                 <CardMedia
                                                     overlay={<CardTitle style={style.title} title={song.title} />}
                                                 >
-                                                    <div style={style.cover}>{song.cover}Cover</div>
+                                                    <img style={style.cover} src={`/img/song/${song.songCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    By: artist<br />
+                                                    By: Artist<br />
                                                     Date released: date<br />
-                                                    Album: <a>album name</a>
+                                                    Album:
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton
@@ -129,6 +178,14 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
                                                     <RaisedButton
                                                         label='Add to play list'
                                                         primary={true}
+                                                        onClick={() => { this.addPlaylist() }}
+                                                    />
+                                                    <Snackbar
+                                                        style={style.snackbar}
+                                                        open={this.state.openSnackbar}
+                                                        message={this.state.message}
+                                                        autoHideDuration={3000}
+                                                        onRequestClose={()=>this.closeSnackbar()}
                                                     />
                                                 </CardActions>
                                             </Card>
@@ -142,7 +199,7 @@ export class SongsList extends React.Component<RouteComponentProps<{}>, songInte
             }
             else {
                 return (
-                    <div className='songs-list sections' style={style.background}>
+                    <div className='background-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row justify-content-center'>

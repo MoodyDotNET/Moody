@@ -6,34 +6,31 @@ import { blueGrey100, white } from 'material-ui/styles/colors';
 
 interface albumInterface {
     albums: Array<any>,
-    loading:boolean
+    loading: boolean
 }
 const style = {
     card: {
         opacity: 0.85,
-        marginTop:'0.5vh'
+        marginTop: '0.5vh'
     },
     title: {
         height: '7vh',
         padding: '0px 16px',
     },
     cover: {
-        textAlign: 'center',
         height: '30vh',
-        backgroundColor: blueGrey100,
-        color: white,
     },
     description: {
         height: '10vh'
     },
     background: {
         backgroundImage: 'URL("/img/AlbumBackground.jpg")',
-        minHeight:'92.5vh'
+        minHeight: '92.5vh'
     },
     noResult: {
-        width:"50%",
+        width: "22%",
         marginTop: "30vh",
-        opacity:0.8
+        opacity: 0.8
     }
 };
 
@@ -41,30 +38,33 @@ const style = {
 export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumInterface>{
     constructor(props: RouteComponentProps<{}>) {
         super(props);
-        this.state = { albums: [], loading:true }
+        this.state = { albums: [], loading: true }
         this.loadData();
     }
 
-    private loadData(){
+    private loadData() {
         fetch('api/album/all')
-        .then(response => response.json() as Promise<any>)
-        .then(data => {
-            this.setState({
-                albums:data,
-                loading:false
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                this.setState({
+                    albums: data,
+                    loading: false
+                })
             })
-        })
     }
 
     public render() {
-        if(this.state.loading == true) {
+        if (this.state.loading == true) {
             return (
                 <div className='background-img-style sections' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
-                                <Card style = {style.noResult}>
-                                    <CardTitle title="Loading . . ."/>
+                                <Card style={style.noResult}>
+                                    <CardTitle>
+                                        <img className="loader-gif" src="/img/loader1.gif" />
+                                        <span className="loader-text">Loading</span>
+                                    </CardTitle>
                                 </Card>
                             </div>
                         </div>
@@ -73,32 +73,31 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
             )
         }
         else {
-            if(this.state.albums.length > 0)
-            {
+            if (this.state.albums.length > 0) {
                 return (
                     <div className='background-img-style sections' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
-                                <div className='row'>
-                                    {this.state.albums.map((album:any,index:number)=>
+                                <div className='row justify-content-center'>
+                                    {this.state.albums.map((album: any, index: number) =>
                                         <div className='col-10 col-sm-8 col-md-7 col-lg-4' key={index}>
                                             <Card style={style.card}>
                                                 <CardMedia
-                                                    overlay={<CardTitle style={style.title} title={album.album1} />}
+                                                    overlay={<CardTitle style={style.title} title={album.albumName} />}
                                                 >
-                                                    <div style={style.cover}>Cover</div>
+                                                    <img style={style.cover} src={`/img/album/${album.albumId}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
                                                     Date released: {album.dateReleased}<br />
                                                     Genre: {album.genre}
                                                 </CardText>
                                                 <CardActions>
-                                                    <RaisedButton 
+                                                    <RaisedButton
                                                         label='Hear it'
                                                         containerElement={
                                                             <Link to={`/album/${album.albumId}`}></Link>
                                                         }
-                                                        primary={true} 
+                                                        primary={true}
                                                     />
                                                 </CardActions>
                                             </Card>
@@ -111,6 +110,6 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                 );
             }
         }
-        
+
     }
 }

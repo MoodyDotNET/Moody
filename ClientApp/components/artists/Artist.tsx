@@ -21,9 +21,9 @@ const style = {
         color: grey900
     },
     noResult: {
-        width:"50%",
+        width: "22%",
         marginTop: "30vh",
-        opacity:0.8
+        opacity: 0.8
     }
 }
 
@@ -55,8 +55,11 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
-                                <Card style = {style.noResult}>
-                                    <CardTitle title="Loading . . ."/>
+                                <Card style={style.noResult}>
+                                    <CardTitle>
+                                        <img className="loader-gif" src="/img/loader1.gif" />
+                                        <span className="loader-text">Loading</span>
+                                    </CardTitle>
                                 </Card>
                             </div>
                         </div>
@@ -78,7 +81,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                     style={style.overlay}
                                                     title={`${this.state.artist.firstName} ${this.state.artist.lastName}`}
                                                     avatar={
-                                                        <Avatar src="/img/ArtistBackground.jpg" size={50} />
+                                                        <Avatar src={`/img/artist/${this.state.artist.artistCode}.jpg`} size={50} />
                                                     }
                                                 />
                                             }
@@ -93,7 +96,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                         <CardText>
                                                             Date of birth: {this.state.artist.birthDate}
                                                             Band: {this.state.artist.band}
-                                                            introduction: {this.state.artist.introduce}    
+                                                            introduction: {this.state.artist.introduce}
                                                         </CardText>
                                                     </Card>
                                                 </Tab>
