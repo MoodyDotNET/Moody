@@ -29,92 +29,75 @@ namespace moody.Controllers
         [HttpGet("[action]")]
         public Song get(MoodyContext db, int id)
         {
-            return db.Song.Where(s => s.SongCode == id).FirstOrDefault();
+            return db.Song.
+                Where(s => s.SongCode == id).FirstOrDefault();
         }
 
         [HttpPost("[action]")]
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Song song)
         {
-            try
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            Song s = new Song
             {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                Song s = new Song
-                {
-                    Title = song.Title,
-                    Subtitle = song.Subtitle,
-                    AlbumId = song.AlbumId,
-                    ContributingArtist = song.ContributingArtist,
-                    Composer = song.Composer,
-                    DateReleased = song.DateReleased,
-                    Lyric = song.Lyric,
-                    LastModifyAt = DateTime.Now,
-                    LastModifyBy = admin.UserId
-                };
-                db.Song.Add(s);
-                db.SaveChanges();
-                foreach (var t in song.Tag)
-                {
-                    t.SongCode = s.SongCode;
-                }
-                s.Tag = song.Tag;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
+                Title = song.Title,
+                Subtitle = song.Subtitle,
+                AlbumId = song.AlbumId,
+                ContributingArtist = song.ContributingArtist,
+                Composer = song.Composer,
+                DateReleased = song.DateReleased,
+                Lyric = song.Lyric,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
+            };
+            db.Song.Add(s);
+            db.SaveChanges();
+            foreach (var t in song.Tag)
             {
-                return false;
+                t.SongCode = s.SongCode;
             }
+            s.Tag = song.Tag;
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpPut("[action]")]
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Song song)
         {
-            try
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            Song t = db.Song.Where(a => a.SongCode == song.SongCode).First();
+            t.Title = song.Title;
+            t.Subtitle = song.Subtitle;
+            t.AlbumId = song.AlbumId;
+            t.ContributingArtist = song.ContributingArtist;
+            t.Composer = song.Composer;
+            t.DateReleased = song.DateReleased;
+            t.Lyric = song.Lyric;
+            t.LastModifyBy = admin.UserId;
+            t.LastModifyAt = DateTime.Now;
+            db.SaveChanges();
+            db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));
+            db.SaveChanges();
+            foreach (var tag in song.Tag)
             {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                Song t = db.Song.Where(a => a.SongCode == song.SongCode).First();
-                t.Title = song.Title;
-                t.Subtitle = song.Subtitle;
-                t.AlbumId = song.AlbumId;
-                t.ContributingArtist = song.ContributingArtist;
-                t.Composer = song.Composer;
-                t.DateReleased = song.DateReleased;
-                t.Lyric = song.Lyric;
-                t.LastModifyBy = admin.UserId;
-                t.LastModifyAt = DateTime.Now;
-                db.SaveChanges();
-                db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));
-                db.SaveChanges();
-                foreach (var tag in song.Tag)
-                {
-                    db.Tag.Add(tag);
-                }
-                db.SaveChanges();
-                return true;
+                db.Tag.Add(tag);
             }
-            catch (Exception e)
-            {
-                return false;
-            }
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpDelete("[action]")]
         [AdminFilter]
         public bool delete(MoodyContext db, [FromBody]Song song)
         {
-            try
-            {
-                db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));
-                db.Song.Remove(db.Song.Where(a => a.SongCode == song.SongCode).First());
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            db.Tag.RemoveRange(db.Tag.Where(tag => tag.SongCode == song.SongCode));
+            db.Song.Remove(db.Song.Where(a => a.SongCode == song.SongCode).First());
+            db.SaveChanges();
+            return true;
+
         }
     }
 }
