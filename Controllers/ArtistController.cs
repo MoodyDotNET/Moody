@@ -29,72 +29,54 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Artist artist)
         {
-            try
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            db.Artist.Add(new Artist
             {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                db.Artist.Add(new Artist
-                {
-                    FirstName = artist.FirstName,
-                    MiddleName = artist.MiddleName,
-                    LastName = artist.LastName,
-                    Biography = artist.Biography,
-                    Introduce = artist.Introduce,
-                    Band = artist.Band,
-                    BirthDate = artist.BirthDate,
-                    ProducerCode = artist.ProducerCode,
-                    LastModifyAt = DateTime.Now,
-                    LastModifyBy = admin.UserId
-                });
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+                FirstName = artist.FirstName,
+                MiddleName = artist.MiddleName,
+                LastName = artist.LastName,
+                Biography = artist.Biography,
+                Introduce = artist.Introduce,
+                Band = artist.Band,
+                BirthDate = artist.BirthDate,
+                ProducerCode = artist.ProducerCode,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
+            });
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpPut("[action]")]
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Artist artist)
         {
-            try
-            {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                Artist t = db.Artist.Where(a => a.ArtistCode == artist.ArtistCode).First();
-                t.FirstName = artist.FirstName;
-                t.MiddleName = artist.MiddleName;
-                t.LastName = artist.LastName;
-                t.Biography = artist.Biography;
-                t.Introduce = artist.Introduce;
-                t.Band = artist.Band;
-                t.BirthDate = artist.BirthDate;
-                t.ProducerCode = artist.ProducerCode;
-                t.LastModifyAt = DateTime.Now;
-                t.LastModifyBy = admin.UserId;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            Artist t = db.Artist.Where(a => a.ArtistCode == artist.ArtistCode).First();
+            t.FirstName = artist.FirstName;
+            t.MiddleName = artist.MiddleName;
+            t.LastName = artist.LastName;
+            t.Biography = artist.Biography;
+            t.Introduce = artist.Introduce;
+            t.Band = artist.Band;
+            t.BirthDate = artist.BirthDate;
+            t.ProducerCode = artist.ProducerCode;
+            t.LastModifyAt = DateTime.Now;
+            t.LastModifyBy = admin.UserId;
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpDelete("[action]")]
         [AdminFilter]
         public bool delete(MoodyContext db, [FromBody]Artist artist)
         {
-            try
-            {
-                db.Artist.Remove(db.Artist.Where(a => a.ArtistCode == artist.ArtistCode).First());
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            db.Artist.Remove(db.Artist.Where(a => a.ArtistCode == artist.ArtistCode).First());
+            db.SaveChanges();
+            return true;
+
         }
     }
 }

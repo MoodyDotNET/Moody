@@ -69,8 +69,6 @@ namespace moody.Controllers
         [HttpPut("[action]")]
         public bool update(MoodyContext db, [FromBody]Member member)
         {
-            try
-            {
             Member logged = HttpContext.Session.Get<Member>("MEMBER");
             if (logged.UserId != member.UserId)
             {
@@ -84,10 +82,6 @@ namespace moody.Controllers
             db.SaveChanges();
             HttpContext.Session.Set<Member>("MEMBER", t);
             return true;
-            } catch (Exception e)
-            {
-                return false;
-            }
         }
     }
 }

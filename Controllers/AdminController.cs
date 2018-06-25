@@ -50,27 +50,22 @@ namespace moody.Controllers
         [HttpPut("[action]")]
         public bool update(MoodyContext db, [FromBody]Administrator member)
         {
-            try
-            {
-                Administrator logged = HttpContext.Session.Get<Administrator>("ADMIN");
-                if (logged.UserId != member.UserId)
-                {
-                    return false;
-                }
-                Administrator t = db.Administrator.Where(a => a.UserId == a.UserId).First();
-                t.FirstName = member.FirstName;
-                t.MiddleName = member.MiddleName;
-                t.LastName = member.LastName;
-                t.Password = member.Password;
-                t.LastModifyAt = DateTime.Now;
-                db.SaveChanges();
-                HttpContext.Session.Set<Administrator>("ADMIN", t);
-                return true;
-            }
-            catch (Exception e)
+
+            Administrator logged = HttpContext.Session.Get<Administrator>("ADMIN");
+            if (logged.UserId != member.UserId)
             {
                 return false;
             }
+            Administrator t = db.Administrator.Where(a => a.UserId == a.UserId).First();
+            t.FirstName = member.FirstName;
+            t.MiddleName = member.MiddleName;
+            t.LastName = member.LastName;
+            t.Password = member.Password;
+            t.LastModifyAt = DateTime.Now;
+            db.SaveChanges();
+            HttpContext.Session.Set<Administrator>("ADMIN", t);
+            return true;
+
         }
     }
 }

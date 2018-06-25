@@ -21,57 +21,41 @@ namespace moody.Controllers
         [AdminFilter]
         public bool insert(MoodyContext db, [FromBody]Category category)
         {
-            try
+
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            db.Category.Add(new Category
             {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                db.Category.Add(new Category
-                {
-                    TagName = category.TagName,
-                    LastModifyAt = DateTime.Now,
-                    LastModifyBy = admin.UserId
-                });
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+                TagName = category.TagName,
+                LastModifyAt = DateTime.Now,
+                LastModifyBy = admin.UserId
+            });
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpPut("[action]")]
         [AdminFilter]
         public bool update(MoodyContext db, [FromBody]Category category)
         {
-            try
-            {
-                Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
-                Category t = db.Category.Where(c => c.TagCode == category.TagCode).First();
-                t.TagName = category.TagName;
-                t.LastModifyAt = DateTime.Now;
-                t.LastModifyBy = admin.UserId;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            Administrator admin = HttpContext.Session.Get<Administrator>("ADMIN");
+            Category t = db.Category.Where(c => c.TagCode == category.TagCode).First();
+            t.TagName = category.TagName;
+            t.LastModifyAt = DateTime.Now;
+            t.LastModifyBy = admin.UserId;
+            db.SaveChanges();
+            return true;
+
         }
 
         [HttpDelete("[action]")]
         [AdminFilter]
         public bool delete(MoodyContext db, [FromBody]Category category)
         {
-            try
-            {
             db.Category.Remove(db.Category.Where(c => c.TagCode == category.TagCode).First());
             db.SaveChanges();
             return true;
-            } catch (Exception e)
-            {
-                return false;
-            }
+
         }
     }
 }
