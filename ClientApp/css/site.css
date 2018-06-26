@@ -37,7 +37,7 @@ body {
     border-radius: 0% !important;
 }
 .nav-items:hover {
-    box-shadow: 0px 4px 0px ghostwhite !important;
+    box-shadow: 0px 2px 0px ghostwhite !important;
 }
 .nav-items a {
     background-color: transparent !important;
@@ -233,6 +233,8 @@ img {
 /*loader style*/
 .loader-gif {
     margin-left:20px;
+    position: relative;
+    top:5px;
 }
 .loader-text {
     font-size: 2rem;

@@ -126,7 +126,9 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                                 ...prev.selected as Song,
                                                 title: v
                                             }
-                                        })) } />
+                                        })) } 
+                                        
+                                    />
                                 </td>
                             </tr>
                             <tr>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader,Snackbar, Dialog, FlatButton } from 'material-ui';
 import { blueGrey100, white } from 'material-ui/styles/colors';
 
 const style = {
@@ -39,6 +39,11 @@ interface Isong {
     mp3FilePath: any,
     rateDemo: number,
     loading: boolean,
+    openPopup: boolean,
+    isLogin:boolean,
+    message:string,
+    openDialog:boolean,
+    userId:any,
 }
 
 export class SongComponent extends React.Component<RouteComponentProps<{}>, Isong>{
@@ -49,6 +54,11 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             mp3FilePath: "",
             rateDemo: 4.6 / 5 * 100,
             loading: true,
+            openPopup:false,
+            isLogin:false,
+            message: "",
+            openDialog:false,
+            userId:-1,
         }
         console.log(this.state.rateDemo);
         var paramURL: any = this.props.match.params;
@@ -63,11 +73,63 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                 })
                 var aud = this.refs.audio as HTMLAudioElement;
                 aud.load();
-
             })
 
     }
 
+    componentWillMount(){
+        fetch('api/member/current', {
+            credentials: "same-origin"
+        })
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                this.setState({ isLogin: true,userId:data.userId })
+                console.log("check: "+this.state.isLogin);
+                this.forceUpdate();
+            })
+            .catch(error => {
+            })
+    }
+
+    handleOpenRating(){
+        if(this.state.isLogin==false){
+            this.setState({message:"You have to login first"})
+            this.setState({openPopup:true});
+        }
+        else{
+            this.setState({openDialog:true})
+        }
+    }
+
+    handleOpenAddPlaylist(){
+        if(this.state.isLogin==true){
+            this.setState({message:"Add success"})
+        }
+        else {
+            this.setState({message:"You have to login first"})
+        }
+        this.setState({openPopup:true})
+    }
+
+    handleClose(){
+        this.setState({openPopup:false})
+    }
+
+    handleCloseDialog(){
+        this.setState({openDialog:false})
+    }
+
+    getRating(){
+        var songId = this.state.songInfo.songCode;
+        var userId = this.state.userId;
+        var select = this.refs.ratingScore as HTMLSelectElement;
+        var score = select.options[select.selectedIndex].text;
+        this.setState({
+            openDialog:false,
+            openPopup:true,
+            message:"songId : "+songId+", userId : "+userId+", rating : "+score
+        })
+    }
     public render() {
         if (this.state.loading == true) {
             return (
@@ -123,6 +185,60 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
 
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <RaisedButton 
+                                                label="Add to playlist"
+                                                style={{marginRight:'10px'}}
+                                                secondary={true}
+                                                onClick={()=> {this.handleOpenAddPlaylist()}}
+                                            />
+                                            
+                                            <RaisedButton
+                                                label="Rate"
+                                                secondary={true}
+                                                onClick={()=> {this.handleOpenRating()}}
+                                            />
+                                            <Dialog 
+                                                modal={false}
+                                                open={this.state.openDialog}
+                                                onRequestClose={()=>{this.handleCloseDialog()}}
+                                            >
+                                                <FlatButton label="Choose your score : "/>
+                                                &nbsp;
+                                                <select ref="ratingScore">
+                                                    <option>1</option>
+                                                    <option>1.25</option>
+                                                    <option>1.5</option>
+                                                    <option>1.75</option>
+                                                    <option>2</option>
+                                                    <option>2.25</option>
+                                                    <option>2.5</option>
+                                                    <option>2.75</option>
+                                                    <option>3</option>
+                                                    <option>3.25</option>
+                                                    <option>3.5</option>
+                                                    <option>3.75</option>
+                                                    <option>4</option>
+                                                    <option>4.25</option>
+                                                    <option>4.5</option>
+                                                    <option>4.75</option>
+                                                    <option>5</option>
+                                                </select>
+                                                <br/>
+                                                <RaisedButton
+                                                    style={{marginLeft:'10px'}}
+                                                    label="Confifm"
+                                                    primary={true}
+                                                    onClick={()=>this.getRating()}
+                                                />
+                                            </Dialog>
+                                            <Snackbar
+                                                message={this.state.message}
+                                                style={{textAlign:'center'}}
+                                                open={this.state.openPopup}
+                                                autoHideDuration={3000}
+                                                onRequestClose={()=>{this.handleClose()}}
+                                            />
                                         </CardText>
                                         <CardText>
                                             <CardTitle title="lyrics" />
