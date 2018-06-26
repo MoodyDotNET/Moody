@@ -99,5 +99,14 @@ namespace moody.Controllers
             return true;
 
         }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Song> mostListen(MoodyContext db)
+        {
+            return db.Song
+                .OrderByDescending(s => s.ListeningFrequency)
+                .Take(6)
+                .ToList();
+        }
     }
 }

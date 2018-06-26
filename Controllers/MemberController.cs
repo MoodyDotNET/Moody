@@ -89,11 +89,8 @@ namespace moody.Controllers
         {
             Member logged = HttpContext.Session.Get<Member>("MEMBER");
             return (logged == null) ? db.Rating
-                .Where(r => (
-                    (r.SongId.Equals(songID)) &&
-                    (r.UserId.Equals(logged.UserId))
-                    )
-                )
+                .Where(r => r.SongId == songID)
+                .Where(r => r.UserId == logged.UserId)
                 .FirstOrDefault() : null;
         }
 
