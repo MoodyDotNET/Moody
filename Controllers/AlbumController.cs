@@ -68,5 +68,14 @@ namespace moody.Controllers
             db.SaveChanges();
             return true;
         }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Album> lastest(MoodyContext db)
+        {
+            return db.Album
+                .OrderByDescending(a => a.DateReleased)
+                .Take(3)
+                .ToList();
+        }
     }
 }

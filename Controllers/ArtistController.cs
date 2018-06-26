@@ -78,5 +78,14 @@ namespace moody.Controllers
             return true;
 
         }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Artist> lastest(MoodyContext db)
+        {
+            return db.Artist
+                .OrderBy(a => a.BirthDate)
+                .Take(7)
+                .ToList(); ;
+        }
     }
 }

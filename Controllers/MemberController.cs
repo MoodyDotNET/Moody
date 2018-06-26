@@ -88,11 +88,12 @@ namespace moody.Controllers
         public Rating getRated(MoodyContext db, int songID)
         {
             Member logged = HttpContext.Session.Get<Member>("MEMBER");
-            return (logged == null) ? db.Rating
+            Rating rate = db.Rating
                 .ToList()
                 .Where(r => r.SongId == songID)
                 .Where(r => r.UserId == logged.UserId)
-                .FirstOrDefault() : null;
+                .FirstOrDefault();
+            return rate;
         }
 
         [HttpGet("[action]")]
@@ -115,6 +116,9 @@ namespace moody.Controllers
             {
                 rate.Score = score;
             }
+            db.SaveChanges();
+            Song song = db.Song.Where(s => s.SongCode == songID).FirstOrDefault();
+            song.Rating = db.Rating.Average(s => s.Score);
             db.SaveChanges();
             return rated;
         }

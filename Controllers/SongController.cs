@@ -100,6 +100,12 @@ namespace moody.Controllers
 
         }
 
+
+        /// <summary>
+        /// Top 6 song have the amount of listening
+        /// </summary>
+        /// <param name="db"></param>
+        /// <returns></returns>
         [HttpGet("[action]")]
         public IEnumerable<Song> mostListen(MoodyContext db)
         {
@@ -107,6 +113,30 @@ namespace moody.Controllers
                 .OrderByDescending(s => s.ListeningFrequency)
                 .Take(6)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Top 6 song have highest Rating
+        /// </summary>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IEnumerable<Song> suggested(MoodyContext db)
+        {
+            return db.Song
+                .OrderByDescending(s => s.Rating)
+                .Take(6)
+                .ToList();
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Song> related(MoodyContext db, int songID)
+        {
+            Song main = db.Song.Where(s => s.SongCode == songID).FirstOrDefault();
+            return db.Song.Where(s => (
+            (s.Composer == main.Composer || s.ContributingArtist == main.ContributingArtist)
+            && s.SongCode != songID)
+            );
         }
     }
 }
