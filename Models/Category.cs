@@ -15,7 +15,7 @@ namespace moody.Models
         public DateTime? LastModifyAt { get; set; }
         public int? LastModifyBy { get; set; }
 
-        public Administrator LastModifyByNavigation { get; set; }
+        //public Administrator LastModifyByNavigation { get; set; }
         public ICollection<Tag> Tag { get; set; }
     }
 }

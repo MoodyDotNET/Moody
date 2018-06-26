@@ -9,7 +9,7 @@ namespace moody.Models
         public int SongId { get; set; }
         public double Score { get; set; }
 
-        public Song Song { get; set; }
-        public Member User { get; set; }
+        //public Song Song { get; set; }
+        //public Member User { get; set; }
     }
 }

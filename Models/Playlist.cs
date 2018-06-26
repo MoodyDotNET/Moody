@@ -8,7 +8,7 @@ namespace moody.Models
         public int SongId { get; set; }
         public int UserId { get; set; }
 
-        public Song Song { get; set; }
-        public Member User { get; set; }
+        //public Song Song { get; set; }
+        //public Member User { get; set; }
     }
 }

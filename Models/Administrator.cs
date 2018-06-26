@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace moody.Models
 {
@@ -7,14 +8,15 @@ namespace moody.Models
     {
         public Administrator()
         {
-            Album = new HashSet<Album>();
-            Artist = new HashSet<Artist>();
-            Category = new HashSet<Category>();
-            Member = new HashSet<Member>();
-            Producer = new HashSet<Producer>();
-            Song = new HashSet<Song>();
+            //Album = new HashSet<Album>();
+            //Artist = new HashSet<Artist>();
+            //Category = new HashSet<Category>();
+            //Member = new HashSet<Member>();
+            //Producer = new HashSet<Producer>();
+            //Song = new HashSet<Song>();
         }
 
+        [Key]
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -23,11 +25,11 @@ namespace moody.Models
         public string LastName { get; set; }
         public DateTime? LastModifyAt { get; set; }
 
-        public ICollection<Album> Album { get; set; }
-        public ICollection<Artist> Artist { get; set; }
-        public ICollection<Category> Category { get; set; }
-        public ICollection<Member> Member { get; set; }
-        public ICollection<Producer> Producer { get; set; }
-        public ICollection<Song> Song { get; set; }
+        //public ICollection<Album> Album { get; set; }
+        //public ICollection<Artist> Artist { get; set; }
+        //public ICollection<Category> Category { get; set; }
+        //public ICollection<Member> Member { get; set; }
+        //public ICollection<Producer> Producer { get; set; }
+        //public ICollection<Song> Song { get; set; }
     }
 }

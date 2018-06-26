@@ -7,7 +7,7 @@ namespace moody.Models
     {
         public Producer()
         {
-            Artist = new HashSet<Artist>();
+            //Artist = new HashSet<Artist>();
         }
 
         public int ProducerCode { get; set; }
@@ -17,7 +17,7 @@ namespace moody.Models
         public DateTime? LastModifyAt { get; set; }
         public int? LastModifyBy { get; set; }
 
-        public Administrator LastModifyByNavigation { get; set; }
-        public ICollection<Artist> Artist { get; set; }
+        //public Administrator LastModifyByNavigation { get; set; }
+        //public ICollection<Artist> Artist { get; set; }
     }
 }

@@ -7,8 +7,8 @@ namespace moody.Models
     {
         public Song()
         {
-            Playlist = new HashSet<Playlist>();
-            RatingNavigation = new HashSet<Rating>();
+            //Playlist = new HashSet<Playlist>();
+            //RatingNavigation = new HashSet<Rating>();
             Tag = new HashSet<Tag>();
         }
 
@@ -25,12 +25,12 @@ namespace moody.Models
         public int Composer { get; set; }
         public string Lyric { get; set; }
 
-        public Album Album { get; set; }
-        public Artist ComposerNavigation { get; set; }
-        public Artist ContributingArtistNavigation { get; set; }
-        public Administrator LastModifyByNavigation { get; set; }
-        public ICollection<Playlist> Playlist { get; set; }
-        public ICollection<Rating> RatingNavigation { get; set; }
+        //public Album Album { get; set; }
+        //public Artist ComposerNavigation { get; set; }
+        //public Artist ContributingArtistNavigation { get; set; }
+        //public Administrator LastModifyByNavigation { get; set; }
+        //public ICollection<Playlist> Playlist { get; set; }
+        //public ICollection<Rating> RatingNavigation { get; set; }
         public ICollection<Tag> Tag { get; set; }
     }
 }

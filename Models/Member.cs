@@ -7,8 +7,8 @@ namespace moody.Models
     {
         public Member()
         {
-            Playlist = new HashSet<Playlist>();
-            Rating = new HashSet<Rating>();
+            //Playlist = new HashSet<Playlist>();
+            //Rating = new HashSet<Rating>();
         }
 
         public int UserId { get; set; }
@@ -20,8 +20,8 @@ namespace moody.Models
         public int? LastModifyBy { get; set; }
         public DateTime? LastModifyAt { get; set; }
 
-        public Administrator LastModifyByNavigation { get; set; }
-        public ICollection<Playlist> Playlist { get; set; }
-        public ICollection<Rating> Rating { get; set; }
+        //public Administrator LastModifyByNavigation { get; set; }
+        //public ICollection<Playlist> Playlist { get; set; }
+        //public ICollection<Rating> Rating { get; set; }
     }
 }

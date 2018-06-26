@@ -83,5 +83,36 @@ namespace moody.Controllers
             HttpContext.Session.Set<Member>("MEMBER", t);
             return true;
         }
+
+        [HttpGet("[action]")]
+        public Rating getRated(MoodyContext db, int songID)
+        {
+            Member logged = HttpContext.Session.Get<Member>("MEMBER");
+            return (logged == null) ? db.Rating.Where(r => r.SongId.Equals(songID) && r.UserId.Equals(logged.UserId)).FirstOrDefault() : null;
+        }
+
+        [HttpGet("[action]")]
+        public bool rating(MoodyContext db, int songID, float score)
+        {
+            bool rated = false;
+            Rating rate = getRated(db, songID);
+            if (rate == null)
+            {
+                Member logged = HttpContext.Session.Get<Member>("MEMBER");
+                db.Rating.Add(new Rating
+                {
+                    UserId = logged.UserId,
+                    SongId = songID,
+                    Score = score,
+                });
+                rated = true;
+            }
+            else
+            {
+                rate.Score = score;
+            }
+            db.SaveChanges();
+            return rated;
+        }
     }
 }
