@@ -34,7 +34,7 @@ namespace moody.Controllers
                     if (file.Length > 0)
                     {
                         filename = Environment.WebRootPath + $@"/{filename}";
-                        using (FileStream fs = System.IO.File.Open(filename, FileMode.Create))
+                        using (FileStream fs = System.IO.File.Create(filename))
                         {
                             file.CopyTo(fs);
                             fs.Flush();
