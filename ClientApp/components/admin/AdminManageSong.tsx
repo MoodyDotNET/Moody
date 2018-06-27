@@ -42,6 +42,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                 this.setState({ categories: data });
             });
         this.reload();
+        
     }
 
     private reload() {
@@ -49,6 +50,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
             .then(response => response.json() as Promise<Song[]>)
             .then(data => {
                 this.setState({ songs: data, loading: false });
+                console.log("Manage song: "+data);
             });
     }
 
@@ -92,10 +94,8 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
     }
 
     public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : this.renderSongs();
-
+        let contents = this.state.loading ? <p><em>Loading...</em></p> : this.renderSongs();
+        
         return (
             <div>
                 <div>
@@ -285,8 +285,9 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                             { contents }
                         </Paper>
                     </div>
+                    {this.renderConfirm()}
                 </div>
-                {this.renderConfirm()}
+                {/* {this.renderConfirm()} */}
             </div>
         );
     }

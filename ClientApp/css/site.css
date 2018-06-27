@@ -105,7 +105,6 @@ body {
     position: absolute;
     height: 100%;
     width:100%;
-    /* background-image: url('../components/source/img/HomeBackground.jpg'); */
     background-position:center ;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -129,57 +128,9 @@ body {
 .section2 {
     background-color:white;
 }
-.section2 .card {
-    margin-top:1.5vh;
-    margin-bottom:1.5vh;
+.card {
+    margin-top:5px;
 }
-.section2 .card .song-wrapper {
-    height:32vh;
-    background-color: lightcoral;
-}
-.section2 .card .song-wrapper:hover .song-script {
-    width:100%;
-}
-
-.section2 .card .song-wrapper:hover .song-script .song-name {
-    opacity: 1;
-}
-
-.section2 .card .song-wrapper:hover .song-script .song-artist {
-    opacity: 1;
-}
-
-.section2 .card .song-wrapper .song-script {
-    position: relative;
-    height:30%;
-    width:0%;
-    background-color: #333333;
-    opacity: 0.6;
-    top:70%;
-    transition: width 0.3s ease-in;
-    overflow: hidden;
-}
-.section2 .card .song-wrapper .song-script .song-name, .song-artist {
-    color:white;   
-    margin-left: 20px;
-    opacity:0;
-    transition:all 0.1s !important;
-}
-.section2 .card .song-wrapper .song-script .song-name{
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-@media screen and (max-width: 576px) {
-    .section2 .card {
-        width:70%;
-    }
-}
-@media screen and (max-width: 500px) {
-    .section2 .card {
-        width:80%;
-    }
-}
-
 
 /*section 3 : albums*/
 .section3 {
@@ -190,35 +141,11 @@ body {
     margin:0.5vh 0;
 }
 .section3 .album-cover {
-    height: 30vh;
+    height: 40vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
-.section3 .album-script {
-    height:20vh;
-}
-
-/*section 4: artists*/
-.section4 {
-    /* background-image: url('../components/source/img/3-seamless-icon-pattern-download.jpg'); */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.artist-img-big {
-    background-color: azure;
-    height:57.5vh;
-}
-
-.artist-img-small{
-    background-color: bisque;
-    height:28vh;
-    margin-bottom:1vh;
-}
-.section4 .link {color:white !important;}
-
 
 .background-img-style {
     padding: 10vh 0vh;

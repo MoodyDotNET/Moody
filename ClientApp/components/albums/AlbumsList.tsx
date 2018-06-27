@@ -14,7 +14,7 @@ const style = {
         marginTop: '0.5vh'
     },
     title: {
-        height: '7vh',
+        // height: '7vh',
         padding: '0px 16px',
     },
     cover: {
@@ -28,7 +28,7 @@ const style = {
         minHeight: '92.5vh'
     },
     noResult: {
-        width: "22%",
+        width: "250px",
         marginTop: "30vh",
         opacity: 0.8
     }

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader } from 'material-ui';
+import { Link } from 'react-router-dom';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem } from 'material-ui';
+import { grey50 } from 'material-ui/styles/colors';
+import Song from '../../model/Song';
 
 const style = {
     bigCover: {
@@ -21,21 +24,26 @@ const style = {
         width: '100%'
     },
     noResult: {
-        width: "22%",
+        width: "250px",
         marginTop: "30vh",
         opacity: 0.8
+    },
+    img: {
+        width: '50px',
+        height: '40px',
     }
 }
 
 interface IAlbum {
     album: any,
-    loading: boolean
+    loading: boolean,
+    related: Array<any>,
 }
 
 export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAlbum>{
     constructor(props: any) {
         super(props);
-        this.state = { album: {}, loading: true }
+        this.state = { album: {}, loading: true, related: [] }
         const param: any = this.props.match.params;
         const id: string = param.id;
         fetch(`api/album/get?id=${id}`)
@@ -43,7 +51,32 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             .then(data => {
                 this.setState({
                     album: data,
-                    loading: false
+                    // loading: false
+                })
+            })
+
+        fetch('api/album/all')
+            .then(res => res.json() as Promise<Array<any>>)
+            .then(data => {
+                // var index = -1;
+                // for (var i = 0; i < data.length; i++) {
+                //     if (data[i].albumId == this.state.album.albumId) {
+                //         index = i;
+                //     }
+                // }
+                // console.log(index);
+                // data.splice(index, 1);
+                this.setState({ related: data, loading: false })
+            })
+    }
+
+    componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
+        fetch(`api/album/get?id=${(nextProp.match.params as any).id}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    album: data,
+                    // loading: false
                 })
             })
     }
@@ -73,7 +106,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
-                                <div className="col-11 col-sm-9">
+                                <div className="col-11 col-md-8">
                                     <Card style={style.card}>
                                         <CardMedia>
                                             <img style={style.bigCover} src={`/img/album/${this.state.album.albumId}.jpg`} />
@@ -91,27 +124,34 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                 Genre: {this.state.album.genre}
                                             </CardText>
                                         </CardText>
+                                        {this.state.album.song.map((song: Song, index: number) =>
+                                            <CardText>
+                                                <CardTitle title={song.title} />
 
-                                        <CardText>
-                                            <CardTitle title="song name" />
-                                            <audio controls style={style.audio}>
-                                                <source src="" type="audio/mpeg" />
-                                            </audio>
-                                            <CardTitle title="song name" />
-                                            <audio controls style={style.audio}>
-                                                <source src="" type="audio/mpeg" />
-                                            </audio>
-                                            <CardTitle title="song name" />
-                                            <audio controls style={style.audio}>
-                                                <source src="" type="audio/mpeg" />
-                                            </audio>
-                                        </CardText>
+                                                <audio controls style={style.audio}>
+                                                    <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
+                                                </audio>
+                                            </CardText>
+                                        )}
                                     </Card>
                                 </div>
 
-                                <div className="col-11 col-sm-3">
+                                <div className="col-11 col-md-4">
                                     <Card style={style.card}>
-                                        <CardHeader title="other albums" />
+                                        <List>
+                                            <Subheader>Other albums</Subheader>
+                                            {this.state.related.map((album: any, index: number) =>
+                                                <ListItem
+                                                    key={index}
+                                                    primaryText={album.albumName}
+                                                    leftAvatar={<img style={style.img} src={`/img/album/${album.albumId}.jpg`} />}
+                                                    containerElement={
+                                                        <Link to={`/album/${album.albumId}`} />
+                                                    }
+                                                    hoverColor={grey50}
+                                                />
+                                            )}
+                                        </List>
                                     </Card>
                                 </div>
 
