@@ -29,7 +29,7 @@ namespace moody.Controllers
                     db.Playlist.Add(item);
                     db.SaveChanges();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     added = false;
                 }

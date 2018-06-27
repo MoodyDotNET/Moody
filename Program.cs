@@ -21,9 +21,7 @@ namespace moody
             WebHost.CreateDefaultBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseUrls("http://localhost:80"
-                //, $"http://{args[0]}:80"
-                )
+                .UseUrls($"http://{args[0]}")
                 .UseStartup<Startup>()
                 .Build();
     }

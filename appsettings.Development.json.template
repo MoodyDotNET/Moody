@@ -7,10 +7,6 @@
     }
   },
   "ConnectionStrings": {
-<<<<<<< HEAD
     "MoodyDatabase": "Server=database.moody.net;Database=Moody;User ID=sa;Password=123"
-=======
-    "MoodyDatabase": "Server=192.168.43.34;Database=Moody;User ID=sa;Password=123"
->>>>>>> 223da118aa90cad45e9b3760d3a78ba4b6ba80d8
   }
 }

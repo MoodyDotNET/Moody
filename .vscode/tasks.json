@@ -3,19 +3,19 @@
         {
             "label": "Run in development mode (Linux)",
             "type": "shell",
-            "command": "export ASPNETCORE_ENVIRONMENT=Development; dotnet run",
+            "command": "export ASPNETCORE_ENVIRONMENT=Development; dotnet run localhost:5000",
             "group": "build"
         },
         {
             "label": "Run in development mode (Windows)",
             "type": "shell",
-            "command": "$Env:ASPNETCORE_ENVIRONMENT = \"Development\" & dotnet run",
+            "command": "$Env:ASPNETCORE_ENVIRONMENT = \"Development\" & dotnet run localhost:5000",
             "group": "build"
         },
         {
             "label": "Run in production mode",
             "type": "shell",
-            "command": "dotnet run",
+            "command": "dotnet run localhost:5000",
             "group": {
                 "kind": "build",
                 "isDefault": false

@@ -8,8 +8,8 @@ namespace moody.Models
         public Artist()
         {
             //InverseBandNavigation = new HashSet<Artist>();
-            //SongComposerNavigation = new HashSet<Song>();
-            //SongContributingArtistNavigation = new HashSet<Song>();
+            SongComposerNavigation = new HashSet<Song>();
+            SongContributingArtistNavigation = new HashSet<Song>();
         }
 
         public int ArtistCode { get; set; }
@@ -28,7 +28,7 @@ namespace moody.Models
         //public Administrator LastModifyByNavigation { get; set; }
         //public Producer ProducerCodeNavigation { get; set; }
         //public ICollection<Artist> InverseBandNavigation { get; set; }
-        //public ICollection<Song> SongComposerNavigation { get; set; }
-        //public ICollection<Song> SongContributingArtistNavigation { get; set; }
+        public ICollection<Song> SongComposerNavigation { get; set; }
+        public ICollection<Song> SongContributingArtistNavigation { get; set; }
     }
 }
