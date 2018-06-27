@@ -84,7 +84,7 @@ namespace moody.Controllers
         {
             return db.Artist
                 .OrderBy(a => a.BirthDate)
-                .Take(7)
+                .Take(6)
                 .ToList(); ;
         }
     }

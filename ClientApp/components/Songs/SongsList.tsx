@@ -33,7 +33,7 @@ const style = {
         minHeight: '92.5vh'
     },
     noResult: {
-        width: "22%",
+        width: "250px",
         marginTop: "30vh",
         opacity: 0.8
     },
@@ -163,9 +163,9 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                     <img style={style.cover} src={`/img/song/${song.songCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    By: Artist<br />
-                                                    Date released: date<br />
-                                                    Album:
+                                                    By: {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br/>
+                                                    Date released: {song.dateReleased}<br />
+                                                    Album:{song.album.albumName}
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton

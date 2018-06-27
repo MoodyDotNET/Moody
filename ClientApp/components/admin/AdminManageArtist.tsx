@@ -36,6 +36,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
             .then(response => response.json() as Promise<Artist[]>)
             .then(data => {
                 this.setState({ artists: data, loading: false });
+                console.log("manage artist: "+data);
             });
     }
 

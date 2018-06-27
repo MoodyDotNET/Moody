@@ -28,7 +28,7 @@ const style = {
         minHeight: '92.5vh'
     },
     noResult: {
-        width: "22%",
+        width: "250px",
         marginTop: "30vh",
         opacity: 0.8
     }
@@ -84,8 +84,8 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
                                                     <img style={style.cover} src={`/img/artist/${artist.artistCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    Date of birth: {artist.birthdate}<br />
-                                                    Band: <a>Band</a>
+                                                    <strong>Date of birth: </strong>{artist.birthDate}<br />
+                                                    <strong>Introduction: </strong>{artist.introduce}
 
                                                 </CardText>
                                                 <CardActions>
