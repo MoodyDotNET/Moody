@@ -24,7 +24,12 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
     constructor(props: {}) {
         super(props)
 
-        this.state = { songs: [], artists: [], albums: [], categories: [], loading: true, confirming: false, selected: null };
+        this.state = { songs: [], artists: [], albums: [], categories: [], loading: true, confirming: false, selected: {
+            ...null as any,
+            tag: []
+        } };
+
+        console.log(this.state.selected!.tag)
 
         fetch('/api/artist/all')
             .then(response => response.json() as Promise<Artist[]>)
