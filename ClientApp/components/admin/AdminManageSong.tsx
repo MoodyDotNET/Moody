@@ -29,8 +29,6 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
             tag: []
         } };
 
-        console.log(this.state.selected!.tag)
-
         fetch('/api/artist/all')
             .then(response => response.json() as Promise<Artist[]>)
             .then(data => {
