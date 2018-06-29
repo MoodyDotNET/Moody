@@ -5,9 +5,6 @@ import { Card, CardMedia, CardTitle, CardActions, RaisedButton } from 'material-
 import { grey50 } from 'material-ui/styles/colors';
 
 const style = {
-    background: {
-        backgroundColor: grey50,
-    },
     cover: {
         height: '40vh'
     },
@@ -15,6 +12,9 @@ const style = {
         width:'250px',
         marginTop:'15vh',
         opacity:0.85
+    },
+    background:{
+        background:'URL("/img/ArtistBackground.jpg")'
     }
 }
 

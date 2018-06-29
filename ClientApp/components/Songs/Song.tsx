@@ -48,7 +48,6 @@ interface Isong {
     isLogin: boolean,
     message: string,
     openDialog: boolean,
-    userId: any,
     rate: number;
 }
 
@@ -63,7 +62,6 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             isLogin: false,
             message: "",
             openDialog: false,
-            userId: -1,
             rate: 0,
         }
         var paramURL: any = this.props.match.params;
@@ -77,7 +75,6 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                     rate: data.rating / 5 * 100,
                     loading: false,
                 });
-                console.log("rating: " + this.state.rate)
                 var aud = this.refs.audio as HTMLAudioElement;
                 aud.load();
             })
@@ -89,7 +86,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         })
             .then(response => response.json() as Promise<any>)
             .then(data => {
-                this.setState({ isLogin: true, userId: data.userId })
+                this.setState({ isLogin: true })
                 this.forceUpdate();
             })
             .catch(error => {
@@ -134,13 +131,24 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
 
     getRating() {
         var songId = this.state.songInfo.songCode;
-        var userId = this.state.userId;
-        var select = this.refs.ratingScore as HTMLSelectElement;
-        var score = (this.refs.ratingScore as HTMLParagraphElement).innerHTML;
-        this.setState({
-            openDialog: false,
-            openPopup: true,
-            message: "songId : " + songId + ", userId : " + userId + ", rating : " + score
+        var scoreStr = (this.refs.ratingScore as HTMLParagraphElement).innerHTML;
+        var score = parseFloat(scoreStr);
+        fetch(`/api/member/rating?songID=${songId}&score=${score}`)
+        .then(response => response.json() as Promise<boolean>)
+        .then(data => {
+            console.log("score: "+score)
+            this.setState({
+                openDialog: false,
+                openPopup: true,
+                message: "Thank you for rating"
+            })
+        })
+        .catch(error => {
+            this.setState({
+                openDialog: false,
+                openPopup: true,
+                message: "You've already rated this song =]"
+            })
         })
     }
 
@@ -160,6 +168,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         scoreTxt.innerHTML=(Math.round(mouseXCor*5/ratingWidth*10)/10).toString()+" / 5.0";
     }
 
+    
     public render() {
         if (this.state.loading == true) {
             return (
@@ -233,11 +242,13 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                                 open={this.state.openDialog}
                                                 onRequestClose={() => { this.handleCloseDialog() }}
                                             >
-                                                <FlatButton label="Choose your score : " />
+                                                <FlatButton label="Choose your score : " style={{cursor:'text'}}/>
                                                 &nbsp;
-                                                <div className="rating-outer" ref="ratingOuter" onMouseMove={this.getRateScore.bind(this)}>
+                                                <div className="rating-outer" ref="ratingOuter" 
+                                                    onMouseMove={this.getRateScore.bind(this)}  
+                                                    onClick={() => this.getRating()}
+                                                >
                                                     <div className="rating-inner" ref="ratingInner">
-
                                                     </div>
                                                 </div>&nbsp;&nbsp;&nbsp;
                                                 <p style={{display:'inline-block'}} ref="ratingScore">0 / 5.0</p>
