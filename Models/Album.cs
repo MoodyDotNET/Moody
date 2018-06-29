@@ -7,7 +7,7 @@ namespace moody.Models
     {
         public Album()
         {
-            Song = new HashSet<Song>();
+            // Song = new HashSet<Song>();
         }
 
         public int AlbumId { get; set; }
@@ -18,6 +18,6 @@ namespace moody.Models
         public int? LastModifyBy { get; set; }
 
         //public Administrator LastModifyByNavigation { get; set; }
-        public ICollection<Song> Song { get; set; }
+        // public ICollection<Song> Song { get; set; }
     }
 }

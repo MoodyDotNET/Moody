@@ -253,10 +253,10 @@ namespace moody.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.Album)
-                   .WithMany(p => p.Song)
-                   .HasForeignKey(d => d.AlbumId)
-                   .HasConstraintName("FK_Song_Album");
+                // entity.HasOne(d => d.Album)
+                //    .WithMany(p => p.Song)
+                //    .HasForeignKey(d => d.AlbumId)
+                //    .HasConstraintName("FK_Song_Album");
 
                 entity.HasOne(d => d.ComposerNavigation)
                    .WithMany(p => p.SongComposerNavigation)
