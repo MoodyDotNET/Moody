@@ -193,3 +193,15 @@ img {
     /* f006 is unicode for star with filled color */
     color: #f8ce0b;
 }
+
+.popup-link-sm {
+    cursor:pointer;
+}
+
+.popup-link-sm:hover {
+    text-shadow: 1px 0.8px 0.9px grey;
+}
+
+.cardtext-description{
+    font-size: 1rem !important;
+}
