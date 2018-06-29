@@ -17,6 +17,7 @@ interface AdminManageSongState {
     categories: Category[],
     loading: boolean;
     confirming: boolean;
+    requiredAlert: boolean;
     selected: Song | null;
 }
 
@@ -24,7 +25,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
     constructor(props: {}) {
         super(props)
 
-        this.state = { songs: [], artists: [], albums: [], categories: [], loading: true, confirming: false, selected: {
+        this.state = { songs: [], artists: [], albums: [], categories: [], loading: true, confirming: false, requiredAlert: false, selected: {
             ...null as any,
             tag: []
         } };
@@ -92,7 +93,12 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
             },
             credentials: 'same-origin'
         }).then(res => res.json())
-          .catch(error => console.error('Error:', error))
+          .catch(error => {
+              console.error('Error:', error);
+              this.setState({
+                  requiredAlert: true
+              })
+        })
           .then(response => this.reload());
     }
 
@@ -119,7 +125,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                     <div className="col-lg-4 col-md-12">
                         <table>
                             <tr>
-                                <td>Title</td>
+                                <td>Title *</td>
                                 <td>
                                     <TextField 
                                         hintText="Title" 
@@ -135,7 +141,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Subtitle</td>
+                                <td>Subtitle *</td>
                                 <td>
                                     <TextField 
                                         hintText="Subtitle" 
@@ -145,7 +151,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                                 ...prev.selected as Song,
                                                 subtitle: v
                                             }
-                                        })) } />
+                                        })) }/>
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +173,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Artist</td>
+                                <td>Artist *</td>
                                 <td>
                                     <SelectField 
                                     floatingLabelText="Artist" 
@@ -185,7 +191,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Composer</td>
+                                <td>Composer *</td>
                                 <td>
                                     <SelectField 
                                     floatingLabelText="Composer" 
@@ -235,24 +241,6 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Length (s)</td>
-                                <td>
-                                    <TextField 
-                                        hintText="Length"
-                                        value={this.state.selected != null ? this.state.selected.length : ''} 
-                                        onChange={ (e, v) => {
-                                            if (Number(v) != NaN) {
-                                                this.setState(prev => ({
-                                                    selected: {
-                                                        ...prev.selected as Song,
-                                                        length: Number(v)
-                                                    }
-                                                }))
-                                            }
-                                        } } />
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Categories</td>
                                 <td>
                                     <SelectField 
@@ -289,8 +277,8 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                         </Paper>
                     </div>
                     {this.renderConfirm()}
+                    {this.renderMessage("Please fill all * field")}
                 </div>
-                {/* {this.renderConfirm()} */}
             </div>
         );
     }
@@ -359,6 +347,22 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                 onRequestClose={() => this.setState({confirming: false})}
               >
                 { this.state.selected != null ? 'Are you sure you want to delete song "' + this.state.selected.title + '"' : 'No song selected!'}
+              </Dialog>
+            </div>
+        );
+    }
+
+
+    private renderMessage(message: string) {
+        return (
+            <div>
+              <Dialog
+                title="Confirm"
+                modal={false}
+                open={this.state.requiredAlert}
+                onRequestClose={() => this.setState({requiredAlert: false})}
+              >
+                {message}
               </Dialog>
             </div>
         );
