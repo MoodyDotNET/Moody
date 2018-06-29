@@ -14,6 +14,9 @@ const style = {
     },
     cover : {
         height: '40vh',
+    },
+    background:{
+        background:'URL("/img/songBackground.jpg")'
     }
 }
 
@@ -31,7 +34,7 @@ export class HomeSession2 extends React.Component<{}, INewSong>{
     public render() {
         let content = this.state.loading ? this.renderLoading() : this.renderSong();
         return (
-            <div className='col-12 section2 sections'>
+            <div className='col-12 section2 sections' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
                         {content}

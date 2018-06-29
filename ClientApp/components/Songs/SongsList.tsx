@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { Card, CardMedia, CardTitle, CardText, CardActions, RaisedButton, CardHeader, Snackbar } from 'material-ui';
-import { blueGrey100, white } from 'material-ui/styles/colors';
+import { blueGrey100, white, pinkA100, limeA200, yellow400 } from 'material-ui/styles/colors';
 
 interface songInterface {
     songs: Array<any>,
@@ -40,6 +40,9 @@ const style = {
     snackbar: {
         textAlign:'center'
     },
+    button:{
+        color:'white !important'
+    }
 };
 
 
