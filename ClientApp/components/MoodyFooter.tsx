@@ -4,30 +4,28 @@ import { blueGrey50 } from 'material-ui/styles/colors';
 
 const style = {
     image:{
-        width:'40px',
         height:'40px',
-        margin:'1px 15px',
     }
 }
 
 export class MoodyFooter extends React.Component<{}>{
     public render() {
         return (
-            <div className='container'>
+            <div className='container' style={{fontFamily: "Roboto, sans-serif", fontSize: 10, textAlign: "center"}}>
                 <div className='row'>
-                    {/* <div className='col-4'>
-                        Using:<br/>
-                        <img style={style.image} src='/img/reactlogo2.png' />
-                        <img style={style.image} src='/img/dotnetLogo.png' />
-                    </div> */}
-                    <div className='col-4 copyright'>
-                        <span>&#169; </span>Moody Music App
+                    <div className='col-4'>
+                        <img style={style.image} src='/img/logo/dotnet-core.png' />
+                        <img style={style.image} src='/img/logo/sql-server.png' />
+                        <img style={style.image} src='/img/logo/reactjs.png' />
+                        <img style={style.image} src='/img/logo/material-ui.svg' />
                     </div>
-                    <div className='col-8 developer'>
-                        Create by: 
-                            <span className='icon'>&#9786;</span> Phat
-                            <span className='icon'>&#9786;</span> Duong
-                            <span className='icon'>&#9786;</span> Nhat
+                    <div className='col-4 copyright'>
+                        <span className='icon'>&#169; </span>Moody Music App
+                    </div>
+                    <div className='col-4 developer'>
+                            PhatNH<br/>
+                            DuongPTHSE<br/>
+                            NhatLM<br/>
                     </div>
                     
                 </div>
