@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader, CardActions } from 'material-ui';
 import { blueGrey100, white, grey100 } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
+import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
+import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 
 const style = {
     card: {
@@ -38,7 +40,8 @@ const style = {
     img: {
         width: '50px',
         height: '40px',
-    }
+    },
+
 }
 interface Isong {
     songInfo: any,
@@ -48,7 +51,10 @@ interface Isong {
     isLogin: boolean,
     message: string,
     openDialog: boolean,
-    rate: number;
+    rate: number,
+    openArtist: boolean,
+    openAlbum: boolean,
+    openComposer: boolean,
 }
 
 export class SongComponent extends React.Component<RouteComponentProps<{}>, Isong>{
@@ -63,6 +69,9 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             message: "",
             openDialog: false,
             rate: 0,
+            openArtist: false,
+            openAlbum: false,
+            openComposer: false
         }
         var paramURL: any = this.props.match.params;
         var songId: string = paramURL.songId;
@@ -134,41 +143,60 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         var scoreStr = (this.refs.ratingScore as HTMLParagraphElement).innerHTML;
         var score = parseFloat(scoreStr);
         fetch(`/api/member/rating?songID=${songId}&score=${score}`)
-        .then(response => response.json() as Promise<boolean>)
-        .then(data => {
-            console.log("score: "+score)
-            this.setState({
-                openDialog: false,
-                openPopup: true,
-                message: "Thank you for rating"
+            .then(response => response.json() as Promise<boolean>)
+            .then(data => {
+                console.log("score: " + score)
+                this.setState({
+                    openDialog: false,
+                    openPopup: true,
+                    message: "Thank you for rating"
+                })
             })
-        })
-        .catch(error => {
-            this.setState({
-                openDialog: false,
-                openPopup: true,
-                message: "You've already rated this song =]"
+            .catch(error => {
+                this.setState({
+                    openDialog: false,
+                    openPopup: true,
+                    message: "You've already rated this song =]"
+                })
             })
-        })
     }
 
-    private renderArtist() {
-        return (
-            <Dialog open={false} />
-        );
+    handleOpenArtist() {
+        this.setState({ openArtist: true })
     }
-    private getRateScore(e:any){
+
+    handleCloseArtist() {
+        this.setState({ openArtist: false })
+    }
+    
+    handleOpenComposer() {
+        this.setState({ openComposer: true })
+    }
+
+    handleCloseComposer() {
+        this.setState({ openComposer: false })
+    }
+    
+    handleOpenAlbum() {
+        this.setState({ openAlbum: true })
+    }
+
+    handleCloseAlbum() {
+        this.setState({ openAlbum: false })
+    }
+
+    private getRateScore(e: any) {
         var ratingOuter = this.refs.ratingOuter as HTMLDivElement;
         var ratingWidth = ratingOuter.offsetWidth;
         var mouseXCor = e.nativeEvent.offsetX;
         var ratingInner = this.refs.ratingInner as HTMLDivElement;
-        var widthStr = (((mouseXCor/ratingWidth)*100).toString())+"px";
-        ratingInner.style.width = (mouseXCor.toString())+"px";
+        var widthStr = (((mouseXCor / ratingWidth) * 100).toString()) + "px";
+        ratingInner.style.width = (mouseXCor.toString()) + "px";
         var scoreTxt = this.refs.ratingScore as HTMLParagraphElement;
-        scoreTxt.innerHTML=(Math.round(mouseXCor*5/ratingWidth*10)/10).toString()+" / 5.0";
+        scoreTxt.innerHTML = (Math.round(mouseXCor * 5 / ratingWidth * 10) / 10).toString() + " / 5.0";
     }
 
-    
+
     public render() {
         if (this.state.loading == true) {
             return (
@@ -212,10 +240,22 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             actAsExpander={true}
                                             showExpandableButton={true}
                                         />
-                                        <CardText style={style.description} expandable={true}>
-                                            <strong>By:</strong> {`${this.state.songInfo.contributingArtistNavigation.firstName} ${this.state.songInfo.contributingArtistNavigation.lastName}`}<br />
-                                            <strong>Date released:</strong> {this.state.songInfo.dateReleased}<br />
-                                            <strong>Album:</strong> {this.state.songInfo.album.albumName}
+                                        <CardText style={style.description} expandable={true} className="cardtext-description">
+                                            <strong>By:</strong>
+                                            <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
+                                                {`${this.state.songInfo.contributingArtistNavigation.firstName} ${this.state.songInfo.contributingArtistNavigation.lastName}`}</span>
+                                            <br />
+                                            <strong>Date released:</strong> {this.state.songInfo.dateReleased}
+                                            <br />
+                                            <strong>Composer: </strong>
+                                            <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
+                                                {`${this.state.songInfo.composerNavigation.firstName} ${this.state.songInfo.composerNavigation.lastName}`}</span>
+                                            <br />
+                                            <strong>Album:</strong> 
+                                            <span className="popup-link-sm" onClick={() => this.handleOpenAlbum()}>
+                                                {this.state.songInfo.album.albumName}
+                                            </span>
+                                            
                                         </CardText>
                                         <CardText style={style.rating}>
                                             Rating:
@@ -242,16 +282,16 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                                 open={this.state.openDialog}
                                                 onRequestClose={() => { this.handleCloseDialog() }}
                                             >
-                                                <FlatButton label="Choose your score : " style={{cursor:'text'}}/>
+                                                <FlatButton label="Choose your score : " style={{ cursor: 'text' }} />
                                                 &nbsp;
-                                                <div className="rating-outer" ref="ratingOuter" 
-                                                    onMouseMove={this.getRateScore.bind(this)}  
+                                                <div className="rating-outer" ref="ratingOuter"
+                                                    onMouseMove={this.getRateScore.bind(this)}
                                                     onClick={() => this.getRating()}
                                                 >
                                                     <div className="rating-inner" ref="ratingInner">
                                                     </div>
                                                 </div>&nbsp;&nbsp;&nbsp;
-                                                <p style={{display:'inline-block'}} ref="ratingScore">0 / 5.0</p>
+                                                <p style={{ display: 'inline-block' }} ref="ratingScore">0 / 5.0</p>
                                                 <br />
                                                 <RaisedButton
                                                     style={{ marginLeft: '10px' }}
@@ -293,6 +333,29 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         </List>
                                     </Card>
                                 </div>
+                                {/* render artist dialog  */}
+                                <Dialog
+                                    open={this.state.openArtist}
+                                    onRequestClose={() => this.handleCloseArtist()}
+                                >
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.contributingArtistNavigation}/>
+                                </Dialog>
+
+                                {/* render composer dialog  */}
+                                <Dialog
+                                    open={this.state.openComposer}
+                                    onRequestClose={() => this.handleCloseComposer()}
+                                >
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.composerNavigation}/>
+                                </Dialog>
+
+                                {/* render album dialog  */}
+                                <Dialog
+                                    open={this.state.openAlbum}
+                                    onRequestClose={() => this.handleCloseAlbum()}
+                                >
+                                    <AlbumDetailPopup albumInfo={this.state.songInfo.album}/>
+                                </Dialog>
                             </div>
                         </div>
                     </div>

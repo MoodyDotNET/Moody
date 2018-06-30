@@ -58,14 +58,6 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
         fetch('api/album/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
-                // var index = -1;
-                // for (var i = 0; i < data.length; i++) {
-                //     if (data[i].albumId == this.state.album.albumId) {
-                //         index = i;
-                //     }
-                // }
-                // console.log(index);
-                // data.splice(index, 1);
                 this.setState({ related: data, loading: false })
             })
     }
@@ -76,7 +68,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             .then(data => {
                 this.setState({
                     album: data,
-                    // loading: false
+                    //loading: false
                 })
             })
     }
@@ -124,7 +116,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                 Genre: {this.state.album.genre}
                                             </CardText>
                                         </CardText>
-                                        {this.state.album.song.map((song: Song, index: number) =>
+                                        {/* {this.state.album.song.map((song: Song, index: number) =>
                                             <CardText>
                                                 <CardTitle title={song.title} />
 
@@ -132,7 +124,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                     <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
                                                 </audio>
                                             </CardText>
-                                        )}
+                                        )} */}
                                     </Card>
                                 </div>
 

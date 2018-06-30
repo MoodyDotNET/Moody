@@ -166,9 +166,9 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                     <img style={style.cover} src={`/img/song/${song.songCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    By: {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br/>
-                                                    Date released: {song.dateReleased}<br />
-                                                    Album:{song.album.albumName}
+                                                    <strong>By:</strong> {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br/>
+                                                    <strong>Date released:</strong> {song.dateReleased}<br />
+                                                    <strong>Album:</strong>{song.album.albumName}
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton
