@@ -50,7 +50,7 @@ export class MenuItem extends React.Component<any, Imenuitem>{
                     <FlatButton
                         className='nav-items'
                         label='Playlists'
-                        containerElement={<Link to="/"></Link>}
+                        containerElement={<Link to="/playlist"></Link>}
 
                     />
                 }

@@ -16,6 +16,7 @@ import { AlbumComponent } from './components/albums/Album';
 import { ArtistsList } from './components/artists/ArtistsList';
 import { ArtistComponent } from './components/artists/Artist';
 import { MemberLoginRoute } from './components/user/MemberLoginRoute';
+import { PlaylistComponent } from './components/Playlist/PlaylistComponent';
 
 export const routes = (
     <Layout>
@@ -34,5 +35,6 @@ export const routes = (
         <Route path='/artist/:id' component={ ArtistComponent }/>
         <Route path='/albums' component={ AlbumsList }/>
         <Route path='/album/:id' component={ AlbumComponent }/>
+        <Route path='/playlist' component= { PlaylistComponent }/>
     </Layout>
 );

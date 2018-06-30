@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem } from 'material-ui';
-
-interface IPlaylist {
-    playlist: Array<any>,
-    loading: boolean
-}
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem, Dialog } from 'material-ui';
+import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
+import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 
 const style = {
     bigCover: {
@@ -37,77 +34,222 @@ const style = {
     }
 }
 
-export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, any>{
+
+interface IPlaylist {
+    playlist: Array<any>,
+    loading: boolean,
+    songs: Array<any>,
+    openPopup: boolean,
+    message: string,
+    currentIndex: number,
+    openArtist: boolean,
+    openAlbum: boolean,
+    openComposer: boolean,
+}
+
+export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, IPlaylist>{
     constructor(props: any) {
         super(props);
-        this.state = { loading: true, playlist: [] }
-        fetch('/api/playlist/loadplaylist')
+        this.state = {
+            loading: true,
+            playlist: [],
+            songs: [],
+            openPopup: false,
+            message: "You don't have any song in your playlist currently",
+            currentIndex: -1,
+            openArtist: false,
+            openAlbum: false,
+            openComposer: false,
+        }
+        //load all songs
+        fetch('/api/song/all')
             .then(response => response.json() as Promise<Array<any>>)
             .then(data => {
-                this.setState({ playlist: data, loading: false })
+                this.setState({ songs: data })
+            })
+        //load playlist
+        fetch('/api/playlist/loadPlaylist')
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                console.log(data)
+                // if (data.length > 0) {
+                //     this.setState({ playlist: data, message: "", currentIndex: 0 })
+                // }
+                this.setState({ loading: false })
+            })
+            .catch(error => {
+                console.log("error "+error);
             })
     }
 
+    private handleOpenPopup() {
+        this.setState({ openPopup: true })
+    }
+
+    private handleClosePopup() {
+        this.setState({ openPopup: false })
+    }
+
+    private handleOpenArtist() {
+        this.setState({ openArtist: true })
+    }
+
+    private handleCloseArtist() {
+        this.setState({ openArtist: false })
+    }
+
+    private handleOpenComposer() {
+        this.setState({ openComposer: true })
+    }
+
+    private handleCloseComposer() {
+        this.setState({ openComposer: false })
+    }
+
+    private handleOpenAlbum() {
+        this.setState({ openAlbum: true })
+    }
+
+    private handleCloseAlbum() {
+        this.setState({ openAlbum: false })
+    }
+
+
     private renderLoading() {
         return (
-            <Card style={style.noResult}>
-                <CardTitle>
-                    <img className="loader-gif" src="/img/loader1.gif" />
-                    <span className="loader-text">Loading</span>
-                </CardTitle>
-            </Card>
+            <div className='row justify-content-center'>
+                <Card style={style.noResult}>
+                    <CardTitle>
+                        <img className="loader-gif" src="/img/loader1.gif" />
+                        <span className="loader-text">Loading</span>
+                    </CardTitle>
+                </Card>
+            </div>
         );
     }
 
+    private renderAddSongPopup() {
+        return (
+            <div></div>
+        );
+    }
+
+    private renderSongMedia(index: any) {
+        if (index == -1) {
+            return (
+                <Card style={style.card}>
+                    <CardText>
+                        {this.state.message}
+                    </CardText>
+                </Card>
+            );
+        }
+        else {
+            return (
+                <Card style={style.card}>
+                    <CardMedia
+                        overlay={
+                            <audio controls style={style.audio}
+                                id={index}
+                            >
+                                <source src={`/mp3/${this.state.playlist[index].song.songCode}.mp3`} type="audio/mpeg" />
+                            </audio>
+                        }
+                    >
+                        <img style={style.bigCover} src={`/img/song/${this.state.playlist[index].song.songCode}.jpg`} />
+                    </CardMedia>
+
+                    <CardTitle
+                        title={`${this.state.playlist[index].song.title} ${this.state.playlist[index].song.subtitle}`}
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                    />
+                    <CardText expandable={true}>
+                        <CardTitle title="Description" />
+                        <CardText>
+                            <strong>By:</strong>
+                            <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
+                                {`${this.state.playlist[index].song.contributingArtistNavigation.firstName} ${this.state.playlist[index].song.contributingArtistNavigation.lastName}`}</span>
+                            <br />
+                            <strong>Date released:</strong> {this.state.playlist[index].song.dateReleased}
+                            <br />
+                            <strong>Composer: </strong>
+                            <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
+                                {`${this.state.playlist[index].song.composerNavigation.firstName} ${this.state.playlist[index].song.composerNavigation.lastName}`}</span>
+                            <br />
+                            <strong>Album:</strong>
+                            <span className="popup-link-sm" onClick={() => this.handleOpenAlbum()}>
+                                {this.state.playlist[index].song.album.albumName}
+                            </span>
+
+                        </CardText>
+                    </CardText>
+
+                    {/* render artist dialog  */}
+                    <Dialog
+                        open={this.state.openArtist}
+                        onRequestClose={() => this.handleCloseArtist()}
+                    >
+                        <ArtistDetailPopup artistInfo={this.state.playlist[index].song.contributingArtistNavigation} />
+                    </Dialog>
+
+                    {/* render composer dialog  */}
+                    <Dialog
+                        open={this.state.openComposer}
+                        onRequestClose={() => this.handleCloseComposer()}
+                    >
+                        <ArtistDetailPopup artistInfo={this.state.playlist[index].song.composerNavigation} />
+                    </Dialog>
+
+                    {/* render album dialog  */}
+                    <Dialog
+                        open={this.state.openAlbum}
+                        onRequestClose={() => this.handleCloseAlbum()}
+                    >
+                        <AlbumDetailPopup albumInfo={this.state.playlist[index].song.album} />
+                    </Dialog>
+                </Card >
+            )
+        }
+    }
+
+    private renderSonglist() {
+        if (this.state.message.length > 0) {
+            return (
+                <Card style={style.card}>
+                    <List>
+                        <Subheader>Songs in playlist</Subheader>
+                        {this.state.playlist.map((playlist: any, index: number) =>
+                            <ListItem
+                                key={index}
+                                primaryText={`${playlist.song.title} ${playlist.song.subtitle}`}
+                                leftAvatar={<img style={style.img} src={`/img/song/${playlist.song.songCode}.jpg`} />}
+                                onClick={() => { this.setState({ currentIndex: index }) }}
+                            />
+                        )}
+                    </List>
+                </Card>
+            );
+        }
+        else {
+            return (
+                <Card style={style.card}>
+                    <List>
+                        <Subheader>Songs in playlist</Subheader>
+                    </List>
+                </Card>
+            );
+        }
+    }
     private renderPlaylist() {
         return (
             <div className='row justify-content-center'>
                 <div className="col-11 col-md-8">
-                    <Card style={style.card}>
-                        {/* <CardMedia>
-                            <img style={style.bigCover} src={`/img/album/${this.state.album.albumId}.jpg`} />
-                        </CardMedia>
-
-                        <CardTitle
-                            title={this.state.album.albumName}
-                            actAsExpander={true}
-                            showExpandableButton={true}
-                        />
-                        <CardText expandable={true}>
-                            <CardTitle title="Description" />
-                            <CardText>
-                                Date released: {this.state.album.dateReleased}<br />
-                                Genre: {this.state.album.genre}
-                            </CardText>
-                        </CardText>
-                        {this.state.album.song.map((song: Song, index: number) =>
-                            <CardText>
-                                <CardTitle title={song.title} />
-
-                                <audio controls style={style.audio}>
-                                    <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
-                                </audio>
-                            </CardText>
-                        )} */}
-                    </Card>
+                    {this.renderSongMedia(this.state.currentIndex)}
                 </div>
 
                 <div className="col-11 col-md-4">
-                    <Card style={style.card}>
-                        <List>
-                            <Subheader>Other albums</Subheader>
-                            {this.state.related.map((album: any, index: number) =>
-                                <ListItem
-                                    key={index}
-                                    primaryText={album.albumName}
-                                    leftAvatar={<img style={style.img} src={`/img/album/${album.albumId}.jpg`} />}
-                                    containerElement={
-                                        <Link to={`/album/${album.albumId}`} />
-                                    }
-                                />
-                            )}
-                        </List>
-                    </Card>
+                    {this.renderSonglist()}
                 </div>
             </div>
         );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem } from 'material-ui';
-import { grey50 } from 'material-ui/styles/colors';
+import { grey50,grey100, white } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
 
 const style = {
@@ -58,7 +58,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    songs:data
+                    songs: data
                 })
             })
         fetch('api/album/all')
@@ -79,18 +79,25 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             })
     }
 
-    private nextSong(current:number){
+    private nextSong(current: number) {
         var size = this.state.songs.length;
-        if(current == size-1){
-            current=-1;
+        if (current == size - 1) {
+            current = -1;
         }
-        var next = current+1;
-        var audioIndex = "audio"+next.toString();
-        var audio = document.getElementById(audioIndex) as HTMLAudioElement;
+        var next = current + 1;
+        var audio = document.getElementById("audio"+next) as HTMLAudioElement;
         audio.play();
-        
+
     }
 
+    private currentSongActive(current:number){
+        for(var i=0;i<this.state.songs.length;i++){
+            var audioWrapper = document.getElementById("audio-wrapper-"+i) as HTMLDivElement;
+            audioWrapper.style.backgroundColor = white;
+        }
+        var audioWrapper = document.getElementById("audio-wrapper-"+current) as HTMLDivElement;
+        audioWrapper.style.backgroundColor = grey100;
+    }
     public render() {
         if (this.state.loading == true) {
             return (
@@ -135,14 +142,17 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                             </CardText>
                                         </CardText>
                                         {this.state.songs.map((song: Song, index: number) =>
-                                            <CardText>
-                                                <CardTitle title={song.title} />
-
-                                                <audio controls style={style.audio} ref={`audio${index}`} 
-                                                    onEnded={()=>this.nextSong(index)} id={`audio${index}`}
-                                                >
-                                                    <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
-                                                </audio>
+                                            <CardText >
+                                                <div id={`audio-wrapper-${index}`}>
+                                                    <CardTitle title={song.title} />
+                                                    <audio controls style={style.audio}
+                                                        id={`audio${index}`}
+                                                        onEnded={() => this.nextSong(index)} 
+                                                        onPlay={() => this.currentSongActive(index)}
+                                                    >
+                                                        <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
+                                                    </audio>
+                                                </div>
                                             </CardText>
                                         )}
                                     </Card>
