@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader, CardActions } from 'material-ui';
 import { blueGrey100, white, grey100 } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
+import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
+import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 
 const style = {
     card: {
@@ -166,34 +168,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
     handleCloseArtist() {
         this.setState({ openArtist: false })
     }
-    private renderArtist() {
-        return (
-            <div className="row">
-                <div className="col-6">
-                    <Card>
-                        <CardMedia>
-                            <img style={style.cover} src={`/img/artist/${this.state.songInfo.contributingArtistNavigation.artistCode}.jpg`} />
-                        </CardMedia>
-                    </Card>
-                </div>
-                <div className="col-6">
-                    <Card>
-                        <CardText>
-                            <strong>Name: </strong>
-                            {`${this.state.songInfo.contributingArtistNavigation.firstName} ${this.state.songInfo.contributingArtistNavigation.lastName}`}
-                            <br />
-                            <strong>Date of birth: </strong>
-                            {this.state.songInfo.contributingArtistNavigation.birthDate}
-                            <br />
-                            <strong>Introduction: </strong>
-                            {this.state.songInfo.contributingArtistNavigation.introduce}
-                        </CardText>
-                    </Card>
-                </div>
-            </div>
-        );
-    }
-
+    
     handleOpenComposer() {
         this.setState({ openComposer: true })
     }
@@ -201,68 +176,13 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
     handleCloseComposer() {
         this.setState({ openComposer: false })
     }
-    private renderComposer() {
-        return (
-            <div className="row">
-                <div className="col-6">
-                    <Card>
-                        <CardMedia>
-                            <img style={style.cover} src={`/img/artist/${this.state.songInfo.composerNavigation.artistCode}.jpg`} />
-                        </CardMedia>
-                    </Card>
-                </div>
-                <div className="col-6">
-                    <Card>
-                        <CardText>
-                            <strong>Name: </strong>
-                            {`${this.state.songInfo.composerNavigation.firstName} ${this.state.songInfo.composerNavigation.lastName}`}
-                            <br />
-                            <strong>Date of birth: </strong>
-                            {this.state.songInfo.composerNavigation.birthDate}
-                            <br />
-                            <strong>Introduction: </strong>
-                            {this.state.songInfo.composerNavigation.introduce}
-                        </CardText>
-                    </Card>
-                </div>
-            </div>
-        );
-    }
-
+    
     handleOpenAlbum() {
         this.setState({ openAlbum: true })
     }
 
     handleCloseAlbum() {
         this.setState({ openAlbum: false })
-    }
-    private renderAlbum() {
-        return (
-            <div className="row">
-                <div className="col-6">
-                    <Card>
-                        <CardMedia
-                        >
-                            <img style={style.cover} src={`/img/album/${this.state.songInfo.album.albumId}.jpg`} />
-                        </CardMedia>
-                    </Card>
-                </div>
-                <div className="col-6">
-                    <Card>
-                        <CardText>
-                            <strong>Name: </strong>
-                            {this.state.songInfo.album.albumName}
-                            <br />
-                            <strong>Date release: </strong>
-                            {this.state.songInfo.album.dateReleased}
-                            <br />
-                            <strong>Genre: </strong>
-                            {this.state.songInfo.album.genre}
-                        </CardText>
-                    </Card>
-                </div>
-            </div>
-        );
     }
 
     private getRateScore(e: any) {
@@ -418,7 +338,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openArtist}
                                     onRequestClose={() => this.handleCloseArtist()}
                                 >
-                                    {this.renderArtist()}
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.contributingArtistNavigation}/>
                                 </Dialog>
 
                                 {/* render composer dialog  */}
@@ -426,7 +346,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openComposer}
                                     onRequestClose={() => this.handleCloseComposer()}
                                 >
-                                    {this.renderComposer()}
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.composerNavigation}/>
                                 </Dialog>
 
                                 {/* render album dialog  */}
@@ -434,7 +354,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openAlbum}
                                     onRequestClose={() => this.handleCloseAlbum()}
                                 >
-                                    {this.renderAlbum()}
+                                    <AlbumDetailPopup albumInfo={this.state.songInfo.album}/>
                                 </Dialog>
                             </div>
                         </div>
