@@ -38,12 +38,13 @@ interface IAlbum {
     album: any,
     loading: boolean,
     related: Array<any>,
+    songs: Array<any>,
 }
 
 export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAlbum>{
     constructor(props: any) {
         super(props);
-        this.state = { album: {}, loading: true, related: [] }
+        this.state = { album: {}, loading: true, related: [], songs: [] }
         const param: any = this.props.match.params;
         const id: string = param.id;
         fetch(`api/album/get?id=${id}`)
@@ -51,10 +52,15 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             .then(data => {
                 this.setState({
                     album: data,
-                    // loading: false
                 })
             })
-
+        fetch(`/api/song/from?albumId=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    songs:data
+                })
+            })
         fetch('api/album/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
@@ -71,6 +77,18 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                     //loading: false
                 })
             })
+    }
+
+    private nextSong(current:number){
+        var size = this.state.songs.length;
+        if(current == size-1){
+            current=-1;
+        }
+        var next = current+1;
+        var audioIndex = "audio"+next.toString();
+        var audio = document.getElementById(audioIndex) as HTMLAudioElement;
+        audio.play();
+        
     }
 
     public render() {
@@ -116,15 +134,17 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                 Genre: {this.state.album.genre}
                                             </CardText>
                                         </CardText>
-                                        {/* {this.state.album.song.map((song: Song, index: number) =>
+                                        {this.state.songs.map((song: Song, index: number) =>
                                             <CardText>
                                                 <CardTitle title={song.title} />
 
-                                                <audio controls style={style.audio}>
+                                                <audio controls style={style.audio} ref={`audio${index}`} 
+                                                    onEnded={()=>this.nextSong(index)} id={`audio${index}`}
+                                                >
                                                     <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
                                                 </audio>
                                             </CardText>
-                                        )} */}
+                                        )}
                                     </Card>
                                 </div>
 
