@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem } from 'material-ui';
-import { grey50,grey100, white } from 'material-ui/styles/colors';
+import { grey50, grey100, white } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
 
 const style = {
@@ -74,7 +74,13 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             .then(data => {
                 this.setState({
                     album: data,
-                    //loading: false
+                })
+            })
+        fetch(`/api/song/from?albumId=${(nextProp.match.params as any).id}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    songs: data
                 })
             })
     }
@@ -85,17 +91,17 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
             current = -1;
         }
         var next = current + 1;
-        var audio = document.getElementById("audio"+next) as HTMLAudioElement;
+        var audio = document.getElementById("audio" + next) as HTMLAudioElement;
         audio.play();
 
     }
 
-    private currentSongActive(current:number){
-        for(var i=0;i<this.state.songs.length;i++){
-            var audioWrapper = document.getElementById("audio-wrapper-"+i) as HTMLDivElement;
+    private currentSongActive(current: number) {
+        for (var i = 0; i < this.state.songs.length; i++) {
+            var audioWrapper = document.getElementById("audio-wrapper-" + i) as HTMLDivElement;
             audioWrapper.style.backgroundColor = white;
         }
-        var audioWrapper = document.getElementById("audio-wrapper-"+current) as HTMLDivElement;
+        var audioWrapper = document.getElementById("audio-wrapper-" + current) as HTMLDivElement;
         audioWrapper.style.backgroundColor = grey100;
     }
     public render() {
@@ -147,7 +153,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                     <CardTitle title={song.title} />
                                                     <audio controls style={style.audio}
                                                         id={`audio${index}`}
-                                                        onEnded={() => this.nextSong(index)} 
+                                                        onEnded={() => this.nextSong(index)}
                                                         onPlay={() => this.currentSongActive(index)}
                                                     >
                                                         <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />

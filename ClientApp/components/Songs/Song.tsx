@@ -107,6 +107,9 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             .then(res => res.json() as Promise<any>)
             .then(data => {
                 this.setState({ songInfo: data, rate: data.rating / 5 * 100 })
+                var aud = this.refs.audio as HTMLAudioElement;
+                aud.src=`/mp3/${this.state.songInfo.songCode}.mp3`;
+                aud.load();
             })
     }
 
