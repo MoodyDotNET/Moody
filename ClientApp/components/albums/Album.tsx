@@ -64,7 +64,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
         fetch('api/album/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
-                this.setState({ related: data, loading: false })
+                this.setState({ related: data,loading:false })
             })
     }
 

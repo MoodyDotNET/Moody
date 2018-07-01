@@ -57,7 +57,7 @@ namespace moody.Controllers
         public IEnumerable<Playlist> LoadPlayList(MoodyContext db)
         {
             Member member = HttpContext.Session.Get<Member>("MEMBER");
-            return (member != null) ? db.Playlist.Where(s => s.UserId.Equals(member.UserId)) : null;
+            return (member != null) ? db.Playlist.Where(s => (s.UserId==member.UserId)) : null;
         }
     }
 }

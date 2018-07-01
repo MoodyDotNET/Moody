@@ -8,6 +8,10 @@ import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 
 const style = {
+    snackbar:{
+        textAlign:'center',
+        zIndex:1000,
+    },
     card: {
         opacity: 0.85,
     },
@@ -124,11 +128,20 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
     }
 
     handleOpenAddPlaylist() {
-        if (this.state.isLogin == true) {
-            this.setState({ message: "Add success" })
+        if (this.state.isLogin == false) {
+            this.setState({message:"You have to login first"});
         }
         else {
-            this.setState({ message: "You have to login first" })
+            fetch(`/api/playlist/AddToPlayList?id=${this.state.songInfo.songCode}`,{
+                credentials:"same-origin"
+            })
+            .then(response => response.json() as Promise<boolean>)
+            .then(data => {
+                if(data == true){
+                    this.setState({message:"Add success"})
+                }
+                else this.setState({message:"This song has been added"})
+            })
         }
         this.setState({ openPopup: true })
     }
@@ -305,9 +318,9 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             </Dialog>
                                             <Snackbar
                                                 message={this.state.message}
-                                                style={{ textAlign: 'center' }}
+                                                style={style.snackbar}
                                                 open={this.state.openPopup}
-                                                autoHideDuration={3000}
+                                                // autoHideDuration={2500}
                                                 onRequestClose={() => { this.handleClose() }}
                                             />
                                         </CardText>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem, Dialog, GridList, GridTile, CardActions } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton,Snackbar,CardHeader, List, Subheader, ListItem, Dialog, GridList, GridTile, CardActions } from 'material-ui';
 import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 import { grey100, white } from 'material-ui/styles/colors';
@@ -9,6 +9,9 @@ import { grey100, white } from 'material-ui/styles/colors';
 const style = {
     bigCover: {
         height: '50vh'
+    },
+    coverPopup:{
+        height: '30vh'
     },
     overlay: {
         background: 'transparent',
@@ -19,7 +22,7 @@ const style = {
     },
     card: {
         opacity: 0.85,
-
+        marginTop: '1vh'
     },
     audio: {
         width: '100%'
@@ -34,10 +37,12 @@ const style = {
         height: '40px',
     },
     grid: {
-        width: '80%',
+        width: '95%',
         height: '80vh',
-        overFlowY: 'auto',
     },
+    snackbar: {
+        textAlign:'center',
+    }
 }
 
 
@@ -51,6 +56,8 @@ interface IPlaylist {
     openArtist: boolean,
     openAlbum: boolean,
     openComposer: boolean,
+    snackbarMsg:string,
+    snackbarOpen:boolean,
 }
 
 export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, IPlaylist>{
@@ -66,6 +73,8 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             openArtist: false,
             openAlbum: false,
             openComposer: false,
+            snackbarOpen: false,
+            snackbarMsg:"",
         }
         //load all songs
         fetch('/api/song/all')
@@ -73,115 +82,25 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             .then(data => {
                 this.setState({
                     songs: data,
-                    loading: false,
-                    message: "",
-                    currentIndex: 0,
-                    playlist: [
-                        {
-                            "songId": 14,
-                            "userId": 4,
-                            "song": {
-                                "songCode": 14,
-                                "title": "Perfect",
-                                "subtitle": " ",
-                                "rating": 4.3199999809265135,
-                                "contributingArtist": 6,
-                                "albumId": 5,
-                                "composer": 6,
-                                "lyric": "3",
-                                "album": {
-                                    "albumId": 5,
-                                    "albumName": "Divide",
-                                    "dateReleased": "2017-03-02T17:00:00",
-                                    "genre": "Pop",
-                                },
-                                "composerNavigation": {
-                                    "artistCode": 6,
-                                    "band": null,
-                                    "firstName": "Edward",
-                                    "lastName": "Sheeran",
-                                    "middleName": "Christopher ",
-                                    "biography": "Sheeran was born in Halifax, West Yorkshire, and raised in Framlingham, Suffolk. He attended the Academy of Contemporary Music in Guildford as an undergraduate from the age of 18 in 2009. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.",
-                                    "birthDate": "1991-02-16T17:00:00",
-                                    "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
-                                    "producerCode": 2,
-
-                                },
-                                "contributingArtistNavigation": {
-                                    "artistCode": 6,
-                                    "band": null,
-                                    "firstName": "Edward",
-                                    "lastName": "Sheeran",
-                                    "middleName": "Christopher ",
-                                    "biography": "Sheeran was born in Halifax, West Yorkshire, and raised in Framlingham, Suffolk. He attended the Academy of Contemporary Music in Guildford as an undergraduate from the age of 18 in 2009. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.",
-                                    "birthDate": "1991-02-16T17:00:00",
-                                    "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
-                                    "producerCode": 2,
-                                }
-                            }
-                        },
-
-                        {
-                            "songId": 13,
-                            "userId": 4,
-                            "song": {
-                                "songCode": 13,
-                                "title": "Dive",
-                                "subtitle": " ",
-                                "rating": 5,
-                                "contributingArtist": 6,
-                                "albumId": 5,
-                                "dateReleased": "1900-01-01T00:00:00",
-                                "composer": 6,
-                                "lyric": "2",
-                                "album": {
-                                    "albumId": 5,
-                                    "albumName": "Divide",
-                                    "dateReleased": "2017-03-02T17:00:00",
-                                    "genre": "Pop",
-                                
-                                },
-                                "composerNavigation": {
-                                    "artistCode": 6,
-                                    "band": null,
-                                    "firstName": "Edward",
-                                    "lastName": "Sheeran",
-                                    "middleName": "Christopher ",
-                                    "biography": "Sheeran was born in Halifax, West Yorkshire, and raised in Framlingham, Suffolk. He attended the Academy of Contemporary Music in Guildford as an undergraduate from the age of 18 in 2009. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.",
-                                    "birthDate": "1991-02-16T17:00:00",
-                                    "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
-                                    "producerCode": 2,
-                                    
-                                },
-                                "contributingArtistNavigation": {
-                                    "artistCode": 6,
-                                    "band": null,
-                                    "firstName": "Edward",
-                                    "lastName": "Sheeran",
-                                    "middleName": "Christopher ",
-                                    "biography": "Sheeran was born in Halifax, West Yorkshire, and raised in Framlingham, Suffolk. He attended the Academy of Contemporary Music in Guildford as an undergraduate from the age of 18 in 2009. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.",
-                                    "birthDate": "1991-02-16T17:00:00",
-                                    "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
-                                    "producerCode": 2,
-                                }
-                            }
-                        },
-
-                    ]
                 })
             })
-        //load playlist
-        // fetch('/api/playlist/loadPlaylist')
-        //     .then(response => response.json() as Promise<any>)
-        //     .then(data => {
-        //         if (data.length > 0) {
-        //             this.setState({ playlist: data, message: "", currentIndex: 0 })
-        //         }
-        //         this.setState({ loading: false })
-        //     })
-        //     .catch(error => {
-        //         console.log("error "+error);
-        //     })
+        this.loadPlaylist();
+    }
+
+    private loadPlaylist(){
+        fetch('api/playlist/loadPlaylist',{
+            credentials:"same-origin"
+        })
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                if (data.length > 0) {
+                    this.setState({ playlist: data, message: "", currentIndex: 0 })
+                }
+                this.setState({ loading: false })
+            })
+            .catch(error => {
+                console.log("error "+error);
+            })
     }
 
     private handleOpenPopup() {
@@ -216,6 +135,14 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
         this.setState({ openAlbum: false })
     }
 
+    private handleCloseSnackbar(){
+        this.setState({snackbarOpen:false})
+    }
+
+    private handleOpenSnackbar(){
+        this.setState({snackbarOpen:true})
+    }
+
     private onPlayHandle(currentId: number) {
         for (var i = 0; i < this.state.playlist.length; i++) {
             var listItem = document.getElementById("songlist" + i) as HTMLDivElement;
@@ -247,6 +174,45 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
         audio.load();
 
     }
+
+    private addToPlaylist(songId:number){
+        fetch(`/api/playlist/AddToPlayList?id=${songId}`,{
+            credentials:"same-origin"
+        })
+        .then(response => response.json() as Promise<boolean>)
+        .then(data => {
+            if(data == true){
+                this.loadPlaylist();
+                this.setState({snackbarMsg:"Add success"})
+            }
+            else this.setState({snackbarMsg:"This song has been added"})
+            this.setState({snackbarOpen:true})
+        })
+    }
+
+    private removeFromPlaylist(songId:number){
+        fetch(`/api/playlist/RemoveFromPlayList?id=${songId}`,{
+            credentials:"same-origin"
+        })
+        .then(response => response.json() as Promise<boolean>)
+        .then(data => {
+            if(data == true){
+                if(this.state.playlist.length > 1){
+                    this.loadPlaylist();
+                }
+                else {
+                    this.setState({
+                        currentIndex:-1,
+                        message:"You don't have any song in your playlist currently",
+                        playlist:[]
+                    })               
+                }
+                this.setState({snackbarMsg:"Remove success"})
+            }
+            else this.setState({snackbarMsg:"Remove fail"})
+            this.setState({snackbarOpen:true})
+        })
+    }
     private renderLoading() {
         return (
             <div className='row justify-content-center'>
@@ -262,24 +228,23 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
 
     private renderAddSongPopup() {
         return (
-            <div style={style.grid} className="container-fluid">
+            <div className="container-fluid" style={style.grid} >
                 <div className="row justify-content-center">
                     {this.state.songs.map((song: any, index: number) =>
                         <div className="col-12 col-sm-6" key={index}>
                             <Card>
                                 <CardMedia
                                     overlay={
-                                        <CardTitle title={`${song.title} ${song.subtitle}`}
-                                        />
+                                        <CardTitle title={`${song.title} ${song.subtitle}`}/>
                                     }
                                 >
-                                    <img style={{ height: '30vh' }} src={`/img/song/${song.congCode}.jpg`} />
+                                    <img style={style.coverPopup} src={`/img/song/${song.songCode}.jpg`} />
                                 </CardMedia>
                                 <CardActions>
                                     <RaisedButton
                                         label="Add"
                                         primary={true}
-                                        style={{ display: 'inline-block' }}
+                                        onClick={() => this.addToPlaylist(song.songCode)}
                                     />
                                 </CardActions>
                             </Card>
@@ -398,6 +363,13 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                 primaryText={`${Playlist.song.title} ${Playlist.song.subtitle}`}
                                 leftAvatar={<img style={style.img} src={`/img/song/${Playlist.song.songCode}.jpg`} />}
                                 onClick={() => { this.changeSong(index) }}
+                                rightIconButton={
+                                    <RaisedButton
+                                        label="Remove"
+                                        primary={true}
+                                        onClick={() => this.removeFromPlaylist(Playlist.song.songCode)}
+                                    />
+                                }
                             />
                         )}
                     </List>
@@ -417,11 +389,11 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
     private renderPlaylist() {
         return (
             <div className='row justify-content-center'>
-                <div className="col-11 col-md-8">
+                <div className="col-11 col-sm-10 col-md-7 col-lg-8">
                     {this.renderSongMedia(this.state.currentIndex)}
                 </div>
 
-                <div className="col-11 col-md-4">
+                <div className="col-11 col-sm-10 col-md-5 col-lg-4">
                     {this.renderSonglist()}
                 </div>
             </div>
@@ -438,11 +410,19 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                         {contents}
 
                         <Dialog
+                            className="playlist-songPopup" 
                             open={this.state.openPopup}
                             onRequestClose={() => this.handleClosePopup()}
                         >
                             {this.renderAddSongPopup()}
                         </Dialog>
+                        <Snackbar
+                            style={style.snackbar}
+                            open={this.state.snackbarOpen}
+                            message={this.state.snackbarMsg}
+                            onRequestClose={()=>this.handleCloseSnackbar()}
+                            autoHideDuration={2500}
+                        />
                     </div>
                 </div>
             </div>

@@ -93,12 +93,21 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
             })
     }
 
-    addPlaylist() {
+    addPlaylist(songId:number) {
         if (this.state.isLogin == false) {
             this.setState({message:"You have to login first"});
         }
         else {
-            this.setState({message:"Add success"})
+            fetch(`/api/playlist/AddToPlayList?id=${songId}`,{
+                credentials:"same-origin"
+            })
+            .then(response => response.json() as Promise<boolean>)
+            .then(data => {
+                if(data == true){
+                    this.setState({message:"Add success"})
+                }
+                else this.setState({message:"This song has been added"})
+            })
         }
         this.setState({openSnackbar:true});
     }
@@ -106,17 +115,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
     closeSnackbar(){
         this.setState({openSnackbar:false})
     }
-    // getAlbumName(id:number){
-    //     var albumName:string="";
-    //     fetch('api/album/get?id='+id)
-    //     .then(response => response.json() as Promise<any>)
-    //     .then(data => {
-    //         albumName=data.albumName;
-    //         console.log("api return: "+albumName)
-    //         return albumName;
-    //     })
-    // }
-
+    
     public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
         const search: any = nextProp.match.params;
 
@@ -181,7 +180,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                     <RaisedButton
                                                         label='Add to play list'
                                                         primary={true}
-                                                        onClick={() => { this.addPlaylist() }}
+                                                        onClick={() => { this.addPlaylist(song.songCode) }}
                                                     />
                                                     <Snackbar
                                                         style={style.snackbar}
