@@ -88,8 +88,8 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                                                     <img style={style.cover} src={`/img/album/${album.albumId}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    Date released: {album.dateReleased}<br />
-                                                    Genre: {album.genre}
+                                                    <strong>Date released:</strong> {album.dateReleased}<br />
+                                                    <strong>Genre:</strong> {album.genre}
                                                 </CardText>
                                                 <CardActions>
                                                     <RaisedButton

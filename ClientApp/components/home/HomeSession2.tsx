@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Song from '../../model/Song';
 import { Card, CardTitle, CardMedia, CardActions, RaisedButton } from 'material-ui';
 interface INewSong {
@@ -63,7 +63,13 @@ export class HomeSession2 extends React.Component<{}, INewSong>{
                             <img style={style.cover} src={`/img/song/${song.songCode}.jpg`}/>
                         </CardMedia>
                         <CardActions>
-                            <RaisedButton label="Hear it" primary={true}/>
+                            <RaisedButton 
+                                label="Hear it" 
+                                primary={true}
+                                containerElement={
+                                    <Link to={`/song/${song.songCode}`}/>
+                                }    
+                            />
                         </CardActions>
                     </Card>
                 </div>

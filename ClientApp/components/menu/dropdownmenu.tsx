@@ -49,7 +49,7 @@ export class DropdownMenu extends React.Component<any, IDropdown> {
           {this.state.isLogin == true &&
             <MenuItem
               value={5} primaryText="Playlists"
-              containerElement={<Link to="/" />}
+              containerElement={<Link to="/playlist" />}
             />
           }
 

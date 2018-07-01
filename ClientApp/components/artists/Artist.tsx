@@ -51,23 +51,16 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
         fetch('api/artist/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
-                // var index = -1;
-                // for (var i = 0; i < data.length; i++) {
-                //     if (data[i].artistCode == this.state.artist.artistCode) {
-                //         index = i;
-                //     }
-                // }
-                // data.splice(index,1);
                 this.setState({ related: data, loading: false })
             })
     }
 
-    componentWillReceiveProps(nextProps:RouteComponentProps<{}>){
+    componentWillReceiveProps(nextProps: RouteComponentProps<{}>) {
         fetch(`/api/artist/get?id=${(nextProps.match.params as any).id}`)
-        .then(res => res.json() as Promise<Array<any>>)
-        .then(data => {
-            this.setState({artist:data})
-        })
+            .then(res => res.json() as Promise<Array<any>>)
+            .then(data => {
+                this.setState({ artist: data })
+            })
     }
 
     public render() {
@@ -123,19 +116,23 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                         </CardText>
                                                     </Card>
                                                 </Tab>
-                                                <Tab label="Album" style={style.tabs} >
+                                                <Tab label="Composition" style={style.tabs} >
                                                     <List>
-                                                        <ListItem
-                                                            leftAvatar={<Avatar src="/img/ArtistBackground.jpg" />}
-                                                            primaryText="album name"
-                                                            rightIcon={
-                                                                <RaisedButton
-                                                                    label="Hear it"
-                                                                    primary={true}
-                                                                />
-                                                            }
-                                                        />
-
+                                                        {this.state.artist.songComposerNavigation.map((song: any, index: number) =>
+                                                            <ListItem
+                                                                leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
+                                                                primaryText={song.title}
+                                                                rightIcon={
+                                                                    <RaisedButton
+                                                                        label="Hear it"
+                                                                        primary={true}
+                                                                        containerElement={
+                                                                            <Link to={`/song/${song.songCode}`} />
+                                                                        }
+                                                                    />
+                                                                }
+                                                            />
+                                                        )}
                                                     </List>
                                                 </Tab>
                                                 <Tab label="Song" style={style.tabs}>
@@ -149,7 +146,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                                         label="Hear it"
                                                                         primary={true}
                                                                         containerElement={
-                                                                            <Link to={`/song/${song.songCode}`}/>
+                                                                            <Link to={`/song/${song.songCode}`} />
                                                                         }
                                                                     />
                                                                 }

@@ -20,6 +20,12 @@ namespace moody.Controllers
         }
 
         [HttpGet("[action]")]
+        public IEnumerable<Song> from(MoodyContext db, int albumId)
+        {
+            return db.Song.Where(s => s.AlbumId == albumId);
+        }
+
+        [HttpGet("[action]")]
         public IEnumerable<Song> search(MoodyContext db, string searchField)
         {
             return db.Song
