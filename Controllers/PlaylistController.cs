@@ -16,7 +16,7 @@ namespace moody.Controllers
         public bool AddToPlayList(MoodyContext db, int id)
         {
             Member member = HttpContext.Session.Get<Member>("MEMBER");
-            bool added = true;
+            bool added = false;
             if (member != null)
             {
                 Playlist item = new Playlist
@@ -28,13 +28,29 @@ namespace moody.Controllers
                 {
                     db.Playlist.Add(item);
                     db.SaveChanges();
+                    added = true;
                 }
-                catch (Exception)
-                {
-                    added = false;
-                }
+                catch (Exception) { }
             }
             return added;
+        }
+
+        [HttpGet("[action]")]
+        public bool RemoveFromPlayList(MoodyContext db, int id)
+        {
+            Member member = HttpContext.Session.Get<Member>("MEMBER");
+            bool deleted = false;
+            if (member != null)
+            {
+                try
+                {
+                    db.Playlist.Remove(db.Playlist.Where(a => (a.SongId == id && a.UserId == member.UserId)).First());
+                    db.SaveChanges();
+                    deleted = true;
+                }
+                catch (Exception) { }
+            }
+            return deleted;
         }
 
         [HttpGet("[action]")]
