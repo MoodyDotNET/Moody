@@ -35,8 +35,10 @@ namespace moody.Controllers
         [HttpGet("[action]")]
         public Song get(MoodyContext db, int id)
         {
-            return db.Song.
-                Where(s => s.SongCode == id).FirstOrDefault();
+            Song song = db.Song.Where(s => s.SongCode == id).FirstOrDefault();
+            song.ListeningFrequency++;
+            db.SaveChanges();
+            return song;
         }
 
         [HttpPost("[action]")]
