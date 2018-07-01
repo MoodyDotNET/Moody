@@ -120,24 +120,26 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                 }
                             }
                         },
+
                         {
-                            "songId": 15,
+                            "songId": 13,
                             "userId": 4,
                             "song": {
-                                "songCode": 15,
-                                "title": "How Would You Feel",
+                                "songCode": 13,
+                                "title": "Dive",
                                 "subtitle": " ",
-                                "rating": 4.666666666666667,
+                                "rating": 5,
                                 "contributingArtist": 6,
                                 "albumId": 5,
                                 "dateReleased": "1900-01-01T00:00:00",
                                 "composer": 6,
-                                "lyric": "4",
+                                "lyric": "2",
                                 "album": {
                                     "albumId": 5,
                                     "albumName": "Divide",
                                     "dateReleased": "2017-03-02T17:00:00",
                                     "genre": "Pop",
+                                
                                 },
                                 "composerNavigation": {
                                     "artistCode": 6,
@@ -149,7 +151,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                     "birthDate": "1991-02-16T17:00:00",
                                     "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
                                     "producerCode": 2,
-
+                                    
                                 },
                                 "contributingArtistNavigation": {
                                     "artistCode": 6,
@@ -161,10 +163,10 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                     "birthDate": "1991-02-16T17:00:00",
                                     "introduce": "An English singer, songwriter, guitarist, record producer, and actor",
                                     "producerCode": 2,
-
                                 }
                             }
-                        }
+                        },
+
                     ]
                 })
             })
@@ -223,27 +225,27 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
         listItem.style.backgroundColor = grey100;
     }
 
-    componentWillMount(){
-
-    }
-
-    private onEndHandle(){
+    private onEndHandle() {
         var currentId = this.state.currentIndex;
-        if(currentId == this.state.playlist.length-1){
-            currentId=-1;
+        if (currentId == this.state.playlist.length - 1) {
+            currentId = -1;
         }
-        currentId =currentId+1;
+        currentId = currentId + 1;
         this.setState({currentIndex:currentId});
-        //var audio = document.getElementById("audio"+currentId) as HTMLAudioElement;
-        //audio.play();
+        var audio = this.refs.audio as HTMLAudioElement;
+        audio.src = `/mp3/${this.state.playlist[currentId].song.songCode}.mp3`;
+        audio.load();
+        audio.play();
     }
 
 
-    private changeSong(index:number){
+    private changeSong(index: number) {
         this.setState({ currentIndex: index });
-        var audio=document.getElementById("audio"+index) as HTMLAudioElement;
+        this.forceUpdate();
+        var audio = this.refs.audio as HTMLAudioElement;
+        audio.src = `/mp3/${this.state.playlist[index].song.songCode}.mp3`;
         audio.load();
-        
+
     }
     private renderLoading() {
         return (
@@ -311,11 +313,12 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                     <CardMedia
                         overlay={
                             <audio controls style={style.audio}
+                                ref="audio"
                                 id={`audio${index}`}
                                 onPlay={() => this.onPlayHandle(index)}
-                                onEnded={()=> this.onEndHandle()}
+                                onEnded={() => this.onEndHandle()}
                             >
-                                <source src={`/mp3/${this.state.playlist[index].song.songCode}.mp3`} type="audio/mpeg" />
+                                <source src={`/mp3/${this.state.playlist[this.state.currentIndex].song.songCode}.mp3`} type="audio/mpeg" />
                             </audio>
                         }
                     >
