@@ -362,7 +362,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         </CardText>
                                         <CardText>
                                             <CardTitle title="lyrics" />
-                                            {this.state.songInfo.lyrics}
+                                            {this.state.songInfo.lyric}
                                         </CardText>
                                     </Card>
                                 </div>
