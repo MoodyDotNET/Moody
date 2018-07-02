@@ -74,7 +74,7 @@ namespace moody.Controllers
             {
                 return false;
             }
-            Member t = db.Member.Where(u => u.UserId == u.UserId).First();
+            Member t = db.Member.Where(u => u.UserId == logged.UserId).First();
             t.FirstName = member.FirstName;
             t.MiddleName = member.MiddleName;
             t.LastName = member.LastName;
