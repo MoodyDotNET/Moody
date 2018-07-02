@@ -63,6 +63,59 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
             })
     }
 
+    private loadComposition() {
+        if (this.state.artist.songComposerNavigation.length == 0) {
+            return (
+                <p>There is no composition yet</p>
+            )
+        }
+        else {
+            return (
+                this.state.artist.songComposerNavigation.map((song: any, index: number) =>
+                    <ListItem
+                        leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
+                        primaryText={song.title}
+                        rightIcon={
+                            <RaisedButton
+                                label="Hear it"
+                                primary={true}
+                                containerElement={
+                                    <Link to={`/song/${song.songCode}`} />
+                                }
+                            />
+                        }
+                    />
+                )
+            )
+        }
+    }
+
+    private loadSongs() {
+        if (this.state.artist.songContributingArtistNavigation.length == 0) {
+            return (
+                <p>There is no song yet</p>
+            )
+        }
+        else {
+            return (
+                this.state.artist.songContributingArtistNavigation.map((song: any, index: number) =>
+                    <ListItem
+                        leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
+                        primaryText={song.title}
+                        rightIcon={
+                            <RaisedButton
+                                label="Hear it"
+                                primary={true}
+                                containerElement={
+                                    <Link to={`/song/${song.songCode}`} />
+                                }
+                            />
+                        }
+                    />
+                )
+            )
+        }
+    }
     public render() {
         if (this.state.loading == true) {
             return (
@@ -90,6 +143,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card>
+                                        <CardHeader title="Artist"/>
                                         <CardMedia
                                             overlay={
                                                 <CardHeader
@@ -118,40 +172,12 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                 </Tab>
                                                 <Tab label="Composition" style={style.tabs} >
                                                     <List>
-                                                        {this.state.artist.songComposerNavigation.map((song: any, index: number) =>
-                                                            <ListItem
-                                                                leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
-                                                                primaryText={song.title}
-                                                                rightIcon={
-                                                                    <RaisedButton
-                                                                        label="Hear it"
-                                                                        primary={true}
-                                                                        containerElement={
-                                                                            <Link to={`/song/${song.songCode}`} />
-                                                                        }
-                                                                    />
-                                                                }
-                                                            />
-                                                        )}
+                                                        {this.loadComposition()}
                                                     </List>
                                                 </Tab>
                                                 <Tab label="Song" style={style.tabs}>
                                                     <List>
-                                                        {this.state.artist.songContributingArtistNavigation.map((song: any, index: number) =>
-                                                            <ListItem
-                                                                leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
-                                                                primaryText={song.title}
-                                                                rightIcon={
-                                                                    <RaisedButton
-                                                                        label="Hear it"
-                                                                        primary={true}
-                                                                        containerElement={
-                                                                            <Link to={`/song/${song.songCode}`} />
-                                                                        }
-                                                                    />
-                                                                }
-                                                            />
-                                                        )}
+                                                        {this.loadSongs()}
                                                     </List>
                                                 </Tab>
                                             </Tabs>

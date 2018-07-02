@@ -22,12 +22,12 @@ export class MenuItem extends React.Component<any, Imenuitem>{
 
         return (
             <div className="menu-item-bg">
-                <FlatButton
+                {/* <FlatButton
                     className='nav-items'
                     label='Home'
                     containerElement={<Link to="/"></Link>}
 
-                />
+                /> */}
                 <FlatButton
                     className='nav-items'
                     label='Albums'

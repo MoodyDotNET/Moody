@@ -8,9 +8,9 @@ import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 
 const style = {
-    snackbar:{
-        textAlign:'center',
-        zIndex:1000,
+    snackbar: {
+        textAlign: 'center',
+        zIndex: 1000,
     },
     card: {
         opacity: 0.85,
@@ -59,6 +59,7 @@ interface Isong {
     openArtist: boolean,
     openAlbum: boolean,
     openComposer: boolean,
+    related: Array<any>,
 }
 
 export class SongComponent extends React.Component<RouteComponentProps<{}>, Isong>{
@@ -75,7 +76,8 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             rate: 0,
             openArtist: false,
             openAlbum: false,
-            openComposer: false
+            openComposer: false,
+            related: []
         }
         var paramURL: any = this.props.match.params;
         var songId: string = paramURL.songId;
@@ -87,6 +89,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                     mp3FilePath: "mp3/" + songId + ".mp3",
                     rate: data.rating / 5 * 100,
                     loading: false,
+                    related: data.composerNavigation.songComposerNavigation,
                 });
                 var aud = this.refs.audio as HTMLAudioElement;
                 aud.load();
@@ -110,9 +113,13 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         fetch(`/api/song/get?id=${(nextProp.match.params as any).songId}`)
             .then(res => res.json() as Promise<any>)
             .then(data => {
-                this.setState({ songInfo: data, rate: data.rating / 5 * 100 })
+                this.setState({
+                    songInfo: data,
+                    rate: data.rating / 5 * 100,
+                    related: data.composerNavigation.songComposerNavigation
+                })
                 var aud = this.refs.audio as HTMLAudioElement;
-                aud.src=`/mp3/${this.state.songInfo.songCode}.mp3`;
+                aud.src = `/mp3/${this.state.songInfo.songCode}.mp3`;
                 aud.load();
             })
     }
@@ -129,19 +136,19 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
 
     handleOpenAddPlaylist() {
         if (this.state.isLogin == false) {
-            this.setState({message:"You have to login first"});
+            this.setState({ message: "You have to login first" });
         }
         else {
-            fetch(`/api/playlist/AddToPlayList?id=${this.state.songInfo.songCode}`,{
-                credentials:"same-origin"
+            fetch(`/api/playlist/AddToPlayList?id=${this.state.songInfo.songCode}`, {
+                credentials: "same-origin"
             })
-            .then(response => response.json() as Promise<boolean>)
-            .then(data => {
-                if(data == true){
-                    this.setState({message:"Add success"})
-                }
-                else this.setState({message:"This song has been added"})
-            })
+                .then(response => response.json() as Promise<boolean>)
+                .then(data => {
+                    if (data == true) {
+                        this.setState({ message: "Add success" })
+                    }
+                    else this.setState({ message: "This song has been added" })
+                })
         }
         this.setState({ openPopup: true })
     }
@@ -165,7 +172,8 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                 this.setState({
                     openDialog: false,
                     openPopup: true,
-                    message: "Thank you for rating"
+                    message: "Thank you for rating",
+                    rate: score
                 })
             })
             .catch(error => {
@@ -184,7 +192,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
     handleCloseArtist() {
         this.setState({ openArtist: false })
     }
-    
+
     handleOpenComposer() {
         this.setState({ openComposer: true })
     }
@@ -192,7 +200,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
     handleCloseComposer() {
         this.setState({ openComposer: false })
     }
-    
+
     handleOpenAlbum() {
         this.setState({ openAlbum: true })
     }
@@ -212,6 +220,33 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         scoreTxt.innerHTML = (Math.round(mouseXCor * 5 / ratingWidth * 10) / 10).toString() + " / 5.0";
     }
 
+    private loadTopSong() {
+        fetch('/api/song/suggested')
+            .then(response => response.json() as Promise<Array<any>>)
+            .then(data => {
+                this.setState({ related:data })
+            })
+    }
+
+    private loadRelated() {
+        if (this.state.related.length == 0) {
+            this.loadTopSong();
+        }
+        return (
+
+            this.state.related.map((song: Song, index: number) =>
+                <ListItem
+                    key={index}
+                    primaryText={`${song.title} ${song.subtitle}`}
+                    leftAvatar={<img style={style.img} src={`/img/song/${song.songCode}.jpg`} />}
+                    containerElement={
+                        <Link to={`/song/${song.songCode}`} />
+                    }
+                    hoverColor={grey100}
+                />
+            )
+        );
+    }
 
     public render() {
         if (this.state.loading == true) {
@@ -240,6 +275,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card style={style.card}>
+                                        <CardHeader title="Song" />
                                         <CardMedia
                                             overlay={
                                                 <audio controls style={style.audio} ref="audio">
@@ -267,11 +303,11 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
                                                 {`${this.state.songInfo.composerNavigation.firstName} ${this.state.songInfo.composerNavigation.lastName}`}</span>
                                             <br />
-                                            <strong>Album:</strong> 
+                                            <strong>Album:</strong>
                                             <span className="popup-link-sm" onClick={() => this.handleOpenAlbum()}>
                                                 {this.state.songInfo.album.albumName}
                                             </span>
-                                            
+
                                         </CardText>
                                         <CardText style={style.rating}>
                                             Rating:
@@ -335,17 +371,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         <List>
                                             <Subheader>Other songs</Subheader>
 
-                                            {this.state.songInfo.composerNavigation.songComposerNavigation.map((song: Song, index: number) =>
-                                                <ListItem
-                                                    key={index}
-                                                    primaryText={`${song.title} ${song.subtitle}`}
-                                                    leftAvatar={<img style={style.img} src={`/img/song/${song.songCode}.jpg`} />}
-                                                    containerElement={
-                                                        <Link to={`/song/${song.songCode}`} />
-                                                    }
-                                                    hoverColor={grey100}
-                                                />
-                                            )}
+                                            {this.loadRelated()}
                                         </List>
                                     </Card>
                                 </div>
@@ -354,7 +380,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openArtist}
                                     onRequestClose={() => this.handleCloseArtist()}
                                 >
-                                    <ArtistDetailPopup artistInfo={this.state.songInfo.contributingArtistNavigation}/>
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.contributingArtistNavigation} />
                                 </Dialog>
 
                                 {/* render composer dialog  */}
@@ -362,7 +388,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openComposer}
                                     onRequestClose={() => this.handleCloseComposer()}
                                 >
-                                    <ArtistDetailPopup artistInfo={this.state.songInfo.composerNavigation}/>
+                                    <ArtistDetailPopup artistInfo={this.state.songInfo.composerNavigation} />
                                 </Dialog>
 
                                 {/* render album dialog  */}
@@ -370,7 +396,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                     open={this.state.openAlbum}
                                     onRequestClose={() => this.handleCloseAlbum()}
                                 >
-                                    <AlbumDetailPopup albumInfo={this.state.songInfo.album}/>
+                                    <AlbumDetailPopup albumInfo={this.state.songInfo.album} />
                                 </Dialog>
                             </div>
                         </div>

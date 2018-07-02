@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, List, Subheader, ListItem, Dialog } from 'material-ui';
 import { grey50, grey100, white } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
-
+import { SongDetailPopup } from '../Songs/SongDetailPopup';
 const style = {
     bigCover: {
         height: '50vh'
@@ -39,12 +39,13 @@ interface IAlbum {
     loading: boolean,
     related: Array<any>,
     songs: Array<any>,
+    openPopup: boolean,
 }
 
 export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAlbum>{
     constructor(props: any) {
         super(props);
-        this.state = { album: {}, loading: true, related: [], songs: [] }
+        this.state = { album: {}, loading: true, related: [], songs: [], openPopup: false }
         const param: any = this.props.match.params;
         const id: string = param.id;
         fetch(`api/album/get?id=${id}`)
@@ -64,7 +65,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
         fetch('api/album/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
-                this.setState({ related: data,loading:false })
+                this.setState({ related: data, loading: false })
             })
     }
 
@@ -83,6 +84,14 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                     songs: data
                 })
             })
+    }
+
+    private handleClose() {
+        this.setState({ openPopup: false })
+    }
+
+    private handleOpen() {
+        this.setState({ openPopup: true })
     }
 
     private nextSong(current: number) {
@@ -131,6 +140,7 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card style={style.card}>
+                                        <CardHeader title="Album" />
                                         <CardMedia>
                                             <img style={style.bigCover} src={`/img/album/${this.state.album.albumId}.jpg`} />
                                         </CardMedia>
@@ -150,7 +160,10 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                         {this.state.songs.map((song: Song, index: number) =>
                                             <CardText >
                                                 <div id={`audio-wrapper-${index}`}>
-                                                    <CardTitle title={song.title} />
+
+                                                    <span className="popup-link-sm" onClick={() => this.handleOpen()}>
+                                                        <CardTitle title={song.title} />
+                                                    </span>
                                                     <audio controls style={style.audio}
                                                         id={`audio${index}`}
                                                         onEnded={() => this.nextSong(index)}
@@ -159,6 +172,12 @@ export class AlbumComponent extends React.Component<RouteComponentProps<{}>, IAl
                                                         <source src={`/mp3/${song.songCode}.mp3`} type="audio/mpeg" />
                                                     </audio>
                                                 </div>
+                                                <Dialog
+                                                    open={this.state.openPopup}
+                                                    onRequestClose={() => { this.handleClose() }}
+                                                >
+                                                    <SongDetailPopup SongInfo={song} />
+                                                </Dialog>
                                             </CardText>
                                         )}
                                     </Card>
