@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton,Snackbar,CardHeader, List, Subheader, ListItem, Dialog, GridList, GridTile, CardActions } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, Snackbar, CardHeader, List, Subheader, ListItem, Dialog, GridList, GridTile, CardActions } from 'material-ui';
 import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 import { grey100, white } from 'material-ui/styles/colors';
@@ -10,7 +10,7 @@ const style = {
     bigCover: {
         height: '50vh'
     },
-    coverPopup:{
+    coverPopup: {
         height: '30vh'
     },
     overlay: {
@@ -41,7 +41,7 @@ const style = {
         height: '80vh',
     },
     snackbar: {
-        textAlign:'center',
+        textAlign: 'center',
     }
 }
 
@@ -56,8 +56,8 @@ interface IPlaylist {
     openArtist: boolean,
     openAlbum: boolean,
     openComposer: boolean,
-    snackbarMsg:string,
-    snackbarOpen:boolean,
+    snackbarMsg: string,
+    snackbarOpen: boolean,
 }
 
 export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, IPlaylist>{
@@ -69,12 +69,12 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             songs: [],
             openPopup: false,
             message: "You don't have any song in your playlist currently",
-            currentIndex: -1,
+            currentIndex: 0,
             openArtist: false,
             openAlbum: false,
             openComposer: false,
             snackbarOpen: false,
-            snackbarMsg:"",
+            snackbarMsg: "",
         }
         //load all songs
         fetch('/api/song/all')
@@ -84,22 +84,30 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                     songs: data,
                 })
             })
-        this.loadPlaylist();
+        this.loadPlaylist(true);
     }
 
-    private loadPlaylist(){
-        fetch('api/playlist/loadPlaylist',{
-            credentials:"same-origin"
+    private loadPlaylist(loadingAudio: boolean) {
+        fetch('api/playlist/loadPlaylist', {
+            credentials: "same-origin"
         })
             .then(response => response.json() as Promise<any>)
             .then(data => {
                 if (data.length > 0) {
-                    this.setState({ playlist: data, message: "", currentIndex: 0 })
+                    this.setState({ playlist: data, message: "", loading: false })
+                    if (loadingAudio == true) {
+                        var audio = this.refs.audio as HTMLAudioElement;
+                        audio.src = `/mp3/${this.state.playlist[this.state.currentIndex].song.songCode}.mp3`;
+                        audio.load();
+                    }
+
                 }
-                this.setState({ loading: false })
+                else {
+                    this.setState({ currentIndex: -1, loading: false })
+                }
             })
             .catch(error => {
-                console.log("error "+error);
+                console.log("error " + error);
             })
     }
 
@@ -135,12 +143,12 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
         this.setState({ openAlbum: false })
     }
 
-    private handleCloseSnackbar(){
-        this.setState({snackbarOpen:false})
+    private handleCloseSnackbar() {
+        this.setState({ snackbarOpen: false })
     }
 
-    private handleOpenSnackbar(){
-        this.setState({snackbarOpen:true})
+    private handleOpenSnackbar() {
+        this.setState({ snackbarOpen: true })
     }
 
     private onPlayHandle(currentId: number) {
@@ -158,7 +166,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             currentId = -1;
         }
         currentId = currentId + 1;
-        this.setState({currentIndex:currentId});
+        this.setState({ currentIndex: currentId });
         var audio = this.refs.audio as HTMLAudioElement;
         audio.src = `/mp3/${this.state.playlist[currentId].song.songCode}.mp3`;
         audio.load();
@@ -175,43 +183,57 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
 
     }
 
-    private addToPlaylist(songId:number){
-        fetch(`/api/playlist/AddToPlayList?id=${songId}`,{
-            credentials:"same-origin"
+    private addToPlaylist(songId: number) {
+        fetch(`/api/playlist/AddToPlayList?id=${songId}`, {
+            credentials: "same-origin"
         })
-        .then(response => response.json() as Promise<boolean>)
-        .then(data => {
-            if(data == true){
-                this.loadPlaylist();
-                this.setState({snackbarMsg:"Add success"})
-            }
-            else this.setState({snackbarMsg:"This song has been added"})
-            this.setState({snackbarOpen:true})
-        })
+            .then(response => response.json() as Promise<boolean>)
+            .then(data => {
+                if (data == true) {
+                    if(this.state.playlist.length == 0){
+                        console.log("add new : index "+this.state.currentIndex)
+                        this.loadPlaylist(true);
+                    }
+                    else{
+                        this.loadPlaylist(false);
+                    }
+                    this.setState({ snackbarMsg: "Add success" })
+                }
+                else this.setState({ snackbarMsg: "This song has been added" })
+                this.setState({ snackbarOpen: true })
+            })
     }
 
-    private removeFromPlaylist(songId:number){
-        fetch(`/api/playlist/RemoveFromPlayList?id=${songId}`,{
-            credentials:"same-origin"
+    private removeFromPlaylist(songId: number, currentIndex: number, deleteIndex: number) {
+        fetch(`/api/playlist/RemoveFromPlayList?id=${songId}`, {
+            credentials: "same-origin"
         })
-        .then(response => response.json() as Promise<boolean>)
-        .then(data => {
-            if(data == true){
-                if(this.state.playlist.length > 1){
-                    this.loadPlaylist();
+            .then(response => response.json() as Promise<boolean>)
+            .then(data => {
+                if (data == true) {
+                    if (this.state.playlist.length > 1) {
+                        //case when delete the current active song
+                        //reset current index -> 0, and load audio src
+                        if (currentIndex == deleteIndex) {
+                            this.setState({ currentIndex: 0 });
+                            this.loadPlaylist(true);
+                        }
+                        else {
+                            this.loadPlaylist(false);
+                        }
+                    }
+                    else {
+                        this.setState({
+                            currentIndex: 0,
+                            message: "You don't have any song in your playlist currently",
+                            playlist: []
+                        })
+                    }
+                    this.setState({ snackbarMsg: "Remove success" })
                 }
-                else {
-                    this.setState({
-                        currentIndex:-1,
-                        message:"You don't have any song in your playlist currently",
-                        playlist:[]
-                    })               
-                }
-                this.setState({snackbarMsg:"Remove success"})
-            }
-            else this.setState({snackbarMsg:"Remove fail"})
-            this.setState({snackbarOpen:true})
-        })
+                else this.setState({ snackbarMsg: "Remove fail" })
+                this.setState({ snackbarOpen: true })
+            })
     }
     private renderLoading() {
         return (
@@ -235,7 +257,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                             <Card>
                                 <CardMedia
                                     overlay={
-                                        <CardTitle title={`${song.title} ${song.subtitle}`}/>
+                                        <CardTitle title={`${song.title} ${song.subtitle}`} />
                                     }
                                 >
                                     <img style={style.coverPopup} src={`/img/song/${song.songCode}.jpg`} />
@@ -256,7 +278,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
     }
 
     private renderSongMedia(index: any) {
-        if (index == -1) {
+        if (this.state.message.length > 0) {
             return (
                 <Card style={style.card}>
                     <CardText>
@@ -283,7 +305,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                 onPlay={() => this.onPlayHandle(index)}
                                 onEnded={() => this.onEndHandle()}
                             >
-                                <source src={`/mp3/${this.state.playlist[this.state.currentIndex].song.songCode}.mp3`} type="audio/mpeg" />
+                                <source type="audio/mpeg" />
                             </audio>
                         }
                     >
@@ -367,7 +389,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                                     <RaisedButton
                                         label="Remove"
                                         primary={true}
-                                        onClick={() => this.removeFromPlaylist(Playlist.song.songCode)}
+                                        onClick={() => this.removeFromPlaylist(Playlist.song.songCode, this.state.currentIndex, index)}
                                     />
                                 }
                             />
@@ -410,7 +432,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                         {contents}
 
                         <Dialog
-                            className="playlist-songPopup" 
+                            className="playlist-songPopup"
                             open={this.state.openPopup}
                             onRequestClose={() => this.handleClosePopup()}
                         >
@@ -420,7 +442,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                             style={style.snackbar}
                             open={this.state.snackbarOpen}
                             message={this.state.snackbarMsg}
-                            onRequestClose={()=>this.handleCloseSnackbar()}
+                            onRequestClose={() => this.handleCloseSnackbar()}
                             autoHideDuration={2500}
                         />
                     </div>

@@ -71,7 +71,7 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
         else {
             if (this.state.artists.length > 0) {
                 return (
-                    <div className='background-img-style sections' style={style.background}>
+                    <div className='background-img-style sections artistlist' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row justify-content-center'>
@@ -95,6 +95,7 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
                                                             <Link to={`/artist/${artist.artistCode}`}></Link>
                                                         }
                                                         primary={true}
+                                                        className="btn"
                                                     />
                                                 </CardActions>
                                             </Card>

@@ -75,7 +75,7 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
         else {
             if (this.state.albums.length > 0) {
                 return (
-                    <div className='background-img-style sections' style={style.background}>
+                    <div className='background-img-style sections albumlist' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row justify-content-center'>
@@ -98,6 +98,7 @@ export class AlbumsList extends React.Component<RouteComponentProps<{}>, albumIn
                                                             <Link to={`/album/${album.albumId}`}></Link>
                                                         }
                                                         primary={true}
+                                                        className="btn"
                                                     />
                                                 </CardActions>
                                             </Card>

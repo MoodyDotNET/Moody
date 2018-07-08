@@ -21,7 +21,7 @@ export class ArtistDetailPopup extends React.Component<any,IArtistPopup>{
 
     public render(){
         return(
-            <div className="row">
+            <div className="row artist">
                 <div className="col-6">
                     <Card>
                         <CardMedia>
@@ -43,11 +43,12 @@ export class ArtistDetailPopup extends React.Component<any,IArtistPopup>{
                         </CardText>
                         <CardActions>
                             <RaisedButton
-                                label="Read"
+                                label="Read more"
                                 primary={true}
                                 containerElement={
                                     <Link to={`/artist/${this.state.artistInfo.artistCode}`}/>
                                 }
+                                className="btn"
                             />
                         </CardActions>
                     </Card>
