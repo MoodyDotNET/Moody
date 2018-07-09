@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import Song from '../../model/Song';
-import { Card, CardTitle, CardMedia, CardActions, RaisedButton } from 'material-ui';
+import { Card, CardTitle, CardMedia, CardActions, RaisedButton, FlatButton } from 'material-ui';
 interface INewSong {
     newSong: Array<any>,
     loading: boolean,
@@ -12,11 +12,11 @@ const style = {
         marginTop: "15vh",
         opacity: 0.8
     },
-    cover : {
+    cover: {
         height: '40vh',
     },
-    background:{
-        background:'URL("/img/songBackground.jpg")'
+    background: {
+        background: 'URL("/img/songBackground.jpg")'
     }
 }
 
@@ -37,6 +37,11 @@ export class HomeSession2 extends React.Component<{}, INewSong>{
             <div className='col-12 section2 sections songlist' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
+                        <div className="col-12" style={{ textAlign: 'center' }}>
+                            <h3 className="header">
+                                Popular Song
+                            </h3>
+                        </div>
                         {content}
                     </div>
                     <div>
@@ -56,20 +61,20 @@ export class HomeSession2 extends React.Component<{}, INewSong>{
                         <CardMedia
                             overlay={
                                 <CardTitle
-                                    title={`${song.title} ${song.subtitle}`}                                    
+                                    title={`${song.title} ${song.subtitle}`}
                                 />
                             }
                         >
-                            <img style={style.cover} src={`/img/song/${song.songCode}.jpg`}/>
+                            <img style={style.cover} src={`/img/song/${song.songCode}.jpg`} />
                         </CardMedia>
                         <CardActions>
-                            <RaisedButton 
-                                label="Hear it" 
+                            <RaisedButton
+                                label="Hear it"
                                 primary={true}
                                 containerElement={
-                                    <Link to={`/song/${song.songCode}`}/>
-                                }  
-                                className="btn"  
+                                    <Link to={`/song/${song.songCode}`} />
+                                }
+                                className="btn"
                             />
                         </CardActions>
                     </Card>

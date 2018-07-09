@@ -20,7 +20,7 @@ const style = {
         padding: '0px 16px',
     },
     cover: {
-        height: '50vh',
+        height: '60vh',
     },
     description: {
         height: '10vh'
@@ -275,7 +275,6 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card style={style.card}>
-                                        <CardHeader title="Song" />
                                         <CardMedia
                                             overlay={
                                                 <audio controls style={style.audio} ref="audio">
@@ -320,14 +319,14 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <RaisedButton
                                                 label="Add to playlist"
                                                 className="btn"
-                                                secondary={true}
+                                                primary={true}
                                                 onClick={() => { this.handleOpenAddPlaylist() }}
                                             />
 
                                             <RaisedButton
                                                 label="Rate"
                                                 className="btn"
-                                                secondary={true}
+                                                primary={true}
                                                 onClick={() => { this.handleOpenRating() }}
                                             />
                                             <Dialog

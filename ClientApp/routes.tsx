@@ -13,6 +13,7 @@ import { SongComponent } from './components/Songs/Song';
 import { UploadFile } from './components/UploadFile';
 import { AlbumsList } from './components/albums/AlbumsList';
 import { AlbumComponent } from './components/albums/Album';
+import { AlbumComponent2 } from './components/albums/Album2';
 import { ArtistsList } from './components/artists/ArtistsList';
 import { ArtistComponent } from './components/artists/Artist';
 import { MemberLoginRoute } from './components/user/MemberLoginRoute';
@@ -34,7 +35,7 @@ export const routes = (
         <Route path='/artists' component={ ArtistsList }/>
         <Route path='/artist/:id' component={ ArtistComponent }/>
         <Route path='/albums' component={ AlbumsList }/>
-        <Route path='/album/:id' component={ AlbumComponent }/>
+        <Route path='/album/:id' component={ AlbumComponent2 }/>
         <Route path='/playlist' component= { PlaylistComponent }/>
     </Layout>
 );

@@ -5,10 +5,11 @@ import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Tab, Ta
 import { red200, black, grey200, grey900, grey100 } from 'material-ui/styles/colors';
 const style = {
     bigCover: {
-        height: '50vh'
+        height: '60vh'
     },
     overlay: {
         background: 'transparent',
+        maxHeight:'14vh',
     },
     background: {
         background: 'URL("/img/ArtistBackground.jpg")',
@@ -145,14 +146,16 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card>
-                                        <CardHeader title="Artist"/>
                                         <CardMedia
                                             overlay={
                                                 <CardHeader
                                                     style={style.overlay}
-                                                    title={`${this.state.artist.firstName} ${this.state.artist.lastName}`}
+                                                    // title={`${this.state.artist.firstName} ${this.state.artist.lastName}`}
                                                     avatar={
-                                                        <Avatar src={`/img/artist/${this.state.artist.artistCode}.jpg`} size={50} />
+                                                        <div>
+                                                            <Avatar src={`/img/artist/${this.state.artist.artistCode}.jpg`} size={50} />
+                                                            <span className="artistName">{this.state.artist.firstName} {this.state.artist.lastName}</span>
+                                                        </div>
                                                     }
                                                 />
                                             }
