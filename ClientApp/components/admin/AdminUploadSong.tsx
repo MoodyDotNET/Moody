@@ -7,7 +7,8 @@ import { orange400, white } from 'material-ui/styles/colors';
 
 interface UploadFileState {
     src: string,
-    popup: boolean
+    popup: boolean,
+    loading: boolean
 }
 
 interface UploadFileProp {
@@ -17,10 +18,13 @@ interface UploadFileProp {
 export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileState> {
     constructor(props: UploadFileProp) {
         super(props);
-        this.state = { src: 'Select .mp3 file', popup: false };
+        this.state = { src: 'Select .mp3 file', popup: false, loading: false };
     }
 
     private upload(e: FormEvent<HTMLFormElement>) {
+        this.setState({
+            loading: true
+        })
         var formdata = new FormData();
         var fileField : any = document.querySelector("#soundfile");
         console.log(this.props.filename);
@@ -31,7 +35,7 @@ export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileS
             body: formdata
             })
             .then(() => {
-                this.setState({popup: true})
+                this.setState({popup: true, loading: false})
             });
         e.preventDefault();
         return false;
@@ -48,6 +52,7 @@ export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileS
             <div>                
                 <form onSubmit= { (e) => this.upload(e) }>
                     <RaisedButton
+                        disabled={this.state.loading}
                         containerElement='label'
                         label={this.state.src}>
                         <input 
@@ -57,7 +62,8 @@ export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileS
                             onChange={(e) => this.setState({src: e.target.files![0].name})}
                             />
                     </RaisedButton>
-                    <RaisedButton label="Update Music" backgroundColor={orange400} labelColor={white} type="submit" /> 
+                    { !this.state.loading && <RaisedButton label="Update Music" backgroundColor={orange400} labelColor={white} type="submit" /> }
+                    { this.state.loading && <RaisedButton label="Uploading music..." backgroundColor={orange400} labelColor={white} type="submit" disabled /> }
                 </form>
                 
                 <Dialog

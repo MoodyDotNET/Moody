@@ -7,7 +7,8 @@ import { FormEvent } from 'react';
 interface UploadFileState {
     reader: FileReader,
     src: string,
-    popup: boolean
+    popup: boolean,
+    loading: boolean
 }
 
 interface UploadFileProp {
@@ -17,7 +18,7 @@ interface UploadFileProp {
 export class AdminUploadPicture extends React.Component<UploadFileProp, UploadFileState> {
     constructor(props: UploadFileProp) {
         super(props);
-        this.state = { reader: new FileReader(), src: this.props.filename, popup: false };
+        this.state = { reader: new FileReader(), src: this.props.filename, popup: false, loading: false };
         this.state.reader.onload = (e: any) => {
             this.setState({
                 src: e.target!.result
@@ -35,6 +36,9 @@ export class AdminUploadPicture extends React.Component<UploadFileProp, UploadFi
     }
 
     private upload(e: FormEvent<HTMLFormElement>) {
+        this.setState({
+            loading: true
+        })
         var formdata = new FormData();
         var fileField : any = document.querySelector("#thefile");
         console.log(this.props.filename);
@@ -45,7 +49,7 @@ export class AdminUploadPicture extends React.Component<UploadFileProp, UploadFi
             body: formdata
             })
             .then(() => {
-                this.setState({popup: true})
+                this.setState({popup: true, loading: false})
             });
         e.preventDefault();
         return false;
@@ -66,7 +70,8 @@ export class AdminUploadPicture extends React.Component<UploadFileProp, UploadFi
                             size={140} 
                             style={{display: 'block', marginBottom: 10, cursor: "pointer"}} 
                             onClick={() => this.changeImg()} />
-                    <RaisedButton label="Update picture" type="submit" /> 
+                    { !this.state.loading && <RaisedButton label="Update picture" type="submit" /> }
+                    { this.state.loading && <RaisedButton label="Uploading..." type="submit" disabled/> }
                 </form>
 
                 <Dialog

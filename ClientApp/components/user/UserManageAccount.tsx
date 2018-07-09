@@ -11,13 +11,15 @@ interface UserManageAccountProp {
 interface UserManageAccountState {
     avatarSrc: string,
     reader: FileReader,
-    user: Member
+    user: Member,
+    loading: boolean,
+    message: string
 }
 
 export class UserManageAccount extends React.Component<UserManageAccountProp, UserManageAccountState> {
     constructor(props: UserManageAccountProp) {
         super(props);
-        this.state = {avatarSrc: `img/user/${this.props.user.userId}.jpg`, reader: new FileReader(), user: this.props.user}
+        this.state = {avatarSrc: `img/user/${this.props.user.userId}.jpg`, reader: new FileReader(), user: this.props.user, loading: false, message: ''}
         this.state.reader.onload = (e: any) => {
             this.setState({
                 avatarSrc: e.target!.result
@@ -35,6 +37,9 @@ export class UserManageAccount extends React.Component<UserManageAccountProp, Us
     }
 
     private upload(e: FormEvent<HTMLFormElement>) {
+        this.setState({
+            loading: true
+        })
         var formdata = new FormData();
         var fileField : any = document.querySelector("#thefile");
         formdata.append('filename', `img/user/${this.props.user.userId}.jpg`);
@@ -42,8 +47,14 @@ export class UserManageAccount extends React.Component<UserManageAccountProp, Us
         fetch('/api/upload', {
             method: 'PUT',
             body: formdata
+            })
+            .then(res => {
+                this.setState({
+                    loading: false,
+                    message: 'Avatar updated successfully!'
+                })
+                this.props.changeAvatar(this.state.avatarSrc);        
             });
-        this.props.changeAvatar(this.state.avatarSrc);
         e.preventDefault();
         return false;
     }
@@ -74,9 +85,9 @@ export class UserManageAccount extends React.Component<UserManageAccountProp, Us
                             size={140} 
                             style={{display: 'block', marginBottom: 10, cursor: "pointer"}} 
                             onClick={() => this.changeImg()} />
-                        <RaisedButton
-                            type="Submit"
-                            label='Upload avatar' />
+                            { !this.state.loading && <RaisedButton type="Submit" label='Upload avatar' /> }
+                            { this.state.loading && <RaisedButton type="Submit" label='Uploading...' disabled /> }
+                            { this.state.message }
                     </form>
                 </div>
                 <div>
