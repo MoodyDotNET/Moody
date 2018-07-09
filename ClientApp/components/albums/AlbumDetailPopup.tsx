@@ -21,7 +21,7 @@ export class AlbumDetailPopup extends React.Component<any,IAlbumPopup>{
 
     public render(){
         return (
-            <div className="row">
+            <div className="row album">
                 <div className="col-6">
                     <Card>
                         <CardMedia
@@ -49,6 +49,7 @@ export class AlbumDetailPopup extends React.Component<any,IAlbumPopup>{
                                 containerElement={
                                     <Link to={`/album/${this.state.AlbumInfo.albumId}`}/>
                                 }
+                                className="btn"
                             />
                         </CardActions>
                     </Card>

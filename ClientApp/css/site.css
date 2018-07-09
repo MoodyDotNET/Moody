@@ -214,3 +214,31 @@ img {
 .playlist-songPopup .container-fluid {
     padding:0px !important;
 }
+
+/*test background for button*/
+.song .btn button {
+    background-color: #FF80AB !important;
+}
+.song .btn {
+    margin-right:10px
+}
+
+.songlist .btn a {
+    background-color: #EF6C00 !important;
+}
+
+.artistlist .btn a {
+    background-color: crimson !important;
+}
+
+.artist .btn a {
+    background-color: crimson !important;
+}
+
+.albumlist .btn a {
+    background-color: #0288D1 !important;
+}
+
+.album .btn a {
+    background-color: #0288D1 !important;
+}

@@ -34,7 +34,7 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
         let content = this.state.loading ? this.renderLoading() : this.renderAlbum();
 
         return (
-            <div className='col-12 section3 sections' style={style.background}>
+            <div className='col-12 section3 sections albumlist' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
                         {content}
@@ -68,6 +68,7 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
                                 containerElement={
                                     <Link to={`/album/${album.albumId}`} />
                                 }
+                                className="btn"
                             />
                         </CardActions>
                     </Card>

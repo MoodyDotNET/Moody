@@ -21,7 +21,7 @@ export class SongDetailPopup extends React.Component<any,ISongPopup>{
 
     public render(){
         return (
-            <div className="row">
+            <div className="row songlist">
                 <div className="col-6">
                     <Card>
                         <CardMedia
@@ -52,6 +52,7 @@ export class SongDetailPopup extends React.Component<any,ISongPopup>{
                                 containerElement={
                                     <Link to={`/song/${this.state.SongInfo.songCode}`}/>
                                 }
+                                className="btn"
                             />
                         </CardActions>
                     </Card>

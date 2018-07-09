@@ -152,7 +152,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
         else {
             if (this.state.songs.length > 0) {
                 return (
-                    <div className='background-img-style sections' style={style.background}>
+                    <div className='background-img-style sections songlist' style={style.background}>
                         <div className='col-12'>
                             <div className='container'>
                                 <div className='row justify-content-center'>
@@ -176,6 +176,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                             <Link to={`/song/${song.songCode}`}></Link>
                                                         }
                                                         primary={true}
+                                                        className="btn"
                                                     />
                                                     <RaisedButton
                                                         label='Add to play list'

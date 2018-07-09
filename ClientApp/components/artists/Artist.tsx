@@ -82,6 +82,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                 containerElement={
                                     <Link to={`/song/${song.songCode}`} />
                                 }
+                                className="btn"
                             />
                         }
                     />
@@ -109,6 +110,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                 containerElement={
                                     <Link to={`/song/${song.songCode}`} />
                                 }
+                                className="btn"
                             />
                         }
                     />
@@ -137,7 +139,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
         }
         else
             return (
-                <div className='background-img-style sections' style={style.background}>
+                <div className='background-img-style sections artist' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>

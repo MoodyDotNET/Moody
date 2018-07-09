@@ -269,7 +269,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         }
         else {
             return (
-                <div className='background-img-style sections' style={style.background}>
+                <div className='background-img-style sections song' style={style.background}>
                     <div className='col-12'>
                         <div className='container'>
                             <div className='row justify-content-center'>
@@ -319,13 +319,14 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <br />
                                             <RaisedButton
                                                 label="Add to playlist"
-                                                style={{ marginRight: '10px' }}
+                                                className="btn"
                                                 secondary={true}
                                                 onClick={() => { this.handleOpenAddPlaylist() }}
                                             />
 
                                             <RaisedButton
                                                 label="Rate"
+                                                className="btn"
                                                 secondary={true}
                                                 onClick={() => { this.handleOpenRating() }}
                                             />
@@ -362,7 +363,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         </CardText>
                                         <CardText>
                                             <CardTitle title="lyrics" />
-                                            {this.state.songInfo.lyric}
+                                            <pre>{this.state.songInfo.lyric}</pre>
                                         </CardText>
                                     </Card>
                                 </div>

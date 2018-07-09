@@ -9,12 +9,12 @@ const style = {
         height: '40vh'
     },
     noResult: {
-        width:'250px',
-        marginTop:'15vh',
-        opacity:0.85
+        width: '250px',
+        marginTop: '15vh',
+        opacity: 0.85
     },
-    background:{
-        background:'URL("/img/ArtistBackground.jpg")'
+    background: {
+        background: 'URL("/img/ArtistBackground.jpg")'
     }
 }
 
@@ -38,7 +38,7 @@ export class HomeSession4 extends React.Component<{}, INewArtist>{
     public render() {
         let content = this.state.loading ? this.renderLoading() : this.renderNewArtist();
         return (
-            <div className='col-12 section4 sections' style={style.background}>
+            <div className='col-12 section4 sections artistlist' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
                         {content}
@@ -67,9 +67,10 @@ export class HomeSession4 extends React.Component<{}, INewArtist>{
                         </CardMedia>
                         <CardActions>
                             <RaisedButton
-                                 label="Read more" 
-                                 primary={true} 
-                                containerElement={<Link to={`/artist/${artist.artistCode}`}/>}
+                                label="Read more"
+                                primary={true}
+                                containerElement={<Link to={`/artist/${artist.artistCode}`} />}
+                                className="btn"
                             />
                         </CardActions>
                     </Card>
