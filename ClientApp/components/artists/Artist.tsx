@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Tab, Tabs, List, ListItem, Avatar, Subheader } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Tab, Tabs, List, ListItem, Avatar, Subheader, Snackbar } from 'material-ui';
 import { red200, black, grey200, grey900, grey100 } from 'material-ui/styles/colors';
 const style = {
     bigCover: {
-        height: '50vh'
+        height: '60vh'
     },
     overlay: {
         background: 'transparent',
+        maxHeight: '14vh',
     },
     background: {
         background: 'URL("/img/ArtistBackground.jpg")',
@@ -26,20 +27,45 @@ const style = {
         marginTop: "30vh",
         opacity: 0.8
     },
+    snackbar: {
+        textAlign: 'center'
+    },
 }
 
 interface IArtist {
     artist: any,
     loading: boolean,
     related: Array<any>,
+    isLogin: boolean,
+    msg: string,
+    openSnackbar: boolean,
 }
 
 export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IArtist>{
     constructor(props: any) {
         super(props);
-        this.state = { artist: {}, loading: true, related: [] }
+        this.state = {
+            artist: {},
+            loading: true,
+            related: [],
+            isLogin: false,
+            msg: "",
+            openSnackbar: false,
+        }
         var param: any = this.props.match.params;
         var id: string = param.id;
+        //check login
+        fetch('api/member/current', {
+            credentials: "same-origin"
+        })
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                this.setState({ isLogin: true })
+                this.forceUpdate();
+            })
+            .catch(error => {
+            })
+        //get artist info
         fetch(`api/artist/get?id=${id}`)
             .then(res => res.json() as Promise<any>)
             .then(data => {
@@ -48,6 +74,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                     // loading: false
                 })
             })
+        //get related artist
         fetch('api/artist/all')
             .then(res => res.json() as Promise<Array<any>>)
             .then(data => {
@@ -63,8 +90,31 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
             })
     }
 
+    private handleOpenAddPlaylist(songId: number) {
+        if (this.state.isLogin == false) {
+            this.setState({ msg: "You have to login first" });
+        }
+        else {
+            fetch(`/api/playlist/AddToPlayList?id=${songId}`, {
+                credentials: "same-origin"
+            })
+                .then(response => response.json() as Promise<boolean>)
+                .then(data => {
+                    if (data == true) {
+                        this.setState({ msg: "Add success" })
+                    }
+                    else this.setState({ msg: "This song has been added" })
+                })
+        }
+        this.setState({ openSnackbar: true })
+    }
+
+    private handleCloseSnackbar() {
+        this.setState({ openSnackbar: false })
+    }
+
     private loadComposition() {
-        if (this.state.artist.songComposerNavigation.length == 0) {
+        if ((this.state.artist.songComposerNavigation as Array<any>).length == 0) {
             return (
                 <p>There is no composition yet</p>
             )
@@ -73,17 +123,29 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
             return (
                 this.state.artist.songComposerNavigation.map((song: any, index: number) =>
                     <ListItem
+                        key={index}
                         leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
-                        primaryText={song.title}
-                        rightIcon={
-                            <RaisedButton
-                                label="Hear it"
-                                primary={true}
-                                containerElement={
-                                    <Link to={`/song/${song.songCode}`} />
-                                }
-                                className="btn"
-                            />
+                        primaryText={
+                            <div>
+                                {song.title}
+                                <div className="btn-group">
+                                    <RaisedButton
+                                        label="Hear it"
+                                        primary={true}
+                                        containerElement={
+                                            <Link to={`/song/${song.songCode}`} />
+                                        }
+                                        className="btn"
+                                    />
+                                    <RaisedButton
+                                        label="Add to playlist"
+                                        className="btn"
+                                        primary={true}
+                                        onClick={() => { this.handleOpenAddPlaylist(song.songCode) }}
+                                    />
+                                </div>
+
+                            </div>
                         }
                     />
                 )
@@ -92,7 +154,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
     }
 
     private loadSongs() {
-        if (this.state.artist.songContributingArtistNavigation.length == 0) {
+        if ((this.state.artist.songContributingArtistNavigation as Array<any>).length == 0) {
             return (
                 <p>There is no song yet</p>
             )
@@ -101,17 +163,29 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
             return (
                 this.state.artist.songContributingArtistNavigation.map((song: any, index: number) =>
                     <ListItem
+                        key={index}
                         leftAvatar={<Avatar src={`/img/song/${song.songCode}.jpg`} />}
-                        primaryText={song.title}
-                        rightIcon={
-                            <RaisedButton
-                                label="Hear it"
-                                primary={true}
-                                containerElement={
-                                    <Link to={`/song/${song.songCode}`} />
-                                }
-                                className="btn"
-                            />
+                        primaryText={
+                            <div>
+                                {song.title}
+                                <div className="btn-group">
+                                    <RaisedButton
+                                        label="Hear it"
+                                        primary={true}
+                                        containerElement={
+                                            <Link to={`/song/${song.songCode}`} />
+                                        }
+                                        className="btn"
+                                    />
+                                    <RaisedButton
+                                        label="Add to playlist"
+                                        className="btn"
+                                        primary={true}
+                                        onClick={() => { this.handleOpenAddPlaylist(song.songCode) }}
+                                    />
+                                </div>
+
+                            </div>
                         }
                     />
                 )
@@ -145,14 +219,16 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card>
-                                        <CardHeader title="Artist"/>
                                         <CardMedia
                                             overlay={
                                                 <CardHeader
                                                     style={style.overlay}
-                                                    title={`${this.state.artist.firstName} ${this.state.artist.lastName}`}
+                                                    // title={`${this.state.artist.firstName} ${this.state.artist.lastName}`}
                                                     avatar={
-                                                        <Avatar src={`/img/artist/${this.state.artist.artistCode}.jpg`} size={50} />
+                                                        <div>
+                                                            <Avatar src={`/img/artist/${this.state.artist.artistCode}.jpg`} size={50} />
+                                                            <span className="artistName">{this.state.artist.firstName} {this.state.artist.lastName}</span>
+                                                        </div>
                                                     }
                                                 />
                                             }
@@ -165,7 +241,7 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                                     <Card>
                                                         <CardTitle title="profile" />
                                                         <CardText>
-                                                            <strong>Date of birth</strong>: {this.state.artist.birthDate}<br />
+                                                            <strong>Date of birth</strong>: {(new Date(this.state.artist.birthDate)).toLocaleDateString()}<br />
                                                             <strong>Band</strong>: {this.state.artist.band}<br />
                                                             <strong>Introduction</strong>: {this.state.artist.introduce}<br />
                                                             <strong>Biography</strong>: {this.state.artist.biography}
@@ -185,6 +261,13 @@ export class ArtistComponent extends React.Component<RouteComponentProps<{}>, IA
                                             </Tabs>
                                         </CardText>
                                     </Card>
+                                    <Snackbar
+                                        style={style.snackbar}
+                                        open={this.state.openSnackbar}
+                                        message={this.state.msg}
+                                        autoHideDuration={2500}
+                                        onRequestClose={() => this.handleCloseSnackbar()}
+                                    />
                                 </div>
 
                                 <div className="col-11 col-md-4">

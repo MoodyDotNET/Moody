@@ -7,14 +7,14 @@ interface INewAlbum {
     newAlbum: any,
     loading: boolean,
 }
-const style={
-    noResult:{
+const style = {
+    noResult: {
         width: "250px",
         marginTop: "15vh",
         opacity: 0.8
     },
     background: {
-        backgroundImage : 'URL("/img/AlbumBackground.jpg")'
+        backgroundImage: 'URL("/img/AlbumBackground.jpg")'
     },
     linkColor: {
         color: grey50
@@ -37,6 +37,11 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
             <div className='col-12 section3 sections albumlist' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
+                        <div className="col-12" style={{ textAlign: 'center' }}>
+                            <h3 className="header">
+                                New Albums
+                            </h3>
+                        </div>
                         {content}
                     </div>
                     <div>
@@ -58,7 +63,7 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
                             <img className="album-cover" src={`/img/album/${album.albumId}.jpg`} />
                         </CardMedia>
                         <CardText className='album-script'>
-                            Date Release: {album.dateReleased}<br/>
+                            Date Release: {(new Date(album.dateReleased)).toLocaleDateString()}<br />
                             Genre: {album.genre}
                         </CardText>
                         <CardActions>
@@ -80,13 +85,13 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
 
     private renderLoading() {
         return (
-                <Card style={style.noResult}>
-                    <CardTitle>
-                        <img className="loader-gif" src="/img/loader1.gif" />
-                        <span className="loader-text">Loading</span>
-                    </CardTitle>
-                </Card>
-        
+            <Card style={style.noResult}>
+                <CardTitle>
+                    <img className="loader-gif" src="/img/loader1.gif" />
+                    <span className="loader-text">Loading</span>
+                </CardTitle>
+            </Card>
+
         );
     }
 }

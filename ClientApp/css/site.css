@@ -123,8 +123,15 @@ body {
 
 /*sections set padding top and padding for sections*/
 .sections {
-    padding-top:15vh;
+    padding-top:12vh;
     padding-bottom:15vh;
+}
+.sections .header {
+    color: ghostwhite;
+    letter-spacing: 0px;
+    font-weight:500;
+    font-size:1.2rem;
+    text-transform:uppercase;
 }
 /*section 2 : songs*/
 .section2 {
@@ -241,4 +248,38 @@ img {
 
 .album .btn a {
     background-color: #0288D1 !important;
+}
+
+/* album */
+.album .album-songs {
+    max-height:40vh;
+    overflow-y: scroll;
+    width:110%;
+}
+.album .album-songs-wrapper {
+    overflow-x: hidden;
+}
+
+/*artist*/
+.artist .artistName {
+    color:ghostwhite;
+    position:relative;
+    left:15px;
+    top:-17px;
+}
+
+.artist .btn-group {
+    float:right;
+    position:relative;
+    top:-10px;
+}
+
+.artist .btn-group .btn {
+    margin-left:5px;
+}
+/* song page */
+
+.song .lyric {
+    max-height: 50vh;
+    overflow-y: scroll;
 }

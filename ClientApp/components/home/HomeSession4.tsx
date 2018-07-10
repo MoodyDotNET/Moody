@@ -41,6 +41,11 @@ export class HomeSession4 extends React.Component<{}, INewArtist>{
             <div className='col-12 section4 sections artistlist' style={style.background}>
                 <div className='container'>
                     <div className='row justify-content-center'>
+                        <div className="col-12" style={{ textAlign: 'center' }}>
+                            <h3 className="header">
+                                Artists
+                            </h3>
+                        </div>
                         {content}
                     </div>
                     <div>

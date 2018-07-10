@@ -37,7 +37,7 @@ export class SongDetailPopup extends React.Component<any,ISongPopup>{
                             {`${this.state.SongInfo.title} ${this.state.SongInfo.subtitle}`}
                             <br />
                             <strong>Date release: </strong>
-                            {this.state.SongInfo.dateReleased}
+                            {(this.state.SongInfo.dateReleased).toLocaleDateString()}
                             <br />
                             <strong>Artist: </strong>
                             {`${this.state.SongInfo.contributingArtistNavigation.firstName} ${this.state.SongInfo.contributingArtistNavigation.lastName}`}

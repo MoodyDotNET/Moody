@@ -56,7 +56,7 @@ namespace moody.Controllers
             {
                 return false;
             }
-            Administrator t = db.Administrator.Where(a => a.UserId == a.UserId).First();
+            Administrator t = db.Administrator.Where(a => a.UserId == logged.UserId).First();
             t.FirstName = member.FirstName;
             t.MiddleName = member.MiddleName;
             t.LastName = member.LastName;

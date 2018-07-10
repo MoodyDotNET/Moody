@@ -20,7 +20,7 @@ const style = {
         padding: '0px 16px',
     },
     cover: {
-        height: '50vh',
+        height: '60vh',
     },
     description: {
         height: '10vh'
@@ -224,7 +224,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         fetch('/api/song/suggested')
             .then(response => response.json() as Promise<Array<any>>)
             .then(data => {
-                this.setState({ related:data })
+                this.setState({ related: data })
             })
     }
 
@@ -275,7 +275,6 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                             <div className='row justify-content-center'>
                                 <div className="col-11 col-md-8">
                                     <Card style={style.card}>
-                                        <CardHeader title="Song" />
                                         <CardMedia
                                             overlay={
                                                 <audio controls style={style.audio} ref="audio">
@@ -297,7 +296,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
                                                 {`${this.state.songInfo.contributingArtistNavigation.firstName} ${this.state.songInfo.contributingArtistNavigation.lastName}`}</span>
                                             <br />
-                                            <strong>Date released:</strong> {this.state.songInfo.dateReleased}
+                                            <strong>Date released:</strong> {(new Date(this.state.songInfo.dateReleased)).toLocaleDateString()}
                                             <br />
                                             <strong>Composer: </strong>
                                             <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
@@ -320,14 +319,14 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <RaisedButton
                                                 label="Add to playlist"
                                                 className="btn"
-                                                secondary={true}
+                                                primary={true}
                                                 onClick={() => { this.handleOpenAddPlaylist() }}
                                             />
 
                                             <RaisedButton
                                                 label="Rate"
                                                 className="btn"
-                                                secondary={true}
+                                                primary={true}
                                                 onClick={() => { this.handleOpenRating() }}
                                             />
                                             <Dialog
@@ -348,7 +347,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                                 <br />
                                                 <RaisedButton
                                                     style={{ marginLeft: '10px' }}
-                                                    label="Confifm"
+                                                    label="Confirm"
                                                     primary={true}
                                                     onClick={() => this.getRating()}
                                                 />
@@ -363,7 +362,12 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         </CardText>
                                         <CardText>
                                             <CardTitle title="lyrics" />
-                                            <pre>{this.state.songInfo.lyric}</pre>
+                                            <div className="lyric-wrapper">
+                                                <div className = "lyric">
+                                                    <pre>{this.state.songInfo.lyric}</pre>
+                                                </div>
+                                            </div>
+
                                         </CardText>
                                     </Card>
                                 </div>
