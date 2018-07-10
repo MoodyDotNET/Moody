@@ -224,7 +224,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         fetch('/api/song/suggested')
             .then(response => response.json() as Promise<Array<any>>)
             .then(data => {
-                this.setState({ related:data })
+                this.setState({ related: data })
             })
     }
 
@@ -296,7 +296,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
                                                 {`${this.state.songInfo.contributingArtistNavigation.firstName} ${this.state.songInfo.contributingArtistNavigation.lastName}`}</span>
                                             <br />
-                                            <strong>Date released:</strong> {this.state.songInfo.dateReleased}
+                                            <strong>Date released:</strong> {(new Date(this.state.songInfo.dateReleased)).toLocaleDateString()}
                                             <br />
                                             <strong>Composer: </strong>
                                             <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
@@ -347,7 +347,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                                 <br />
                                                 <RaisedButton
                                                     style={{ marginLeft: '10px' }}
-                                                    label="Confifm"
+                                                    label="Confirm"
                                                     primary={true}
                                                     onClick={() => this.getRating()}
                                                 />
@@ -362,7 +362,12 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         </CardText>
                                         <CardText>
                                             <CardTitle title="lyrics" />
-                                            <pre>{this.state.songInfo.lyric}</pre>
+                                            <div className="lyric-wrapper">
+                                                <div className = "lyric">
+                                                    <pre>{this.state.songInfo.lyric}</pre>
+                                                </div>
+                                            </div>
+
                                         </CardText>
                                     </Card>
                                 </div>

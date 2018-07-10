@@ -36,7 +36,7 @@ export class ArtistDetailPopup extends React.Component<any,IArtistPopup>{
                             {`${this.state.artistInfo.firstName} ${this.state.artistInfo.lastName}`}
                             <br />
                             <strong>Date of birth: </strong>
-                            {this.state.artistInfo.birthDate}
+                            {(new Date(this.state.artistInfo.birthDate)).toLocaleDateString()}
                             <br />
                             <strong>Introduction: </strong>
                             {this.state.artistInfo.introduce}

@@ -37,7 +37,7 @@ export class AlbumDetailPopup extends React.Component<any,IAlbumPopup>{
                             {this.state.AlbumInfo.albumName}
                             <br />
                             <strong>Date release: </strong>
-                            {this.state.AlbumInfo.dateReleased}
+                            {(new Date(this.state.AlbumInfo.dateReleased)).toLocaleDateString()}
                             <br />
                             <strong>Genre: </strong>
                             {this.state.AlbumInfo.genre}

@@ -253,7 +253,8 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
                             <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
                                 {`${this.state.songs[index].contributingArtistNavigation.firstName} ${this.state.songs[index].contributingArtistNavigation.lastName}`}</span>
                             <br />
-                            <strong>Date released:</strong> {this.state.songs[index].dateReleased}
+                            <strong>Date released:</strong> 
+                            {(new Date(this.state.songs[index].dateReleased)).toLocaleDateString()}
                             <br />
                             <strong>Composer: </strong>
                             <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
@@ -373,7 +374,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
                         </CardMedia>
 
                         <CardText>
-                            Date released: {this.state.album.dateReleased}<br />
+                            Date released: {(new Date(this.state.album.dateReleased)).toLocaleDateString()}<br />
                             Genre: {this.state.album.genre}
                         </CardText>
 

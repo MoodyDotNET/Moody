@@ -166,7 +166,8 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                 </CardMedia>
                                                 <CardText style={style.description}>
                                                     <strong>By:</strong> {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br/>
-                                                    <strong>Date released:</strong> {song.dateReleased}<br />
+                                                    <strong>Date released:</strong> 
+                                                    {(new Date(song.dateReleased)).toLocaleDateString()}<br />
                                                     <strong>Album:</strong>{song.album.albumName}
                                                 </CardText>
                                                 <CardActions>

@@ -264,6 +264,22 @@ img {
 .artist .artistName {
     color:ghostwhite;
     position:relative;
-    left:5px;
+    left:15px;
     top:-17px;
+}
+
+.artist .btn-group {
+    float:right;
+    position:relative;
+    top:-10px;
+}
+
+.artist .btn-group .btn {
+    margin-left:5px;
+}
+/* song page */
+
+.song .lyric {
+    max-height: 50vh;
+    overflow-y: scroll;
 }

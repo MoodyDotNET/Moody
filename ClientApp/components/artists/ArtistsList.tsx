@@ -84,7 +84,7 @@ export class ArtistsList extends React.Component<RouteComponentProps<{}>, artist
                                                     <img style={style.cover} src={`/img/artist/${artist.artistCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    <strong>Date of birth: </strong>{artist.birthDate}<br />
+                                                    <strong>Date of birth: </strong>{(new Date(artist.birthDate)).toLocaleDateString()}<br />
                                                     <strong>Introduction: </strong>{artist.introduce}
 
                                                 </CardText>

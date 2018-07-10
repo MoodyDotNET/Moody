@@ -324,7 +324,8 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                             <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
                                 {`${this.state.playlist[index].song.contributingArtistNavigation.firstName} ${this.state.playlist[index].song.contributingArtistNavigation.lastName}`}</span>
                             <br />
-                            <strong>Date released:</strong> {this.state.playlist[index].song.dateReleased}
+                            <strong>Date released:</strong> 
+                            {(new Date(this.state.playlist[index].song.dateReleased)).toLocaleDateString()}
                             <br />
                             <strong>Composer: </strong>
                             <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
