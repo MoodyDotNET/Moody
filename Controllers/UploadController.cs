@@ -33,18 +33,11 @@ namespace moody.Controllers
                 {
                     if (file.Length > 0)
                     {
-                        try
+                        filename = Environment.WebRootPath + $@"/{filename}";
+                        using (FileStream fs = System.IO.File.Create(filename))
                         {
-                            filename = Environment.WebRootPath + $@"/{filename}";
-                            using (FileStream fs = System.IO.File.Create(filename))
-                            {
-                                file.CopyTo(fs);
-                                fs.Flush();
-                            }
-                        }
-                        catch
-                        {
-                            throw new Exception("File Too Large");
+                            file.CopyTo(fs);
+                            fs.Flush();
                         }
                     }
                 }

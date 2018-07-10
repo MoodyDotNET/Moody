@@ -102,7 +102,7 @@ export class AdminManageCategory extends React.Component<{}, AdminManageCategory
                         <RaisedButton label="Delete" onClick={(e) => this.delete(e) } backgroundColor={orange400} labelColor={white}/>
                     </div>
                     <div className="col-lg-8 col-md-12">
-                        <Paper style={{padding: "50px"}}>
+                        <Paper style={{maxHeight: '75vh', overflowY: 'scroll'}}>
                             { contents }
                         </Paper>
                     </div>
