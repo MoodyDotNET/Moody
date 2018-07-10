@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader, CardActions } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, RaisedButton, CardHeader, Snackbar, Dialog, FlatButton, List, ListItem, Subheader, CardActions, Chip } from 'material-ui';
 import { blueGrey100, white, grey100 } from 'material-ui/styles/colors';
 import Song from '../../model/Song';
 import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
@@ -45,7 +45,10 @@ const style = {
         width: '50px',
         height: '40px',
     },
-
+    chip: {
+        display:'inline-block',
+        marginRight:'5px',
+    }
 }
 interface Isong {
     songInfo: any,
@@ -60,6 +63,7 @@ interface Isong {
     openAlbum: boolean,
     openComposer: boolean,
     related: Array<any>,
+    genre: Array<string>,
 }
 
 export class SongComponent extends React.Component<RouteComponentProps<{}>, Isong>{
@@ -77,22 +81,46 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
             openArtist: false,
             openAlbum: false,
             openComposer: false,
-            related: []
+            related: [],
+            genre: [],
         }
         var paramURL: any = this.props.match.params;
         var songId: string = paramURL.songId;
+        this.loadSongInfo(songId);
+    }
+
+    private loadSongInfo(songId: string) {
         fetch(`api/song/get?id=${songId}`)
-            .then(response => response.json() as Promise<any>)
+            .then(response => response.json() as Promise<Song>)
             .then(data => {
                 this.setState({
                     songInfo: data,
                     mp3FilePath: "mp3/" + songId + ".mp3",
                     rate: data.rating / 5 * 100,
-                    loading: false,
-                    related: data.composerNavigation.songComposerNavigation,
+                    related: (data.composerNavigation as any).songComposerNavigation,
                 });
+                //load genre
+                for (var i = 0; i < this.state.songInfo.tag.length; i++) {
+                    this.loadGenre(this.state.songInfo.tag[i].tagCode);
+                }
+                this.setState({
+                    loading: false,
+                });
+                console.log(this.state.genre);
+                //load audio src
                 var aud = this.refs.audio as HTMLAudioElement;
                 aud.load();
+
+            })
+    }
+
+    private loadGenre(tagId: string) {
+        fetch(`api/song/getTag?id=${tagId}`)
+            .then(response => response.json() as Promise<any>)
+            .then(data => {
+                this.state.genre.push(data.tagName);
+                var tags = this.state.genre;
+                this.setState({ genre: tags })
             })
     }
 
@@ -308,7 +336,12 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                             </span>
 
                                         </CardText>
+
                                         <CardText style={style.rating}>
+                                            {this.state.genre.map((tag: string, index: number) =>
+                                                <Chip key={index} style={style.chip} >{tag}</Chip>
+                                            )}
+                                            <br />
                                             Rating:
                                             <div className="rating-outer">
                                                 <div className="rating-inner" style={{ width: `${this.state.rate}%` }}>
@@ -363,7 +396,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                         <CardText>
                                             <CardTitle title="lyrics" />
                                             <div className="lyric-wrapper">
-                                                <div className = "lyric">
+                                                <div className="lyric">
                                                     <pre>{this.state.songInfo.lyric}</pre>
                                                 </div>
                                             </div>
