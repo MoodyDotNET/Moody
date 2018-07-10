@@ -63,7 +63,7 @@ export class HomeSession3 extends React.Component<{}, INewAlbum>{
                             <img className="album-cover" src={`/img/album/${album.albumId}.jpg`} />
                         </CardMedia>
                         <CardText className='album-script'>
-                            Date Release: {album.dateReleased}<br />
+                            Date Release: {(new Date(album.dateReleased)).toLocaleDateString()}<br />
                             Genre: {album.genre}
                         </CardText>
                         <CardActions>
