@@ -267,12 +267,12 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                                 </td>
                             </tr>
                         </table>
-                        <RaisedButton label="Add" onClick={(e) => this.insert(e) } backgroundColor={blue400} labelColor={white}/>
+                        { (!this.state.selected || (this.state.selected && !this.state.selected.songCode)) && <RaisedButton label="Add" onClick={(e) => this.insert(e) } backgroundColor={blue400} labelColor={white}/> }
                         <RaisedButton label="Update" onClick={(e) => this.update(e) } />
                         <RaisedButton label="Delete" onClick={(e) => this.setState({confirming: true}) } backgroundColor={orange400} labelColor={white}/>
                     </div>
                     <div className="col-lg-8 col-md-12">
-                        <Paper style={{padding: "50px"}}>
+                        <Paper style={{maxHeight: '75vh', overflowY: 'scroll'}}>
                             { contents }
                         </Paper>
                     </div>
@@ -297,6 +297,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                         <TableHeaderColumn>Artist</TableHeaderColumn>
                         <TableHeaderColumn>Album</TableHeaderColumn>
                         <TableHeaderColumn>Composer</TableHeaderColumn>
+                        <TableHeaderColumn>Released Date</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody deselectOnClickaway={false}>
@@ -306,6 +307,7 @@ export class AdminManageSong extends React.Component<{}, AdminManageSongState> {
                         <TableRowColumn>{ song.contributingArtist != null ? song.contributingArtistNavigation.firstName + ' ' + song.contributingArtistNavigation.middleName + ' ' + song.contributingArtistNavigation.lastName : '' }</TableRowColumn>
                         <TableRowColumn>{ song.album != null ? song.album.albumName : '' }</TableRowColumn>
                         <TableRowColumn>{ song.composerNavigation != null ? song.composerNavigation.firstName + ' ' + song.composerNavigation.middleName + ' ' + song.composerNavigation.lastName : '' }</TableRowColumn>
+                        <TableRowColumn>{ song.dateReleased }</TableRowColumn>
                     </TableRow>
                 )}
                 </TableBody>

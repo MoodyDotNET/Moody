@@ -7,6 +7,7 @@ import Producer from "../../model/Producer";
 import Category from "../../model/Category";
 import { blue400, white, orange400 } from "material-ui/styles/colors";
 import { AdminUploadPicture } from "./AdminUploadPicture";
+import { getFullName } from "../../model/Helper";
 
 interface AdminManageArtistState {
     artists: Artist[];
@@ -111,7 +112,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                                 <td>Middle Name</td>
                                 <td>
                                     <TextField 
-                                        hintText="Title" 
+                                        hintText="Middle Name" 
                                         value={this.state.selected != null ? this.state.selected.middleName : ''} 
                                         onChange={ (e, v) => this.setState(prev => ({
                                             selected: {
@@ -222,7 +223,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                         <RaisedButton label="Delete" onClick={(e) => this.setState({confirming: true}) } backgroundColor={orange400} labelColor={white}/>
                     </div>
                     <div className="col-lg-8 col-md-12">
-                        <Paper style={{padding: "50px"}}>
+                        <Paper style={{maxHeight: '75vh', overflowY: 'scroll'}}>
                             { contents }
                         </Paper>
                     </div>
@@ -251,7 +252,7 @@ export class AdminManageArtist extends React.Component<{}, AdminManageArtistStat
                 <TableBody deselectOnClickaway={false}>
                 {this.state.artists.map(artist =>
                     <TableRow key={ artist.artistCode } selected={ artist == this.state.selected }>
-                        <TableRowColumn>{ artist.firstName + ' ' + artist.middleName + ' ' + artist.lastName }</TableRowColumn>
+                        <TableRowColumn>{ getFullName(artist) }</TableRowColumn>
                         <TableRowColumn>{ artist.producerCodeNavigation != null ? artist.producerCodeNavigation.companyName : '' }</TableRowColumn>
                         <TableRowColumn>{ artist.introduce }</TableRowColumn>
                         <TableRowColumn>{ artist.birthDate }</TableRowColumn>

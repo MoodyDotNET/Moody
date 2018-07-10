@@ -8,7 +8,8 @@ import { orange400, white } from 'material-ui/styles/colors';
 interface UploadFileState {
     src: string,
     popup: boolean,
-    loading: boolean
+    loading: boolean,
+    message: string
 }
 
 interface UploadFileProp {
@@ -18,16 +19,23 @@ interface UploadFileProp {
 export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileState> {
     constructor(props: UploadFileProp) {
         super(props);
-        this.state = { src: 'Select .mp3 file', popup: false, loading: false };
+        this.state = { src: 'Select .mp3 file', popup: false, loading: false, message: '' };
     }
 
     private upload(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        var formdata = new FormData();
+        var fileField : any = document.querySelector("#soundfile");
+        if (fileField.files[0].size > 30000000) {
+            this.setState({
+                message: 'File must not larger than 30MB!',
+                popup: true
+            });
+            return false;
+        }
         this.setState({
             loading: true
         })
-        var formdata = new FormData();
-        var fileField : any = document.querySelector("#soundfile");
-        console.log(this.props.filename);
         formdata.append('filename', this.props.filename);
         formdata.append('thefile', fileField.files[0]);
         fetch('/api/upload', {
@@ -35,9 +43,8 @@ export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileS
             body: formdata
             })
             .then(() => {
-                this.setState({popup: true, loading: false})
+                this.setState({message: 'File has been uploaded successfully!', popup: true, loading: false})
             });
-        e.preventDefault();
         return false;
     }
 
@@ -67,12 +74,12 @@ export class AdminUploadSong extends React.Component<UploadFileProp, UploadFileS
                 </form>
                 
                 <Dialog
-                    title="Success"
+                    title="Message"
                     modal={false}
                     open={this.state.popup}
                     onRequestClose={() => this.setState({popup: false})}
                 >
-                    Sound file has been updated!
+                    {this.state.message}
                 </Dialog>
             </div>
         );
