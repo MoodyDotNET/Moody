@@ -127,7 +127,9 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
             .then(data => {
                 if (data != null) {
                     this.setState({ album: data, loading: false });
-                    var audio = this.refs.audio as HTMLAudioElement;              
+                    var audio = this.refs.audio as HTMLAudioElement;
+                    audio.src = `/mp3/${this.state.songs[this.state.currentIndex].songCode}.mp3`;
+                    audio.load();
                 }
             })
             .catch(error => {
@@ -136,7 +138,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
     }
 
     componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
-        this.setState({currentIndex:0});
+        this.setState({ currentIndex: 0 });
         this.loadSongs((nextProp.match.params as any).id);
         this.loadAlbum((nextProp.match.params as any).id);
     }
@@ -254,7 +256,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
                             <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
                                 {`${this.state.songs[index].contributingArtistNavigation.firstName} ${this.state.songs[index].contributingArtistNavigation.lastName}`}</span>
                             <br />
-                            <strong>Date released:</strong> 
+                            <strong>Date released:</strong>
                             {(new Date(this.state.songs[index].dateReleased)).toLocaleDateString()}
                             <br />
                             <strong>Composer: </strong>
@@ -401,7 +403,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
 
                         {contents}
                         <Snackbar
-                            style = {style.snackbar}
+                            style={style.snackbar}
                             open={this.state.openSnackbar}
                             message={this.state.snackbarMsg}
                             autoHideDuration={2500}
