@@ -126,7 +126,8 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
             .then(response => response.json() as Promise<any>)
             .then(data => {
                 if (data != null) {
-                    this.setState({ album: data, loading: false })              
+                    this.setState({ album: data, loading: false });
+                    var audio = this.refs.audio as HTMLAudioElement;              
                 }
             })
             .catch(error => {
