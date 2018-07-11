@@ -21,7 +21,6 @@ namespace moody.Controllers {
         }
 
         [HttpPut]
-<<<<<<< HEAD
         public string Index(string filename)
         {
             if (HttpContext.Request.Form.Files != null)
@@ -37,25 +36,6 @@ namespace moody.Controllers {
                             file.CopyTo(fs);
                             fs.Flush();
                         }
-=======
-        public string Index(string filename) {
-            if (HttpContext.Request.Form.Files != null) {
-                var files = HttpContext.Request.Form.Files; 
-                foreach (var file in files) {
-                    if (file.Length > 0) {
-                        // try
-                        // {
-                            filename = Environment.WebRootPath + $@"/{filename}"; 
-                            using (FileStream fs = System.IO.File.Create(filename)) {
-                                file.CopyTo(fs); 
-                                fs.Flush(); 
-                            }
-                        // }
-                        // catch
-                        // {
-                        //     throw new Exception("File Too Large");
-                        // }
->>>>>>> 34d36962b0f20093c1f4b3a1ea8f320829e14b90
                     }
                 }
             }

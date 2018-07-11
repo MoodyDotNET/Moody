@@ -193,22 +193,26 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
         var songId = this.state.songInfo.songCode;
         var scoreStr = (this.refs.ratingScore as HTMLParagraphElement).innerHTML;
         var score = parseFloat(scoreStr);
-        fetch(`/api/member/rating?songID=${songId}&score=${score}`)
+        fetch(`/api/member/rating?songID=${songId}&score=${score}`,{
+            credentials:"same-origin"
+        })
             .then(response => response.json() as Promise<boolean>)
             .then(data => {
                 console.log("score: " + score)
+                console.log("rating before: "+this.state.rate);
                 this.setState({
                     openDialog: false,
                     openPopup: true,
                     message: "Thank you for rating",
-                    rate: score
+                    rate: score/ 5 * 100,
                 })
+                console.log("rating after: "+this.state.rate);
             })
             .catch(error => {
                 this.setState({
                     openDialog: false,
                     openPopup: true,
-                    message: "You've already rated this song =]"
+                    message: "rating fail =]"
                 })
             })
     }
@@ -389,7 +393,7 @@ export class SongComponent extends React.Component<RouteComponentProps<{}>, Ison
                                                 message={this.state.message}
                                                 style={style.snackbar}
                                                 open={this.state.openPopup}
-                                                // autoHideDuration={2500}
+                                                autoHideDuration={2500}
                                                 onRequestClose={() => { this.handleClose() }}
                                             />
                                         </CardText>
