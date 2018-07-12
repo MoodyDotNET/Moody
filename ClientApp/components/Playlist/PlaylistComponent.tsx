@@ -5,6 +5,7 @@ import { Card, CardMedia, CardTitle, CardText, RaisedButton, Snackbar, CardHeade
 import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 import { grey100, white } from 'material-ui/styles/colors';
+import { SongDetail } from '../Songs/SongDetail';
 
 const style = {
     bigCover: {
@@ -53,9 +54,6 @@ interface IPlaylist {
     openPopup: boolean,
     message: string,
     currentIndex: number,
-    openArtist: boolean,
-    openAlbum: boolean,
-    openComposer: boolean,
     snackbarMsg: string,
     snackbarOpen: boolean,
 }
@@ -70,9 +68,6 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             openPopup: false,
             message: "You don't have any song in your playlist currently",
             currentIndex: 0,
-            openArtist: false,
-            openAlbum: false,
-            openComposer: false,
             snackbarOpen: false,
             snackbarMsg: "",
         }
@@ -119,30 +114,7 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
         this.setState({ openPopup: false })
     }
 
-    private handleOpenArtist() {
-        this.setState({ openArtist: true })
-    }
-
-    private handleCloseArtist() {
-        this.setState({ openArtist: false })
-    }
-
-    private handleOpenComposer() {
-        this.setState({ openComposer: true })
-    }
-
-    private handleCloseComposer() {
-        this.setState({ openComposer: false })
-    }
-
-    private handleOpenAlbum() {
-        this.setState({ openAlbum: true })
-    }
-
-    private handleCloseAlbum() {
-        this.setState({ openAlbum: false })
-    }
-
+    
     private handleCloseSnackbar() {
         this.setState({ snackbarOpen: false })
     }
@@ -190,11 +162,11 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
             .then(response => response.json() as Promise<boolean>)
             .then(data => {
                 if (data == true) {
-                    if(this.state.playlist.length == 0){
-                        console.log("add new : index "+this.state.currentIndex)
+                    if (this.state.playlist.length == 0) {
+                        console.log("add new : index " + this.state.currentIndex)
                         this.loadPlaylist(true);
                     }
-                    else{
+                    else {
                         this.loadPlaylist(false);
                     }
                     this.setState({ snackbarMsg: "Add success" })
@@ -314,30 +286,9 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
 
                     <CardTitle
                         title={`${this.state.playlist[index].song.title} ${this.state.playlist[index].song.subtitle}`}
-                        actAsExpander={true}
-                        showExpandableButton={true}
                     />
-                    <CardText expandable={true}>
-                        <CardTitle title="Description" />
-                        <CardText>
-                            <strong>By:</strong>
-                            <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
-                                {`${this.state.playlist[index].song.contributingArtistNavigation.firstName} ${this.state.playlist[index].song.contributingArtistNavigation.lastName}`}</span>
-                            <br />
-                            <strong>Date released:</strong> 
-                            {(new Date(this.state.playlist[index].song.dateReleased)).toLocaleDateString()}
-                            <br />
-                            <strong>Composer: </strong>
-                            <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
-                                {`${this.state.playlist[index].song.composerNavigation.firstName} ${this.state.playlist[index].song.composerNavigation.lastName}`}</span>
-                            <br />
-                            <strong>Album:</strong>
-                            <span className="popup-link-sm" onClick={() => this.handleOpenAlbum()}>
-                                {this.state.playlist[index].song.album.albumName}
-                            </span>
-
-                        </CardText>
-                    </CardText>
+                    
+                    <SongDetail SongInfo={this.state.playlist[index].song} isLogin={true} />
                     <CardActions>
                         <RaisedButton
                             label="Add more songs"
@@ -345,29 +296,6 @@ export class PlaylistComponent extends React.Component<RouteComponentProps<{}>, 
                             primary={true}
                         />
                     </CardActions>
-                    {/* render artist dialog  */}
-                    <Dialog
-                        open={this.state.openArtist}
-                        onRequestClose={() => this.handleCloseArtist()}
-                    >
-                        <ArtistDetailPopup artistInfo={this.state.playlist[index].song.contributingArtistNavigation} />
-                    </Dialog>
-
-                    {/* render composer dialog  */}
-                    <Dialog
-                        open={this.state.openComposer}
-                        onRequestClose={() => this.handleCloseComposer()}
-                    >
-                        <ArtistDetailPopup artistInfo={this.state.playlist[index].song.composerNavigation} />
-                    </Dialog>
-
-                    {/* render album dialog  */}
-                    <Dialog
-                        open={this.state.openAlbum}
-                        onRequestClose={() => this.handleCloseAlbum()}
-                    >
-                        <AlbumDetailPopup albumInfo={this.state.playlist[index].song.album} />
-                    </Dialog>
                 </Card >
             )
         }
