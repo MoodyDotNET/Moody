@@ -115,6 +115,7 @@ namespace moody.Controllers
             else
             {
                 rate.Score = score;
+                rated = true;
             }
             db.SaveChanges();
             Song song = db.Song.Where(s => s.SongCode == songID).FirstOrDefault();

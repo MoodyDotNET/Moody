@@ -6,6 +6,7 @@ import { ArtistDetailPopup } from '../artists/ArtistDetailPopup';
 import { AlbumDetailPopup } from '../albums/AlbumDetailPopup';
 import { grey100, white } from 'material-ui/styles/colors';
 import Album from '../../model/Album';
+import { SongDetail } from '../Songs/SongDetail';
 
 const style = {
     bigCover: {
@@ -51,12 +52,7 @@ interface IAlbum {
     songs: Array<any>,
     message: string,
     currentIndex: number,
-    openArtist: boolean,
-    openAlbum: boolean,
-    openComposer: boolean,
     isLogin: boolean,
-    openSnackbar: boolean,
-    snackbarMsg: string,
 }
 
 export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IAlbum>{
@@ -69,12 +65,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
             songs: [],
             message: "there is no song yet",
             currentIndex: 0,
-            openArtist: false,
-            openAlbum: false,
-            openComposer: false,
             isLogin: false,
-            openSnackbar: false,
-            snackbarMsg: ""
         }
         const param: any = this.props.match.params;
         const id: string = param.id;
@@ -143,44 +134,6 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
         this.loadAlbum((nextProp.match.params as any).id);
     }
 
-    private handleOpenAddPlaylist(songId: number) {
-        if (this.state.isLogin == false) {
-            this.setState({ snackbarMsg: "You have to login first" });
-        }
-        else {
-            fetch(`/api/playlist/AddToPlayList?id=${songId}`, {
-                credentials: "same-origin"
-            })
-                .then(response => response.json() as Promise<boolean>)
-                .then(data => {
-                    if (data == true) {
-                        this.setState({ snackbarMsg: "Add success" })
-                    }
-                    else this.setState({ snackbarMsg: "This song has been added" })
-                })
-        }
-        this.setState({ openSnackbar: true })
-    }
-
-    private handleCloseSnackbar() {
-        this.setState({ openSnackbar: false })
-    }
-    private handleOpenArtist() {
-        this.setState({ openArtist: true })
-    }
-
-    private handleCloseArtist() {
-        this.setState({ openArtist: false })
-    }
-
-    private handleOpenComposer() {
-        this.setState({ openComposer: true })
-    }
-
-    private handleCloseComposer() {
-        this.setState({ openComposer: false })
-    }
-
     private onPlayHandle(currentId: number) {
         for (var i = 0; i < this.state.songs.length; i++) {
             var listItem = document.getElementById("songlist" + i) as HTMLDivElement;
@@ -245,57 +198,8 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
                         </audio>
                     </CardMedia>
 
-                    <CardTitle
-                        title="Description"
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                    />
-                    <CardText expandable={true}>
-                        <CardText>
-                            <strong>By:</strong>
-                            <span className="popup-link-sm" onClick={() => this.handleOpenArtist()}>
-                                {`${this.state.songs[index].contributingArtistNavigation.firstName} ${this.state.songs[index].contributingArtistNavigation.lastName}`}</span>
-                            <br />
-                            <strong>Date released:</strong>
-                            {(new Date(this.state.songs[index].dateReleased)).toLocaleDateString()}
-                            <br />
-                            <strong>Composer: </strong>
-                            <span className="popup-link-sm" onClick={() => this.handleOpenComposer()}>
-                                {`${this.state.songs[index].composerNavigation.firstName} ${this.state.songs[index].composerNavigation.lastName}`}</span>
-                        </CardText>
-                    </CardText>
-                    <CardActions>
-                        <RaisedButton
-                            label="Hear it"
-                            className="btn"
-                            primary={true}
-                            containerElement={
-                                <Link to={`/song/${this.state.songs[index].songCode}`} />
-                            }
-                        />
-                        <RaisedButton
-                            label="Add to playlist"
-                            className="btn"
-                            primary={true}
-                            onClick={() => { this.handleOpenAddPlaylist(this.state.songs[index].songCode) }}
-                        />
-                    </CardActions>
-                    {/* render artist dialog  */}
-                    <Dialog
-                        open={this.state.openArtist}
-                        onRequestClose={() => this.handleCloseArtist()}
-                    >
-                        <ArtistDetailPopup artistInfo={this.state.songs[index].contributingArtistNavigation} />
-                    </Dialog>
-
-                    {/* render composer dialog  */}
-                    <Dialog
-                        open={this.state.openComposer}
-                        onRequestClose={() => this.handleCloseComposer()}
-                    >
-                        <ArtistDetailPopup artistInfo={this.state.songs[index].composerNavigation} />
-                    </Dialog>
-
+                    
+                    <SongDetail SongInfo={this.state.songs[index]} isLogin={this.state.isLogin}/>
                 </Card >
             )
         }
@@ -402,13 +306,7 @@ export class AlbumComponent2 extends React.Component<RouteComponentProps<{}>, IA
                     <div className='container'>
 
                         {contents}
-                        <Snackbar
-                            style={style.snackbar}
-                            open={this.state.openSnackbar}
-                            message={this.state.snackbarMsg}
-                            autoHideDuration={2500}
-                            onRequestClose={() => this.handleCloseSnackbar()}
-                        />
+                    
                     </div>
                 </div>
             </div>

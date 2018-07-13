@@ -12,7 +12,6 @@ import { AdminLogin } from './components/admin/AdminLogin';
 import { SongComponent } from './components/Songs/Song';
 import { UploadFile } from './components/UploadFile';
 import { AlbumsList } from './components/albums/AlbumsList';
-import { AlbumComponent } from './components/albums/Album';
 import { AlbumComponent2 } from './components/albums/Album2';
 import { ArtistsList } from './components/artists/ArtistsList';
 import { ArtistComponent } from './components/artists/Artist';
