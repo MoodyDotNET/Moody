@@ -34,6 +34,10 @@ export class AdminManagePassword extends React.Component<AdminManagePasswordProp
             this.setState({message: 'Old password not correct', color: '#D32F2F'})
             return;
         }
+        if (this.state.newPassword.trim() == '') {
+            this.setState({message: 'New password must not be null', color: '#D32F2F'})
+            return;
+        }
         if (this.state.newPassword != this.state.confirmPassword) {
             this.setState({message: 'Password confirming not match', color: '#D32F2F'})
             return;
