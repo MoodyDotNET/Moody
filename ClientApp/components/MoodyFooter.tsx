@@ -24,7 +24,7 @@ export class MoodyFooter extends React.Component<{}>{
                     </div>
                     <div className='col-4 developer'>
                             PhatNH<br/>
-                            DuongPTHSE<br/>
+                            DuongPTH<br/>
                             NhatLM<br/>
                     </div>
                     

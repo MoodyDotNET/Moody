@@ -85,6 +85,7 @@ export class Register extends React.Component<any, RegisterState>{
                         fullWidth
                         value={this.state.username}
                         onChange={(e, v) => this.setState({username: v})}
+                        required={true}
                     />
                     <br/>
                     <TextField
@@ -94,21 +95,24 @@ export class Register extends React.Component<any, RegisterState>{
                         fullWidth
                         value={this.state.password}
                         onChange={(e, v) => this.setState({password: v})}
+                        required={true}
                     />
                     <br/>
                     <TextField
-                        hintText="Password"
-                        floatingLabelText="Password"
+                        hintText="Confirm Password"
+                        floatingLabelText="Confirm Password"
                         type = "password"
                         fullWidth
                         value={this.state.confirm}
                         onChange={(e, v) => this.setState({confirm: v})}
+                        required={true}
                     />
                     <br/>
                     <RaisedButton
                         label="Sign up"
                         primary={true}
                         type="submit"
+                        
                     />
                 </form>
             </div>

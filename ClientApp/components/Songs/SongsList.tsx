@@ -38,10 +38,11 @@ const style = {
         opacity: 0.8
     },
     snackbar: {
-        textAlign:'center'
+        textAlign: 'center',
+        zIndex: 1000,
     },
-    button:{
-        color:'white !important'
+    button: {
+        color: 'white !important'
     }
 };
 
@@ -49,12 +50,12 @@ const style = {
 export class SongsList extends React.Component<RouteComponentProps<any>, songInterface>{
     constructor(props: RouteComponentProps<any>) {
         super(props);
-        this.state = { 
-            songs: [], 
-            loading: true, 
-            isLogin: false ,
+        this.state = {
+            songs: [],
+            loading: true,
+            isLogin: false,
             openSnackbar: false,
-            message:"Add fail",
+            message: "Add fail",
         }
 
         const search: any = this.props.match.params;
@@ -93,29 +94,29 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
             })
     }
 
-    addPlaylist(songId:number) {
+    addPlaylist(songId: number) {
         if (this.state.isLogin == false) {
-            this.setState({message:"You have to login first"});
+            this.setState({ message: "You have to login first" });
         }
         else {
-            fetch(`/api/playlist/AddToPlayList?id=${songId}`,{
-                credentials:"same-origin"
+            fetch(`/api/playlist/AddToPlayList?id=${songId}`, {
+                credentials: "same-origin"
             })
-            .then(response => response.json() as Promise<boolean>)
-            .then(data => {
-                if(data == true){
-                    this.setState({message:"Add success"})
-                }
-                else this.setState({message:"This song has been added"})
-            })
+                .then(response => response.json() as Promise<boolean>)
+                .then(data => {
+                    if (data == true) {
+                        this.setState({ message: "Add success" })
+                    }
+                    else this.setState({ message: "This song has been added" })
+                })
         }
-        this.setState({openSnackbar:true});
+        this.setState({ openSnackbar: true });
     }
 
-    closeSnackbar(){
-        this.setState({openSnackbar:false})
+    closeSnackbar() {
+        this.setState({ openSnackbar: false })
     }
-    
+
     public componentWillReceiveProps(nextProp: RouteComponentProps<{}>) {
         const search: any = nextProp.match.params;
 
@@ -139,7 +140,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                             <div className='row justify-content-center'>
                                 <Card style={style.noResult}>
                                     <CardTitle>
-                                        <img className="loader-gif" src="/img/loader1.gif"/>
+                                        <img className="loader-gif" src="/img/loader1.gif" />
                                         <span className="loader-text">Loading</span>
                                     </CardTitle>
                                 </Card>
@@ -165,8 +166,8 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                     <img style={style.cover} src={`/img/song/${song.songCode}.jpg`} />
                                                 </CardMedia>
                                                 <CardText style={style.description}>
-                                                    <strong>By:</strong> {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br/>
-                                                    <strong>Date released:</strong> 
+                                                    <strong>By:</strong> {`${song.contributingArtistNavigation.firstName} ${song.contributingArtistNavigation.lastName}`}<br />
+                                                    <strong>Date released:</strong>
                                                     {(new Date(song.dateReleased)).toLocaleDateString()}<br />
                                                     <strong>Album:</strong>{song.album.albumName}
                                                 </CardText>
@@ -184,17 +185,18 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                                         primary={true}
                                                         onClick={() => { this.addPlaylist(song.songCode) }}
                                                     />
-                                                    <Snackbar
-                                                        style={style.snackbar}
-                                                        open={this.state.openSnackbar}
-                                                        message={this.state.message}
-                                                        autoHideDuration={3000}
-                                                        onRequestClose={()=>this.closeSnackbar()}
-                                                    />
+
                                                 </CardActions>
                                             </Card>
                                         </div>
                                     )}
+                                    <Snackbar
+                                        style={style.snackbar}
+                                        open={this.state.openSnackbar}
+                                        message={this.state.message}
+                                        autoHideDuration={3000}
+                                        onRequestClose={() => this.closeSnackbar()}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -210,6 +212,7 @@ export class SongsList extends React.Component<RouteComponentProps<any>, songInt
                                     <Card style={style.noResult}>
                                         <CardTitle title="No result" />
                                     </Card>
+
                                 </div>
                             </div>
                         </div>
